@@ -16,7 +16,7 @@ export default class Scene02 extends Component {
       <ComponentEntitySystem
         style={styles.container}
         systems={[Control]}
-        initState={{
+        entities={{
           worm: {
             renderable: <Worm />,
             position: [WIDTH / 2, HEIGHT / 2]

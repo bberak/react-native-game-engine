@@ -5,7 +5,7 @@ import Timer from "./timer";
 export default class ComponentEntitySystem extends Component {
   constructor(props) {
     super(props);
-    this.state = props.initState || props.initialState || {};
+    this.state = props.initState || props.initialState || props.entities || {};
     this.systems = props.systems || [];
   }
 
