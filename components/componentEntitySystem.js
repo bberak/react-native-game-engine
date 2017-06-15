@@ -19,7 +19,12 @@ export default class ComponentEntitySystem extends Component {
       onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onPanResponderGrant: (evt, gestureState) => {},
+      onPanResponderGrant: (evt, gestureState) => {
+        //-- Serialize evt into a new object, so you don't have to call persist()
+        //-- and sacrifice performance
+        evt.persist(); 
+        this.gestures.push([evt, gestureState]);
+      },
       onPanResponderMove: (evt, gestureState) => {
         //-- Serialize evt into a new object, so you don't have to call persist()
         //-- and sacrifice performance

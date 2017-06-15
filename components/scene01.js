@@ -46,6 +46,6 @@ export default class Scene01 extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "#FFF"
   }
 });
