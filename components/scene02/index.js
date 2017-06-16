@@ -1,21 +1,30 @@
 import React, { Component } from "react";
-import { StyleSheet, Dimensions, StatusBar } from "react-native";
+import {
+  StyleSheet,
+  Dimensions,
+  StatusBar,
+  Platform,
+  UIManager
+} from "react-native";
 import ComponentEntitySystem from "../componentEntitySystem";
-import { Spawn, Move, Release, Remove } from "./systems"
-
-const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
+import { Spawn, Move, Release, Remove } from "./systems";
 
 export default class Scene02 extends Component {
   constructor() {
     super();
+
+    if (Platform.OS === "android") {
+      UIManager.setLayoutAnimationEnabledExperimental &&
+        UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
   }
 
   render() {
     return (
       <ComponentEntitySystem
-        style={styles.container}
         systems={[Spawn, Move, Release, Remove]}
-        entities={{}}>
+        entities={{}}
+      >
 
         <StatusBar hidden={true} />
 
@@ -23,10 +32,3 @@ export default class Scene02 extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFF"
-  }
-});
