@@ -11,6 +11,7 @@
     "react": "16.0.0-alpha.12",
     "react-motion": "^0.5.0",
     "react-native": "0.45.1",
+    "react-native-animatable": "^1.2.2",
     "rx": "^4.1.0"
   },
   "devDependencies": {

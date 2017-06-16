@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, LayoutAnimation } from "react-native";
 import { StaggeredMotion, spring } from "react-motion";
+import * as Animatable from "react-native-animatable";
 
 const BODY_DIAMETER = 50;
 const BORDER_WIDTH = 5;
@@ -8,6 +9,31 @@ const COLORS = ["#86E9BE", "#8DE986", "#B8E986", "#E9E986"];
 const BORDER_COLORS = ["#C0F3DD", "#C4F6C0", "#E5FCCD", "#FCFDC1"];
 
 class Worm extends PureComponent {
+	constructor(props) {
+		super(props);
+		this.state = {
+			ready: false
+		};
+	}
+
+	onReady = () => {
+		this.setState({
+			ready: true
+		});
+	};
+
+	componentWillUnmount() {
+		var CustomLayoutSpring = {
+			duration: 900,
+			delete: {
+				type: LayoutAnimation.Types.spring,
+				property: LayoutAnimation.Properties.opacity,
+				springDamping: 0.4
+			}
+		};
+		LayoutAnimation.configureNext(CustomLayoutSpring);
+	}
+
 	render() {
 		const x = this.props.position[0] - BODY_DIAMETER / 2;
 		const y = this.props.position[1] - BODY_DIAMETER / 2;
@@ -39,7 +65,12 @@ class Worm extends PureComponent {
 						})}
 				>
 					{interpolatingStyles => (
-						<View style={css.anchor}>
+						<View
+							style={[
+								css.anchor,
+								{ opacity: this.state.ready ? 1 : 0 }
+							]}
+						>
 							{interpolatingStyles.map((style, i) => (
 								<View
 									key={i}
@@ -50,7 +81,8 @@ class Worm extends PureComponent {
 											top: style.top,
 											backgroundColor: COLORS[i],
 											width: BODY_DIAMETER - i * 5,
-											height: BODY_DIAMETER - i * 5
+											height: BODY_DIAMETER - i * 5,
+											zIndex: 0 - i
 										}
 									]}
 								/>
@@ -59,7 +91,13 @@ class Worm extends PureComponent {
 					)}
 				</StaggeredMotion>
 
-				<View style={[css.head, { left: x, top: y }]} />
+				<Animatable.View
+					animation="bounceIn"
+					easing={"ease-in-out-cubic"}
+					useNativeDriver={true}
+					style={[css.head, { left: x, top: y }]}
+					onAnimationEnd={this.onReady}
+				/>
 
 			</View>
 		);
@@ -89,4 +127,4 @@ const css = StyleSheet.create({
 	}
 });
 
-export { Worm }
+export { Worm };
