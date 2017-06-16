@@ -3,39 +3,38 @@ import { Worm } from "./renderers";
 
 let wormCount = 0;
 
-const Touch = (state, gestures) => {
-
-	let touches = _.uniqBy(
-		_.flatten(gestures.map(g => g[0].nativeEvent.touches)),
-		"identifier"
-	);
-
-	let touchIds = touches.map(t => t.identifier)
-
-	let worms = Object.keys(state)
-		.filter(id => state[id].touchId)
-		.map(id =>  ({id: id, components: state[id]}));
-
-	let wormsToBeRemoved = worms.filter(w => touchIds.includes(w.components.touchId) === false);
-
-	let wormsToBeUpdated = worms.filter(w => touchIds.includes(w.components.touchId));
-
-	let touchesThatNeedWorms = touches.filter(t => worms.map(w => w.components.touchId).includes(t.identifier) === false);
-
-	//wormsToBeRemoved.forEach(w => delete state[w.id])
-
-	wormsToBeUpdated.forEach(w => {
-		let touch = touches.find(t => t.identifier === w.components.touchId)
-		w.components.position = [touch.locationX, touch.locationY - 80]
+const Spawn = (state, touches) => {
+	touches.filter(t => t.type === "start").forEach(t => {
+		let worm = state[t.id];
+		if (!worm) {
+			state[t.id] = {
+				position: [t.event.locationX, t.event.locationY],
+				offset: [0, 0],
+				renderable: Worm
+			};
+		} else {
+			worm.offset = [
+				t.event.locationX - worm.position[0],
+				t.event.locationY - worm.position[1]
+			];
+		}
 	});
-
-	touchesThatNeedWorms.forEach(t => {
-		let entityId = "worm-" + wormCount++
-		console.log(entityId)
-		state[entityId] = { position: [t.locationX, t.locationY - 80], touchId: t.identifier, renderable: Worm }
-	})
 
 	return state;
 };
 
-export { Touch };
+const Movement = (state, touches) => {
+	touches.filter(t => t.type === "move").forEach(t => {
+		let worm = state[t.id];
+		if (worm) {
+			worm.position = [
+				t.event.locationX - worm.offset[0],
+				t.event.locationY - worm.offset[1]
+			];
+		}
+	});
+
+	return state;
+};
+
+export { Touch, Spawn, Movement };

@@ -14,7 +14,7 @@ export default class ComponentEntitySystem extends Component {
     this.timer = new Timer();
     this.timer.start();
     this.timer.subscribe(this.onUpdate);
-    this.gestures = [];
+    this.touches = [];
 
     this.touchStart = new Rx.Subject();
     this.touchMove = new Rx.Subject();
@@ -27,7 +27,7 @@ export default class ComponentEntitySystem extends Component {
       this.touchStart.groupBy(e => e.identifier)
        .map(group => { 
          return group.map(e => { 
-          console.log("Start: " + group.key)
+            this.touches.push({ id: group.key, type: "start", event: e})
         }); 
        })
        .subscribe(group => { 
@@ -39,7 +39,7 @@ export default class ComponentEntitySystem extends Component {
       this.touchMove.groupBy(e => e.identifier)
        .map(group => { 
          return group.map(e => { 
-          console.log("Move: " + group.key)
+          this.touches.push({ id: group.key, type: "move", event: e})
         }); 
        })
        .subscribe(group => { 
@@ -51,7 +51,7 @@ export default class ComponentEntitySystem extends Component {
       this.touchEnd.groupBy(e => e.identifier)
        .map(group => { 
          return group.map(e => { 
-          console.log("End: " + group.key)
+          this.touches.push({ id: group.key, type: "end", event: e})
         }); 
        })
        .subscribe(group => { 
@@ -64,7 +64,7 @@ export default class ComponentEntitySystem extends Component {
       this.touchPress.groupBy(e => e.identifier)
        .map(group => { 
          return group.map(e => { 
-          console.log("Press: " + group.key)
+          this.touches.push({ id: group.key, type: "press", event: e})
         }); 
        })
        .subscribe(group => { 
@@ -76,7 +76,7 @@ export default class ComponentEntitySystem extends Component {
       this.longTouch.groupBy(e => e.identifier)
        .map(group => { 
          return group.map(e => { 
-          console.log("Long Touch: " + group.key)
+          this.touches.push({ id: group.key, type: "long-press", event: e})
         }); 
        })
        .subscribe(group => { 
@@ -103,10 +103,10 @@ export default class ComponentEntitySystem extends Component {
     let newState = this.state;
 
     for (let i = 0, len = this.systems.length; i < len; i++) {
-      newState = this.systems[i](newState, this.gestures);
+      newState = this.systems[i](newState, this.touches);
     }
 
-    this.gestures.length = 0;
+    this.touches.length = 0;
     this.setState(newState);
   };
 
@@ -141,7 +141,6 @@ export default class ComponentEntitySystem extends Component {
             else if (typeof entity.renderable === "function")
               return <entity.renderable key={key} {...entity} />;
           })}
-
       </View>
     );
   }
