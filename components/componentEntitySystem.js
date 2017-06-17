@@ -20,13 +20,13 @@ export default class ComponentEntitySystem extends Component {
     this.touchMove = new Rx.Subject();
     this.touchEnd = new Rx.Subject();
     this.touchPress = this.touchStart.flatMap(e =>
-      this.touchEnd.timeout(200, Rx.Observable.empty())
+      this.touchEnd.first(x => x.identifier === e.identifier).timeout(200, Rx.Observable.empty())
     );
     this.longTouch = this.touchStart.flatMap(e =>
       Rx.Observable
         .return(e)
         .delay(700)
-        .takeUntil(this.touchMove.merge(this.touchEnd))
+        .takeUntil(this.touchMove.merge(this.touchEnd).first(x => x.identifier === e.identifier))
     );
 
     this.onTouchStart = new Rx.CompositeDisposable();
