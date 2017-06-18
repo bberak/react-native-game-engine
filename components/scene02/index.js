@@ -7,7 +7,13 @@ import {
   UIManager
 } from "react-native";
 import ComponentEntitySystem from "../componentEntitySystem";
-import { Spawn, Move, Release, Remove } from "./systems";
+import {
+  SpawnWorm,
+  AssignFingerToWorm,
+  MoveWorm,
+  ReleaseFingerFromWorm,
+  RemoveWorm
+} from "./systems";
 
 export default class Scene02 extends Component {
   constructor() {
@@ -22,7 +28,13 @@ export default class Scene02 extends Component {
   render() {
     return (
       <ComponentEntitySystem
-        systems={[Spawn, Move, Release, Remove]}
+        systems={[
+          SpawnWorm,
+          AssignFingerToWorm,
+          MoveWorm,
+          ReleaseFingerFromWorm,
+          RemoveWorm
+        ]}
         entities={{}}
       >
 
