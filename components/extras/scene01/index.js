@@ -4,7 +4,7 @@ import {
   Dimensions,
   StatusBar
 } from "react-native";
-import { BasicGameLoop } from "../react-native-game-engine";
+import { BasicGameLoop } from "../../react-native-game-engine";
 import Worm from "./worm";
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
