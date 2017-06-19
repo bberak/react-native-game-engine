@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, PanResponder } from "react-native";
 import Timer from "./timer";
 
-export default class GameLoop extends Component {
+export default class BasicGameLoop extends Component {
   constructor(props) {
     super(props);
   }

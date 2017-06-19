@@ -6,7 +6,7 @@ import {
   Platform,
   UIManager
 } from "react-native";
-import ComponentEntitySystem from "../componentEntitySystem";
+import { ComponentEntitySystem } from "../react-native-game-engine";
 import {
   SpawnWorm,
   AssignFingerToWorm,

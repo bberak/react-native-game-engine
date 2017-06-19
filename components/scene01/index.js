@@ -4,7 +4,7 @@ import {
   Dimensions,
   StatusBar
 } from "react-native";
-import GameLoop from "./gameLoop";
+import { BasicGameLoop } from "../react-native-game-engine";
 import Worm from "./worm";
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
@@ -32,13 +32,13 @@ export default class Scene01 extends Component {
 
   render() {
     return (
-      <GameLoop style={styles.container} onUpdate={this.onUpdate}>
+      <BasicGameLoop style={styles.container} onUpdate={this.onUpdate}>
 
         <StatusBar hidden={true} />
 
         <Worm {...this.state} />
 
-      </GameLoop>
+      </BasicGameLoop>
     );
   }
 }
