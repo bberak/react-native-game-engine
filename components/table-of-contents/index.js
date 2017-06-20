@@ -27,7 +27,6 @@ export default class TableOfContents extends Component {
           Degeneration
         ]}
         entities={{ "particle-system-01": { position: [0, 0], particleSystem: true }}}
-        style={{ backgroundColor: "blue" }}
       >
 
         <StatusBar hidden={false} />

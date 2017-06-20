@@ -6,18 +6,6 @@ class Particle extends PureComponent {
     super(props);
   }
 
-  componentWillUnmount() {
-    var CustomLayoutSpring = {
-      duration: 900,
-      delete: {
-        type: LayoutAnimation.Types.spring,
-        property: LayoutAnimation.Properties.opacity,
-        springDamping: 0.4
-      }
-    };
-    LayoutAnimation.configureNext(CustomLayoutSpring);
-  }
-
   render() {
     const x = this.props.position[0] - 10 / 2;
     const y = this.props.position[1] - 10 / 2;
