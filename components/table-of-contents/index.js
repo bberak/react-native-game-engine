@@ -1,8 +1,18 @@
 import React, { Component } from "react";
 import { StatusBar } from "react-native";
 import { ComponentEntitySystem } from "../react-native-game-engine";
-import { ParticleSystem, ParticleSystemReactArt } from "./renderers";
-import { SpawnParticles, Gravity, Wind, Motion, DegenerateParticles } from "./systems";
+import {
+  ParticleSystem,
+  ParticleSystemReactNativeART,
+  ParticleSystemReactNativeSvg
+} from "./renderers";
+import {
+  SpawnParticles,
+  Gravity,
+  Wind,
+  Motion,
+  DegenerateParticles
+} from "./systems";
 
 export default class TableOfContents extends Component {
   constructor() {
@@ -17,7 +27,7 @@ export default class TableOfContents extends Component {
           "particle-system-01": {
             origin: [0, 0],
             particles: [],
-            renderable: ParticleSystemReactArt
+            renderable: ParticleSystemReactNativeSvg
           }
         }}
       >

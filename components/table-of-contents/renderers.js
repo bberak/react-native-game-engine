@@ -1,8 +1,8 @@
-import React, { PureComponent } from "react";
+import React, { Component, PureComponent } from "react";
 import { StyleSheet, View, ART, Dimensions } from "react-native";
+import Svg, { Path } from "react-native-svg";
 
 const { Surface, Group, Shape } = ART;
-
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 
 class Particle extends PureComponent {
@@ -17,7 +17,7 @@ class Particle extends PureComponent {
   }
 }
 
-class ParticleSystem extends PureComponent {
+class ParticleSystem extends Component {
   constructor(props) {
     super(props);
   }
@@ -25,15 +25,15 @@ class ParticleSystem extends PureComponent {
   render() {
     return (
       <View>
-
-        {this.props.particles.map((p, i) => <Particle key={i} position={p.position} />)}
-
+        {this.props.particles.map((p, i) => (
+          <Particle key={i} position={p.position} />
+        ))}
       </View>
     );
   }
 }
 
-class ParticleSystemReactArt extends PureComponent {
+class ParticleSystemReactNativeART extends Component {
   constructor(props) {
     super(props);
   }
@@ -44,11 +44,29 @@ class ParticleSystemReactArt extends PureComponent {
     );
 
     return (
-        <Surface width={WIDTH} height={HEIGHT}>
-          <Group x={0} y={0}>
-            <Shape d={data.join(" ")} fill="#FF7373" />
-          </Group>
-        </Surface>
+      <Surface width={WIDTH} height={HEIGHT}>
+        <Group x={0} y={0}>
+          <Shape d={data.join(" ")} fill="#FF7373" />
+        </Group>
+      </Surface>
+    );
+  }
+}
+
+class ParticleSystemReactNativeSvg extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const data = this.props.particles.map(
+      p => `M${p.position[0]},${p.position[1]}a5,5 0 1,0 10,0a5,5 0 1,0 -10,0`
+    );
+
+    return (
+      <Svg height={HEIGHT} width={WIDTH}>
+        <Path d={data.join(" ")} fill="#FF7373" />
+      </Svg>
     );
   }
 }
@@ -63,4 +81,9 @@ const css = StyleSheet.create({
   }
 });
 
-export { Particle, ParticleSystem, ParticleSystemReactArt };
+export {
+  Particle,
+  ParticleSystem,
+  ParticleSystemReactNativeART,
+  ParticleSystemReactNativeSvg
+};

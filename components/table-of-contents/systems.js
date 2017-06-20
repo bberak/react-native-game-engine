@@ -2,20 +2,20 @@
 const SpawnParticles = (state) => {
 	Object.keys(state).filter(key => state[key].particles).forEach(key => {
 		let sys = state[key];
-		sys.particles = sys.particles.concat([{
+		sys.particles.push({
 			position: sys.origin,
 			velocity: [Math.random() * 8, Math.random() * 1],
 			mass: Math.random(),
 			lifespan: 128
-		}]);
+		});
 	});
 
 	return state;
 };
 
-const Gravity = (state) => {
-	const gravity = [0, 0.05];
+const gravity = [0, 0.05];
 
+const Gravity = (state) => {
 	Object.keys(state).filter(key => state[key].particles).forEach(key => {
 		let sys = state[key];
 		sys.particles.forEach(p => {
