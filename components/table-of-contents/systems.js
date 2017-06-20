@@ -1,32 +1,30 @@
-import { Particle } from "./renderers";
 
-let particleCount = 0;
-
-const Particles = (state) => {
-	Object.keys(state).filter(key => state[key].particleSystem).forEach(key => {
+const SpawnParticles = (state) => {
+	Object.keys(state).filter(key => state[key].particles).forEach(key => {
 		let sys = state[key];
-		state[++particleCount] = {
-			position: sys.position,
-			velocity: [Math.random() * 8, Math.random() * 2],
+		sys.particles = sys.particles.concat([{
+			position: sys.origin,
+			velocity: [Math.random() * 8, Math.random() * 1],
 			mass: Math.random(),
-			lifespan: 128,
-			renderable: Particle
-		}
+			lifespan: 128
+		}]);
 	});
 
 	return state;
 };
 
 const Gravity = (state) => {
-	const gravity = [0, 0.1];
+	const gravity = [0, 0.05];
 
-	Object.keys(state).filter(key => state[key].velocity).forEach(key => {
-		let entity = state[key];
-		let mass = entity.mass;
-		let acc = [gravity[0] / mass, gravity[1] / mass];
-		let vel = entity.velocity;
+	Object.keys(state).filter(key => state[key].particles).forEach(key => {
+		let sys = state[key];
+		sys.particles.forEach(p => {
+			let mass = p.mass;
+			let acc = [gravity[0] / mass, gravity[1] / mass];
+			let vel = p.velocity;
 
-		entity.velocity = [vel[0] + acc[0], vel[1] + acc[1]]
+			p.velocity = [vel[0] + acc[0], vel[1] + acc[1]]
+		});
 	});
 
 	return state;
@@ -37,33 +35,27 @@ const Wind = (state) => {
 };
   
 const Motion = (state) => {
-	Object.keys(state).filter(key => state[key].velocity).forEach(key => {
-		let entity = state[key];
-		let vel = entity.velocity;
-		let pos = entity.position;
+	Object.keys(state).filter(key => state[key].particles).forEach(key => {
+		let sys = state[key];
+		sys.particles.forEach(p => {
+			let vel = p.velocity;
+			let pos = p.position;
 
-		entity.position = [pos[0] + vel[0], pos[1] + vel[1]]
+			p.position = [pos[0] + vel[0], pos[1] + vel[1]]
+		})
 	});
 
 	return state;
 };
 
-const Degeneration = (state) => {
-	Object.keys(state).filter(key => state[key].lifespan !== undefined).forEach(key => {
-		let particle = state[key];
-		particle.lifespan -= 2
-
-		if (particle.lifespan <= 0)
-			delete state[key];
+const DegenerateParticles = (state) => {
+	Object.keys(state).filter(key => state[key].particles).forEach(key => {
+		let sys = state[key];
+		sys.particles = sys.particles.filter(p => p.lifespan > 0);
+		sys.particles.forEach(p => p.lifespan--);
 	})
 
 	return state;
 };
 
-export {
-	Particles,
-	Gravity,
-	Wind,
-	Motion,
-	Degeneration
-};
+export { SpawnParticles, Gravity, Wind, Motion, DegenerateParticles }

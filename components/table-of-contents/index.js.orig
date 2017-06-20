@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StatusBar } from "react-native";
 import { ComponentEntitySystem } from "../react-native-game-engine";
-import { ParticleSystem, ParticleSystemReactArt } from "./renderers";
+import { ParticleSystem } from "./renderers";
 import { SpawnParticles, Gravity, Wind, Motion, DegenerateParticles } from "./systems";
 
 export default class TableOfContents extends Component {
@@ -12,14 +12,25 @@ export default class TableOfContents extends Component {
   render() {
     return (
       <ComponentEntitySystem
+<<<<<<< Updated upstream
+        systems={[
+          Particles,
+          Gravity,
+          Wind,
+          Motion,
+          Degeneration
+        ]}
+        entities={{ "particle-system-01": { position: [0, 0], particleSystem: true }}}
+=======
         systems={[SpawnParticles, Gravity, Wind, Motion, DegenerateParticles]}
         entities={{
           "particle-system-01": {
             origin: [0, 0],
             particles: [],
-            renderable: ParticleSystemReactArt
+            renderable: ParticleSystem
           }
         }}
+>>>>>>> Stashed changes
       >
 
         <StatusBar hidden={false} />

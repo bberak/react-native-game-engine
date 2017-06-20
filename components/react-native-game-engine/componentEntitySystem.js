@@ -116,12 +116,8 @@ export default class ComponentEntitySystem extends Component {
   }
 
   onUpdate = () => {
-    let newState = this.state;
-
-    for (let i = 0, len = this.systems.length; i < len; i++) {
-      newState = this.systems[i](newState, this.touches);
-    }
-
+    let newState = this.systems.reduce((state, sys) => sys(state, this.touches), this.state);
+    
     this.touches.length = 0;
     this.setState(newState);
   };
