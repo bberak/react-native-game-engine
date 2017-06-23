@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import Timer from "./timer";
 import Rx from "rx";
 
@@ -15,6 +15,7 @@ export default class ComponentEntitySystem extends Component {
     this.timer.start();
     this.timer.subscribe(this.onUpdate);
     this.touches = [];
+    this.screen = Dimensions.get("window");
 
     this.touchStart = new Rx.Subject();
     this.touchMove = new Rx.Subject();
@@ -116,7 +117,7 @@ export default class ComponentEntitySystem extends Component {
   }
 
   onUpdate = () => {
-    let newState = this.systems.reduce((state, sys) => sys(state, this.touches), this.state);
+    let newState = this.systems.reduce((state, sys) => sys(state, this.touches, this.screen), this.state);
     
     this.touches.length = 0;
     this.setState(newState);
@@ -134,9 +135,13 @@ export default class ComponentEntitySystem extends Component {
     this.touchEnd.onNext(e.nativeEvent);
   };
 
+  onLayout = () => {
+    this.screen = Dimensions.get("window");
+  };
+
   render() {
     return (
-      <View style={[css.container, this.props.style]}>
+      <View style={[css.container, this.props.style]} onLayout={this.onLayout}>
 
         <View
           style={css.entityContainer}

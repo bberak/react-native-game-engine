@@ -27,7 +27,7 @@ export default class TableOfContents extends Component {
           "particle-system-01": {
             origin: [0, 0],
             particles: [],
-            renderable: ParticleSystemReactNativeSvg
+            renderable: ParticleSystem
           }
         }}
       >

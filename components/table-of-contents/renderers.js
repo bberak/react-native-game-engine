@@ -17,6 +17,7 @@ class Particle extends PureComponent {
   }
 }
 
+//-- Performs best on physical device (iPad Mini 2)
 class ParticleSystem extends Component {
   constructor(props) {
     super(props);
@@ -53,6 +54,7 @@ class ParticleSystemReactNativeART extends Component {
   }
 }
 
+//-- Performs best on simulator
 class ParticleSystemReactNativeSvg extends Component {
   constructor(props) {
     super(props);
