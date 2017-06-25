@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import { StatusBar, View, Text, TouchableOpacity } from "react-native";
+import { StatusBar, View, StyleSheet } from "react-native";
 import { ComponentEntitySystem } from "../react-native-game-engine";
-import {
-  ParticleSystem,
-  ParticleSystemReactNativeART,
-  ParticleSystemReactNativeSvg
-} from "./renderers";
+import { ParticleSystem } from "./renderers";
 import {
   SpawnParticles,
   Gravity,
@@ -13,6 +9,7 @@ import {
   Motion,
   DegenerateParticles
 } from "./systems";
+import Title from "./title";
 
 export default class TableOfContents extends Component {
   constructor() {
@@ -35,18 +32,18 @@ export default class TableOfContents extends Component {
 
         <StatusBar hidden={false} />
 
-        
-          <View pointerEvents={"box-none"} style={{ flex: 1, alignItems: "center", justifyContent: "center", alignSelf: "center"}}>
-            <TouchableOpacity onPress={_ => this.refs.engine.stop()}>
-            <Text style={{backgroundColor: "transparent"}}>The nature of</Text>
-            </TouchableOpacity>
-              <TouchableOpacity onPress={_ => this.refs.engine.start()}>
-             <Text style={{backgroundColor: "transparent"}}>code</Text>
-             </TouchableOpacity>
-          </View>
-
+        <View style={css.container}>
+          <Title />
+        </View>
 
       </ComponentEntitySystem>
     );
   }
 }
+
+const css = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignSelf: "center"
+  }
+});

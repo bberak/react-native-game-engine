@@ -11,9 +11,9 @@ class Particle extends PureComponent {
   }
 
   render() {
-    const x = this.props.position[0] - 10 / 2;
-    const y = this.props.position[1] - 10 / 2;
-    return <View style={[css.particle, { left: x, top: y, width: this.props.size, height: this.props.size, borderColor: this.props.color, borderWidth: 1 }]} />;
+    const x = this.props.position[0] - this.props.size / 2;
+    const y = this.props.position[1] - this.props.size / 2;
+    return <View style={[css.particle, { left: x, top: y, width: this.props.size, height: this.props.size, backgroundColor: this.props.color }]} />;
   }
 }
 

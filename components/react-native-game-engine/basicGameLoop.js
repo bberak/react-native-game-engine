@@ -38,6 +38,16 @@ export default class BasicGameLoop extends Component {
     this.gestures.length = 0;
   };
 
+  start = () => {
+    if (this.timer)
+      this.timer.start();
+  };
+
+  stop = () => {
+    if (this.timer)
+      this.timer.stop();
+  };
+
   render() {
     const defaultStyles = {
       flex: 1
