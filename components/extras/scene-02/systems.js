@@ -3,7 +3,7 @@ import { Worm } from "./renderers";
 
 let wormIds = 0;
 
-const SpawnWorm = (state, touches) => {
+const SpawnWorm = (state,  { touches }) => {
 	touches.filter(t => t.type === "press").forEach(t => {
 		if (_.size(state) < 5) {
 			state[++wormIds] = {
@@ -17,7 +17,7 @@ const SpawnWorm = (state, touches) => {
 	return state;
 };
 
-const AssignFingerToWorm = (state, touches) => {
+const AssignFingerToWorm = (state, { touches }) => {
 	let allWorms = Object.keys(state).map(key => ({
 		id: key,
 		components: state[key]
@@ -45,7 +45,7 @@ const AssignFingerToWorm = (state, touches) => {
 	return state;
 };
 
-const MoveWorm = (state, touches) => {
+const MoveWorm = (state, { touches }) => {
 	touches.filter(t => t.type === "move").forEach(t => {
 		let wormId = Object.keys(state).find(
 			key => state[key].touchId === t.id
@@ -62,7 +62,7 @@ const MoveWorm = (state, touches) => {
 	return state;
 };
 
-const ReleaseFingerFromWorm = (state, touches) => {
+const ReleaseFingerFromWorm = (state, { touches }) => {
 	touches.filter(t => t.type === "end").forEach(t => {
 		Object.keys(state)
 			.filter(key => state[key].touchId === t.id)
@@ -75,7 +75,7 @@ const ReleaseFingerFromWorm = (state, touches) => {
 const distance = ([x1, y1], [x2, y2]) =>
 	Math.sqrt(Math.abs(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)));
 
-const RemoveWorm = (state, touches) => {
+const RemoveWorm = (state, { touches }) => {
 	touches.filter(t => t.type === "long-press").forEach(t => {
 		let touchOrigin = [t.event.pageX, t.event.pageY];
 		let closestWorm = _.sortBy(

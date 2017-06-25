@@ -117,7 +117,7 @@ export default class ComponentEntitySystem extends Component {
   }
 
   onUpdate = () => {
-    let newState = this.systems.reduce((state, sys) => sys(state, this.touches, this.screen), this.state);
+    let newState = this.systems.reduce((state, sys) => sys(state,  { touches: this.touches, screen: this.screen }), this.state);
     
     this.touches.length = 0;
     this.setState(newState);
@@ -137,6 +137,17 @@ export default class ComponentEntitySystem extends Component {
 
   onLayout = () => {
     this.screen = Dimensions.get("window");
+    this.forceUpdate();
+  };
+
+  start = () => {
+    if (this.timer)
+      this.timer.start();
+  };
+
+  stop = () => {
+    if (this.timer)
+      this.timer.stop();
   };
 
   render() {
@@ -160,7 +171,7 @@ export default class ComponentEntitySystem extends Component {
             })}
         </View>
 
-        <View style={css.childrenContainer}>
+        <View pointerEvents={"box-none"} style={[css.childrenContainer, { width: this.screen.width, height: this.screen.height}]}>
           {this.props.children}
         </View>
 

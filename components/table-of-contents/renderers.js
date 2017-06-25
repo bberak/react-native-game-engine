@@ -13,7 +13,7 @@ class Particle extends PureComponent {
   render() {
     const x = this.props.position[0] - 10 / 2;
     const y = this.props.position[1] - 10 / 2;
-    return <View style={[css.particle, { left: x, top: y }]} />;
+    return <View style={[css.particle, { left: x, top: y, width: this.props.size, height: this.props.size, borderColor: this.props.color, borderWidth: 1 }]} />;
   }
 }
 
@@ -27,7 +27,7 @@ class ParticleSystem extends Component {
     return (
       <View>
         {this.props.particles.map((p, i) => (
-          <Particle key={i} position={p.position} />
+          <Particle key={i} position={p.position} size={p.size} color={p.color} />
         ))}
       </View>
     );
@@ -77,8 +77,7 @@ const css = StyleSheet.create({
   particle: {
     width: 10,
     height: 10,
-    borderRadius: 10 * 2,
-    backgroundColor: "#FF7373",
+    backgroundColor: "#FFF",
     position: "absolute"
   }
 });

@@ -21,7 +21,10 @@ export default class Timer {
   }
 
   stop() {
-    cancelAnimationFrame(this.loop);
+    if (this.loopId) {
+      cancelAnimationFrame(this.loopId);
+      this.loopId = null;
+    }
   }
 
   subscribe(callback) {

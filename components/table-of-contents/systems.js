@@ -1,12 +1,19 @@
 
-const SpawnParticles = (state) => {
+const COLORS = ["#EB005A", "#8DE986", "#66E6B2", "#66BCB2"];
+
+const SpawnParticles = (state,  { screen }) => {
+	let flowRate = Math.random();
+	if (flowRate > 0.2) return state;
+
 	Object.keys(state).filter(key => state[key].particles).forEach(key => {
 		let sys = state[key];
 		sys.particles.push({
-			position: sys.origin,
-			velocity: [Math.random() * 8, Math.random() * 1],
+			position: [Math.random() * screen.width, sys.origin[1]],
+			velocity: [0, Math.random() * 1],
 			mass: Math.random(),
-			lifespan: 128
+			lifespan: 148,
+			size: Math.random() * 10,
+			color: COLORS[Math.trunc(Math.random() * (COLORS.length -1))]
 		});
 	});
 
