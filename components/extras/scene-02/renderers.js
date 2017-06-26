@@ -31,9 +31,14 @@ class Worm extends PureComponent {
         type: LayoutAnimation.Types.spring,
         property: LayoutAnimation.Properties.opacity,
         springDamping: 0.4
+      },
+      create: {
+        type: LayoutAnimation.Types.spring,
+        property: LayoutAnimation.Properties.opacity,
+        springDamping: 0.4
       }
     };
-    LayoutAnimation.configureNext(CustomLayoutSpring);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
   }
 
   render() {
