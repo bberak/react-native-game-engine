@@ -3,9 +3,7 @@ import {
   StatusBar,
   View,
   StyleSheet,
-  Text,
-  ScrollView,
-  TouchableOpacity
+  ScrollView
 } from "react-native";
 import { ComponentEntitySystem } from "../react-native-game-engine";
 import { ParticleSystem } from "./renderers";
@@ -17,38 +15,75 @@ import {
   DegenerateParticles
 } from "./systems";
 import Title from "./title";
-import * as Animatable from "react-native-animatable";
+import Heading from "./heading";
+import BackButton from "./backButton";
+import Item from "./item";
 
 export default class TableOfContents extends Component {
   constructor(props) {
     super(props);
     this.state = {
       heading: props.contents.heading,
-      items: props.contents.items
+      items: props.contents.items,
+      animation: "fadeInRight"
     };
   }
 
   onItemPress = async data => {
     if (data.items) {
-      let tasks = [this.refs[this.state.heading].fadeOutLeft(400)].concat(
-        this.state.items.map(x => this.refs[x.heading].fadeOutLeft(400))
+      let refs = [this.state.heading, "back"].concat(
+        this.state.items.map(x => x.heading)
       );
+      let tasks = refs
+        .map(r => this.refs[r])
+        .filter(r => r)
+        .map(r => r.fadeOutLeft(400));
 
       await Promise.all(tasks);
 
       this.setState({
         heading: data.heading,
         items: data.items,
-        parent: Object.assign({}, this.state)
+        parent: Object.assign({}, this.state),
+        animation: "fadeInRight"
       });
     } else {
       //-- Mount the associated scene
     }
   };
 
-  onBackPress = async () => {};
+  onBackPress = async () => {
+    if (this.state.parent) {
+      let parent = this.state.parent;
+      let refs = [this.state.heading, "back"].concat(
+        this.state.items.map(x => x.heading)
+      );
+      let tasks = refs
+        .map(r => this.refs[r])
+        .filter(r => r)
+        .map(r => r.fadeOutRight(400));
+
+      await Promise.all(tasks);
+
+      this.setState({
+        heading: parent.heading,
+        items: parent.items,
+        parent: null,
+        animation: "fadeInLeft"
+      });
+    }
+  };
 
   render() {
+    let backButton = this.state.parent
+      ? <BackButton
+          key={"back"}
+          ref={"back"}
+          onPress={this.onBackPress}
+          animation={this.state.animation}
+        />
+      : null;
+
     return (
       <ComponentEntitySystem
         ref={"engine"}
@@ -68,38 +103,29 @@ export default class TableOfContents extends Component {
 
           <Title />
 
-          <Animatable.View
-            key={this.state.heading}
-            ref={this.state.heading}
-            animation={"fadeInRight"}
-            style={css.headingContainer}
-          >
-            <Text style={css.headingText}>
-              {this.state.heading
-                .substring(
-                  this.state.heading.indexOf(".") + 1,
-                  this.state.heading.length
-                )
-                .trim()
-                .toUpperCase()}
-            </Text>
-          </Animatable.View>
+          <View style={{ flexDirection: "row" }}>
+
+            {backButton}
+
+            <Heading
+              animation={this.state.animation}
+              key={this.state.heading}
+              ref={this.state.heading}
+              value={this.state.heading}
+            />
+
+          </View>
 
           {this.state.items.map((x, i) => {
             return (
-              <TouchableOpacity
+              <Item
                 key={x.heading}
+                ref={x.heading}
+                value={x.heading}
+                animation={this.state.animation}
+                delay={++i * 75}
                 onPress={_ => this.onItemPress(x)}
-              >
-                <Animatable.Text
-                  delay={++i * 75}
-                  animation={"fadeInRight"}
-                  style={css.itemText}
-                  ref={x.heading}
-                >
-                  {x.heading}
-                </Animatable.Text>
-              </TouchableOpacity>
+              />
             );
           })}
 
@@ -114,26 +140,5 @@ const css = StyleSheet.create({
   container: {
     alignSelf: "center",
     alignItems: "center"
-  },
-  headingContainer: {
-    borderBottomWidth: 3,
-    alignItems: "center",
-    marginTop: 30,
-    marginBottom: 15,
-    alignSelf: "center"
-  },
-  headingText: {
-    backgroundColor: "transparent",
-    letterSpacing: 5,
-    color: "#000",
-    fontSize: 20,
-    lineHeight: 30,
-    fontWeight: "bold",
-  },
-  itemText: {
-    backgroundColor: "transparent",
-    fontSize: 20,
-    lineHeight: 50,
-    color: "#000"
   }
 });
