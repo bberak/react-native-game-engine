@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  StatusBar,
-  View,
-  StyleSheet,
-  ScrollView
-} from "react-native";
+import { StatusBar, View, StyleSheet, ScrollView } from "react-native";
 import { ComponentEntitySystem } from "../react-native-game-engine";
 import { ParticleSystem, ParticleSystemReactNativeSvg } from "./renderers";
 import {
@@ -29,6 +24,11 @@ export default class TableOfContents extends Component {
     };
   }
 
+  componentWillReceiveProps = newProps => {
+    if (newProps.sceneVisible) this.refs.engine.stop();
+    else this.refs.engine.start();
+  };
+
   onItemPress = async data => {
     if (data.items) {
       let refs = [this.state.heading, "back"].concat(
@@ -47,8 +47,8 @@ export default class TableOfContents extends Component {
         parent: Object.assign({}, this.state),
         animation: "fadeInRight"
       });
-    } else {
-      //-- Mount the associated scene
+    } else if (data.onPress) {
+      data.onPress();
     }
   };
 
@@ -149,5 +149,5 @@ const css = StyleSheet.create({
     marginBottom: 15,
     alignSelf: "center",
     flexDirection: "row"
-  },
+  }
 });

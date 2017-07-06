@@ -51,7 +51,7 @@ const css = StyleSheet.create({
     borderRadius: 100,
     width: 30,
     height: 30,
-    marginLeft: -30,
+    marginLeft: -50,
     marginRight: 20
   },
   text: {
