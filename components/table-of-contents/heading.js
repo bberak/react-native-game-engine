@@ -29,9 +29,9 @@ export default class Heading extends Component {
       <Animatable.View
         ref={"heading"}
         animation={this.props.animation}
-        style={css.headingContainer}
+        style={css.container}
       >
-        <Text style={css.headingText}>
+        <Text style={css.text}>
           {this.props.value
             .substring(
               this.props.value.indexOf(".") + 1,
@@ -46,14 +46,10 @@ export default class Heading extends Component {
 }
 
 const css = StyleSheet.create({
-  headingContainer: {
+  container: {
     borderBottomWidth: 3,
-    alignItems: "center",
-    marginTop: 30,
-    marginBottom: 15,
-    alignSelf: "center"
   },
-  headingText: {
+  text: {
     backgroundColor: "transparent",
     letterSpacing: 5,
     color: "#000",

@@ -6,7 +6,7 @@ import {
   ScrollView
 } from "react-native";
 import { ComponentEntitySystem } from "../react-native-game-engine";
-import { ParticleSystem } from "./renderers";
+import { ParticleSystem, ParticleSystemReactNativeSvg } from "./renderers";
 import {
   SpawnParticles,
   Gravity,
@@ -55,13 +55,15 @@ export default class TableOfContents extends Component {
   onBackPress = async () => {
     if (this.state.parent) {
       let parent = this.state.parent;
-      let refs = [this.state.heading, "back"].concat(
+      let backButton = this.refs["back"];
+      let refs = [this.state.heading].concat(
         this.state.items.map(x => x.heading)
       );
       let tasks = refs
         .map(r => this.refs[r])
         .filter(r => r)
-        .map(r => r.fadeOutRight(400));
+        .map(r => r.fadeOutRight(400))
+        .concat([backButton.fadeOutLeft(400)]);
 
       await Promise.all(tasks);
 
@@ -80,7 +82,7 @@ export default class TableOfContents extends Component {
           key={"back"}
           ref={"back"}
           onPress={this.onBackPress}
-          animation={this.state.animation}
+          animation={"fadeInLeft"}
         />
       : null;
 
@@ -92,7 +94,7 @@ export default class TableOfContents extends Component {
           "particle-system-01": {
             origin: [0, -50],
             particles: [],
-            renderable: ParticleSystem
+            renderable: ParticleSystemReactNativeSvg
           }
         }}
       >
@@ -103,7 +105,7 @@ export default class TableOfContents extends Component {
 
           <Title />
 
-          <View style={{ flexDirection: "row" }}>
+          <View style={css.headingContainer}>
 
             {backButton}
 
@@ -140,5 +142,12 @@ const css = StyleSheet.create({
   container: {
     alignSelf: "center",
     alignItems: "center"
-  }
+  },
+  headingContainer: {
+    alignItems: "center",
+    marginTop: 30,
+    marginBottom: 15,
+    alignSelf: "center",
+    flexDirection: "row"
+  },
 });

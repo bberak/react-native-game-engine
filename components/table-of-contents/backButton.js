@@ -36,11 +36,9 @@ export default class BackButton extends Component {
           <Animatable.View
             ref={"back"}
             animation={this.props.animation}
-            style={css.headingContainer}
+            style={css.container}
           >
-            <Text style={css.headingText}>
-              Back
-            </Text>
+          
           </Animatable.View>
         </TouchableOpacity>
     );
@@ -48,14 +46,15 @@ export default class BackButton extends Component {
 }
 
 const css = StyleSheet.create({
-  headingContainer: {
-    borderBottomWidth: 3,
-    alignItems: "center",
-    marginTop: 30,
-    marginBottom: 15,
-    alignSelf: "center"
+  container: {
+    backgroundColor: "#000",
+    borderRadius: 100,
+    width: 30,
+    height: 30,
+    marginLeft: -30,
+    marginRight: 20
   },
-  headingText: {
+  text: {
     backgroundColor: "transparent",
     letterSpacing: 5,
     color: "#000",
