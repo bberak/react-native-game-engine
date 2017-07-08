@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   View,
   StyleSheet,
-  Text,
   TouchableOpacity
 } from "react-native";
 import * as Animatable from "react-native-animatable";
@@ -51,15 +50,6 @@ const css = StyleSheet.create({
     borderRadius: 100,
     width: 30,
     height: 30,
-    marginLeft: -50,
     marginRight: 20
-  },
-  text: {
-    backgroundColor: "transparent",
-    letterSpacing: 5,
-    color: "#000",
-    fontSize: 20,
-    lineHeight: 30,
-    fontWeight: "bold"
   }
 });

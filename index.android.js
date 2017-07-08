@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { AppRegistry, View, Modal, Text } from "react-native";
+import { AppRegistry, View, Modal, Text, TouchableOpacity } from "react-native";
 import Scene01 from "./components/extras/scene-01";
 import Scene02 from "./components/extras/scene-02";
 import TableOfContents from "./components/table-of-contents";
+import CloseButton from "./components/table-of-contents/closeButton";
 
 export default class NatureOfCodeApp extends Component {
 	constructor(props) {
@@ -20,9 +21,16 @@ export default class NatureOfCodeApp extends Component {
 		});
 	};
 
+	unMountScene = () => {
+		this.setState({
+			sceneVisible: false,
+			scene: null
+		});
+	};
+
 	render() {
 		return (
-			<View>
+			<View style={{flex: 1}}>
 				<TableOfContents
 					sceneVisible={this.state.sceneVisible}
 					contents={{
@@ -51,8 +59,16 @@ export default class NatureOfCodeApp extends Component {
 					animationType={"slide"}
 					transparent={false}
 					visible={this.state.sceneVisible}
+					onRequestClose={_ => {}}
 				>
+
 					{this.state.scene}
+
+					<CloseButton
+						onPress={this.unMountScene}
+						animation={"fadeInLeft"}
+					/>
+
 				</Modal>
 			</View>
 		);

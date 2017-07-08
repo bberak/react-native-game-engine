@@ -1,6 +1,6 @@
 import React, { Component, PureComponent } from "react";
 import { StyleSheet, View, ART, Dimensions } from "react-native";
-import Svg, { Path } from "react-native-svg";
+import Svg, { Path, Rect } from "react-native-svg";
 
 const { Surface, Group, Shape } = ART;
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
@@ -13,7 +13,20 @@ class Particle extends PureComponent {
   render() {
     const x = this.props.position[0] - this.props.size / 2;
     const y = this.props.position[1] - this.props.size / 2;
-    return <View style={[css.particle, { left: x, top: y, width: this.props.size, height: this.props.size, backgroundColor: this.props.color }]} />;
+    return (
+      <View
+        style={[
+          css.particle,
+          {
+            left: x,
+            top: y,
+            width: this.props.size,
+            height: this.props.size,
+            backgroundColor: this.props.color
+          }
+        ]}
+      />
+    );
   }
 }
 
@@ -27,7 +40,12 @@ class ParticleSystem extends Component {
     return (
       <View>
         {this.props.particles.map((p, i) => (
-          <Particle key={i} position={p.position} size={p.size} color={p.color} />
+          <Particle
+            key={i}
+            position={p.position}
+            size={p.size}
+            color={p.color}
+          />
         ))}
       </View>
     );
@@ -73,6 +91,31 @@ class ParticleSystemReactNativeSvg extends Component {
   }
 }
 
+class ParticleSystemReactNativeSvgWithRects extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <Svg height={HEIGHT} width={WIDTH}>
+        {this.props.particles.map((p, i) => {
+          return (
+            <Rect
+              key={i}
+              x={p.position[0]}
+              y={p.position[1]}
+              width={p.size}
+              height={p.size}
+              fill={p.color}
+            />
+          );
+        })}
+      </Svg>
+    );
+  }
+}
+
 const css = StyleSheet.create({
   particle: {
     width: 10,
@@ -86,5 +129,6 @@ export {
   Particle,
   ParticleSystem,
   ParticleSystemReactNativeART,
-  ParticleSystemReactNativeSvg
+  ParticleSystemReactNativeSvg,
+  ParticleSystemReactNativeSvgWithRects
 };

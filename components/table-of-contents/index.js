@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StatusBar, View, StyleSheet, ScrollView } from "react-native";
 import { ComponentEntitySystem } from "../react-native-game-engine";
-import { ParticleSystem, ParticleSystemReactNativeSvg } from "./renderers";
+import { ParticleSystem } from "./renderers";
 import {
   SpawnParticles,
   Gravity,
@@ -94,7 +94,7 @@ export default class TableOfContents extends Component {
           "particle-system-01": {
             origin: [0, -50],
             particles: [],
-            renderable: ParticleSystemReactNativeSvg
+            renderable: ParticleSystem
           }
         }}
       >
@@ -105,7 +105,7 @@ export default class TableOfContents extends Component {
 
           <Title />
 
-          <View style={css.headingContainer}>
+          <View style={[css.headingContainer, {marginLeft: backButton ? -50 : 0 }]}>
 
             {backButton}
 
@@ -141,7 +141,8 @@ export default class TableOfContents extends Component {
 const css = StyleSheet.create({
   container: {
     alignSelf: "center",
-    alignItems: "center"
+    alignItems: "center",
+    width: "100%"
   },
   headingContainer: {
     alignItems: "center",
