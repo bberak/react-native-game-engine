@@ -11,20 +11,21 @@ class Particle extends PureComponent {
   }
 
   render() {
-    const x = this.props.position[0] - this.props.size / 2;
-    const y = this.props.position[1] - this.props.size / 2;
+    const size = HEIGHT * 0.002 * this.props.size
+    const x = this.props.position[0] - size / 2;
+    const y = this.props.position[1] - size / 2;
     return (
       <View
-        style={[
-          css.particle,
+        style={
           {
+            position: "absolute",
             left: x,
             top: y,
-            width: this.props.size,
-            height: this.props.size,
+            width: size,
+            height: size,
             backgroundColor: this.props.color
           }
-        ]}
+        }
       />
     );
   }
@@ -118,9 +119,6 @@ class ParticleSystemReactNativeSvgWithRects extends Component {
 
 const css = StyleSheet.create({
   particle: {
-    width: 10,
-    height: 10,
-    backgroundColor: "#FFF",
     position: "absolute"
   }
 });

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import * as Animatable from "react-native-animatable";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 export default class Heading extends Component {
   constructor(props) {
@@ -45,16 +46,20 @@ export default class Heading extends Component {
   }
 }
 
-const css = StyleSheet.create({
+const css = EStyleSheet.create({
+  $borderHeight: "0.5%",
+  $fontHeight: "3%",
+  $lineHeight: "5%",
+  $letterSpacingWidth: "1.3%",
   container: {
-    borderBottomWidth: 3,
+    borderBottomWidth: "$borderHeight",
   },
   text: {
     backgroundColor: "transparent",
-    letterSpacing: 5,
+    letterSpacing: "$letterSpacingWidth",
     color: "#000",
-    fontSize: 20,
-    lineHeight: 30,
+    fontSize: "$fontHeight",
+    lineHeight: "$lineHeight",
     fontWeight: "bold"
   }
 });

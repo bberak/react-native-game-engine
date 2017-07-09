@@ -1,9 +1,11 @@
 import React, { PureComponent } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import { StaggeredMotion, spring } from "react-motion";
 
-const BODY_DIAMETER = 50;
-const BORDER_WIDTH = 5;
+const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
+
+const BODY_DIAMETER = Math.trunc(Math.max(WIDTH, HEIGHT) * 0.085);
+const BORDER_WIDTH = Math.trunc(BODY_DIAMETER * 0.1);
 const COLORS = ["#86E9BE", "#8DE986", "#B8E986", "#E9E986"];
 const BORDER_COLORS = ["#C0F3DD", "#C4F6C0", "#E5FCCD", "#FCFDC1"];
 

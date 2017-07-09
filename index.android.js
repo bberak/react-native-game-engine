@@ -4,6 +4,9 @@ import Scene01 from "./components/extras/scene-01";
 import Scene02 from "./components/extras/scene-02";
 import TableOfContents from "./components/table-of-contents";
 import CloseButton from "./components/table-of-contents/closeButton";
+import EStyleSheet from "react-native-extended-stylesheet";
+
+EStyleSheet.build();
 
 export default class NatureOfCodeApp extends Component {
 	constructor(props) {

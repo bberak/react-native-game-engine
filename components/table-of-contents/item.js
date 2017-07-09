@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import * as Animatable from "react-native-animatable";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 export default class Item extends Component {
   constructor(props) {
@@ -40,11 +41,13 @@ export default class Item extends Component {
   }
 }
 
-const css = StyleSheet.create({
+const css = EStyleSheet.create({
+  $fontHeight: "3%",
+  $lineHeight: "7.5%",
   itemText: {
     backgroundColor: "transparent",
-    fontSize: 20,
-    lineHeight: 50,
+    fontSize: "$fontHeight",
+    lineHeight: "$lineHeight",
     color: "#000"
   }
 });

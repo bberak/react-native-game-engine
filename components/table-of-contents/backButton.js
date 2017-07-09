@@ -5,6 +5,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import * as Animatable from "react-native-animatable";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 export default class BackButton extends Component {
   constructor(props) {
@@ -44,12 +45,13 @@ export default class BackButton extends Component {
   }
 }
 
-const css = StyleSheet.create({
+const css = EStyleSheet.create({
+  $height: "5.5%",
   container: {
     backgroundColor: "#000",
-    borderRadius: 100,
-    width: 30,
-    height: 30,
-    marginRight: 20
+    borderRadius: "$height",
+    width: "$height",
+    height: "$height",
+    marginRight: "$height * 0.45"
   }
 });

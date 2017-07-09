@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 
 export default class Title extends Component {
   constructor() {
@@ -18,22 +19,27 @@ export default class Title extends Component {
   }
 }
 
-const css = StyleSheet.create({
+const css = EStyleSheet.create({
+  $borderHeight: "0.5%",
+  $fontHeight: "3.8%",
+  $lineHeight: "6.7%",
+  $letterSpacingWidth: "1.3%",
+  $paddingHeight: "10.5%",
   container: {
-    paddingTop: 70,
+    paddingTop: "$paddingHeight",
     alignItems: "center"
   },
   titleText: {
-    fontSize: 25,
+    fontSize: "$fontHeight",
     backgroundColor: "transparent",
-    letterSpacing: 5,
+    letterSpacing: "$letterSpacingWidth",
     color: "#000"
   },
   bold: {
     fontWeight: "900"
   },
   small: {
-    fontSize: 15,
-    lineHeight: 45
+    fontSize: "$fontHeight * 0.6",
+    lineHeight: "$lineHeight"
   }
 });

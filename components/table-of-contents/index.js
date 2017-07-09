@@ -146,8 +146,8 @@ const css = StyleSheet.create({
   },
   headingContainer: {
     alignItems: "center",
-    marginTop: 30,
-    marginBottom: 15,
+    marginTop: "4.5%",
+    marginBottom: "2.25%",
     alignSelf: "center",
     flexDirection: "row"
   }
