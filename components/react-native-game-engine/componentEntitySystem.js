@@ -15,6 +15,7 @@ export default class ComponentEntitySystem extends Component {
     this.timer.start();
     this.timer.subscribe(this.onUpdate);
     this.touches = [];
+    this.events = [];
     this.screen = Dimensions.get("window");
 
     this.touchStart = new Rx.Subject();
@@ -117,9 +118,10 @@ export default class ComponentEntitySystem extends Component {
   }
 
   onUpdate = () => {
-    let newState = this.systems.reduce((state, sys) => sys(state,  { touches: this.touches, screen: this.screen }), this.state);
+    let newState = this.systems.reduce((state, sys) => sys(state,  { touches: this.touches, screen: this.screen, events: this.events }), this.state);
     
     this.touches.length = 0;
+    this.events.length = 0;
     this.setState(newState);
   };
 
@@ -148,6 +150,10 @@ export default class ComponentEntitySystem extends Component {
   stop = () => {
     if (this.timer)
       this.timer.stop();
+  };
+
+  publishEvent = (ev) => {
+    this.events.push(ev);
   };
 
   render() {

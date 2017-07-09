@@ -117,12 +117,6 @@ class ParticleSystemReactNativeSvgWithRects extends Component {
   }
 }
 
-const css = StyleSheet.create({
-  particle: {
-    position: "absolute"
-  }
-});
-
 export {
   Particle,
   ParticleSystem,

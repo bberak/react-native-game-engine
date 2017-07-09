@@ -6,6 +6,7 @@ import {
   SpawnParticles,
   Gravity,
   Wind,
+  Sprinkles,
   Motion,
   DegenerateParticles
 } from "./systems";
@@ -52,8 +53,10 @@ export default class TableOfContents extends Component {
     }
   };
 
-  onBackPress = async () => {
+  onBackPress = async (ev) => {
     if (this.state.parent) {
+      this.refs.engine.publishEvent({ type: "back-press", x: ev.nativeEvent.pageX, y: ev.nativeEvent.pageY });
+
       let parent = this.state.parent;
       let backButton = this.refs["back"];
       let refs = [this.state.heading].concat(
@@ -89,7 +92,7 @@ export default class TableOfContents extends Component {
     return (
       <ComponentEntitySystem
         ref={"engine"}
-        systems={[SpawnParticles, Gravity, Wind, Motion, DegenerateParticles]}
+        systems={[SpawnParticles, Gravity, Wind, Sprinkles, Motion, DegenerateParticles]}
         entities={{
           "particle-system-01": {
             origin: [0, -50],

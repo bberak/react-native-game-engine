@@ -1,5 +1,10 @@
 
 const COLORS = ["#EB005A", "#8DE986", "#66E6B2", "#66BCB2"];
+const GRAVITY = [0, 0.05];
+
+const random = (min = 0, max = 1) => {
+  return Math.random() * (max - min) + min;
+};
 
 const SpawnParticles = (state,  { screen }) => {
 	let flowRate = Math.random();
@@ -8,26 +13,24 @@ const SpawnParticles = (state,  { screen }) => {
 	Object.keys(state).filter(key => state[key].particles).forEach(key => {
 		let sys = state[key];
 		sys.particles.push({
-			position: [Math.random() * screen.width, sys.origin[1]],
-			velocity: [0, Math.random() * 1],
-			mass: Math.random(),
+			position: [random(0, screen.width), sys.origin[1]],
+			velocity: [0, random()],
+			mass: random(),
 			lifespan: 148,
-			size: Math.random() * 10,
-			color: COLORS[Math.trunc(Math.random() * (COLORS.length -1))]
+			size: random(0, 10),
+			color: COLORS[Math.trunc(random(0, COLORS.length))]
 		});
 	});
 
 	return state;
 };
 
-const gravity = [0, 0.05];
-
 const Gravity = (state) => {
 	Object.keys(state).filter(key => state[key].particles).forEach(key => {
 		let sys = state[key];
 		sys.particles.forEach(p => {
 			let mass = p.mass;
-			let acc = [gravity[0] / mass, gravity[1] / mass];
+			let acc = [GRAVITY[0] / mass, GRAVITY[1] / mass];
 			let vel = p.velocity;
 
 			p.velocity = [vel[0] + acc[0], vel[1] + acc[1]]
@@ -40,6 +43,27 @@ const Gravity = (state) => {
 const Wind = (state) => {
 	return state;
 };
+
+const Sprinkles = (state, { events }) => {
+	let sysId = Object.keys(state).find(key => state[key].particles);
+	let sys = state[sysId];
+	if (sys) {
+		events.filter(e => e.type === "back-press").forEach(e => {
+			for (let i = 0; i < 8; i++) {
+				sys.particles.push({
+					position: [e.x, e.y],
+					velocity: [random(-2, 2), random(-4, 1)],
+					mass: random(),
+					lifespan: 148,
+					size: random(0, 10),
+					color: COLORS[Math.trunc(random(0, COLORS.length))]
+				});
+			}
+		})
+	}
+
+	return state;
+}
   
 const Motion = (state) => {
 	Object.keys(state).filter(key => state[key].particles).forEach(key => {
@@ -65,4 +89,4 @@ const DegenerateParticles = (state) => {
 	return state;
 };
 
-export { SpawnParticles, Gravity, Wind, Motion, DegenerateParticles }
+export { SpawnParticles, Gravity, Wind, Sprinkles, Motion, DegenerateParticles }
