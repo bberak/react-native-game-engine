@@ -152,8 +152,8 @@ export default class ComponentEntitySystem extends Component {
       this.timer.stop();
   };
 
-  publishEvent = (ev) => {
-    this.events.push(ev);
+  publishEvent = (e) => {
+    this.events.push(e);
   };
 
   render() {

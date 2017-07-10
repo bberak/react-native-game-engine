@@ -41,7 +41,6 @@ export default class NatureOfCodeApp extends Component {
 						items: [
 							{
 								heading: "Extras",
-								summary: "These are just a few extra examples I've been tinkering with.",
 								items: [
 									{
 										heading: "Single Worm",

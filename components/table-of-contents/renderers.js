@@ -18,6 +18,7 @@ class Particle extends PureComponent {
       <View
         style={
           {
+            borderRadius: size,
             position: "absolute",
             left: x,
             top: y,
