@@ -3,6 +3,9 @@ import { Worm } from "./renderers";
 
 let wormIds = 0;
 
+const distance = ([x1, y1], [x2, y2]) =>
+	Math.sqrt(Math.abs(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)));
+
 const SpawnWorm = (state,  { touches }) => {
 	touches.filter(t => t.type === "press").forEach(t => {
 		if (_.size(state) < 5) {
@@ -71,9 +74,6 @@ const ReleaseFingerFromWorm = (state, { touches }) => {
 
 	return state;
 };
-
-const distance = ([x1, y1], [x2, y2]) =>
-	Math.sqrt(Math.abs(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)));
 
 const RemoveWorm = (state, { touches }) => {
 	touches.filter(t => t.type === "long-press").forEach(t => {
