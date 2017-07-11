@@ -188,7 +188,7 @@ export default class ComponentEntitySystem extends Component {
 
 const css = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   entityContainer: {
     flex: 1,

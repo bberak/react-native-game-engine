@@ -14,6 +14,7 @@ import Title from "./title";
 import Heading from "./heading";
 import BackButton from "./backButton";
 import Item from "./item";
+import LinearGradient from "react-native-linear-gradient";
 
 export default class TableOfContents extends Component {
   constructor(props) {
@@ -53,9 +54,13 @@ export default class TableOfContents extends Component {
     }
   };
 
-  onBackPress = async (ev) => {
+  onBackPress = async ev => {
     if (this.state.parent) {
-      this.refs.engine.publishEvent({ type: "back-press", x: ev.nativeEvent.pageX, y: ev.nativeEvent.pageY });
+      this.refs.engine.publishEvent({
+        type: "back-press",
+        x: ev.nativeEvent.pageX,
+        y: ev.nativeEvent.pageY
+      });
 
       let parent = this.state.parent;
       let backButton = this.refs["back"];
@@ -90,58 +95,79 @@ export default class TableOfContents extends Component {
       : null;
 
     return (
-      <ComponentEntitySystem
-        ref={"engine"}
-        systems={[SpawnParticles, Gravity, Wind, Sprinkles, Motion, DegenerateParticles]}
-        entities={{
-          "particle-system-01": {
-            origin: [0, -50],
-            particles: [],
-            renderable: ParticleSystem
-          }
-        }}
+      <LinearGradient
+        colors={["#4c669f", "#3b5998", "#192f6a"]}
+        style={css.linearGradient}
       >
 
-        <StatusBar hidden={false} />
+        <ComponentEntitySystem
+          ref={"engine"}
+          systems={[
+            SpawnParticles,
+            Gravity,
+            Wind,
+            Sprinkles,
+            Motion,
+            DegenerateParticles
+          ]}
+          entities={{
+            "particle-system-01": {
+              origin: [0, -50],
+              particles: [],
+              renderable: ParticleSystem
+            }
+          }}
+        >
+          <StatusBar hidden={false} />
 
-        <ScrollView contentContainerStyle={css.container}>
+          <ScrollView contentContainerStyle={css.container}>
 
-          <Title />
+            <Title />
 
-          <View style={[css.headingContainer, {marginLeft: backButton ? -50 : 0 }]}>
+            <View
+              style={[
+                css.headingContainer,
+                { marginLeft: backButton ? -50 : 0 }
+              ]}
+            >
 
-            {backButton}
+              {backButton}
 
-            <Heading
-              animation={this.state.animation}
-              key={this.state.heading}
-              ref={this.state.heading}
-              value={this.state.heading}
-            />
-
-          </View>
-
-          {this.state.items.map((x, i) => {
-            return (
-              <Item
-                key={x.heading}
-                ref={x.heading}
-                value={x.heading}
+              <Heading
                 animation={this.state.animation}
-                delay={++i * 75}
-                onPress={_ => this.onItemPress(x)}
+                key={this.state.heading}
+                ref={this.state.heading}
+                value={this.state.heading}
               />
-            );
-          })}
 
-        </ScrollView>
+            </View>
 
-      </ComponentEntitySystem>
+            {this.state.items.map((x, i) => {
+              return (
+                <Item
+                  key={x.heading}
+                  ref={x.heading}
+                  value={x.heading}
+                  animation={this.state.animation}
+                  delay={++i * 75}
+                  onPress={_ => this.onItemPress(x)}
+                />
+              );
+            })}
+
+          </ScrollView>
+
+        </ComponentEntitySystem>
+
+      </LinearGradient>
     );
   }
 }
 
 const css = StyleSheet.create({
+  linearGradient: {
+    flex: 1
+  },
   container: {
     alignSelf: "center",
     alignItems: "center",
