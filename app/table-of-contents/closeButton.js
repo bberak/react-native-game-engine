@@ -11,7 +11,7 @@ export default class CloseButton extends Component {
   }
 
   onPress = async () => {
-    await this.refs.close.bounceOut(250);
+    await this.refs.close.bounceOut(300);
 
     if (this.props.onPress)
       this.props.onPress();
@@ -21,12 +21,13 @@ export default class CloseButton extends Component {
     return (
       <TouchableOpacity
         style={css.button}
+        hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
         activeOpacity={1}
         onPress={this.onPress}
       >
         <Animatable.Image
           ref={"close"}
-          delay={300}
+          delay={500}
           animation={"bounceIn"}
           source={Close}
         />

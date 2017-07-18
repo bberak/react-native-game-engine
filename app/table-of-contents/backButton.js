@@ -45,6 +45,7 @@ export default class BackButton extends Component {
       <TouchableOpacity
         key={"back"}
         activeOpacity={1}
+        hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
         onPress={this.props.onPress}
         onPressIn={this.onPressIn}
         onPressOut={this.onPressOut}
