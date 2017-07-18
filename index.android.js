@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { AppRegistry, View, Modal, Text, TouchableOpacity } from "react-native";
-import Scene01 from "./components/extras/scene-01";
-import Scene02 from "./components/extras/scene-02";
-import TableOfContents from "./components/table-of-contents";
-import CloseButton from "./components/table-of-contents/closeButton";
+import Scene01 from "./app/extras/scene-01";
+import Scene02 from "./app/extras/scene-02";
+import TableOfContents from "./app/table-of-contents";
+import CloseButton from "./app/table-of-contents/closeButton";
 import EStyleSheet from "react-native-extended-stylesheet";
 
 EStyleSheet.build();

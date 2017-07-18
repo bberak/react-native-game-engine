@@ -36,7 +36,6 @@ export default class CloseButton extends Component {
 }
 
 const css = EStyleSheet.create({
-  $height: "5.5%",
   $marginTop: "1.5%",
   button: {
     margin: "$marginTop",
