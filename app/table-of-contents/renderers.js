@@ -1,7 +1,6 @@
 import React, { Component, PureComponent } from "react";
 import { StyleSheet, View, ART, Dimensions } from "react-native";
 import Svg, { Path, Rect } from "react-native-svg";
-import { Vector } from "matter-js";
 
 const { Surface, Group, Shape } = ART;
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
@@ -12,12 +11,9 @@ class Particle extends PureComponent {
   }
 
   render() {
-    const velocity = { x: this.props.velocity[0], y: this.props.velocity[1]};
-    const speed = Vector.magnitude(velocity)
     const size = HEIGHT * 0.002 * this.props.size
     const x = this.props.position[0] - size / 2;
     const y = this.props.position[1] - size / 2;
-    const opacity = 1 - (speed / 20);
     return (
       <View
         style={
@@ -49,9 +45,8 @@ class ParticleSystem extends Component {
           <Particle
             key={i}
             position={p.position}
-            velocity={p.velocity}
-            size={p.size}
             color={p.color}
+            size={p.size}
           />
         ))}
       </View>

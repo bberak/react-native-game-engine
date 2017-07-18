@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { AppRegistry, View, Modal, Text, TouchableOpacity } from "react-native";
 import Scene01 from "./app/extras/scene-01";
 import Scene02 from "./app/extras/scene-02";
+import RigidBodies from "./app/physics-libraries/rigid-bodies";
 import TableOfContents from "./app/table-of-contents";
 import CloseButton from "./app/table-of-contents/closeButton";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -33,7 +34,7 @@ export default class NatureOfCodeApp extends Component {
 
 	render() {
 		return (
-			<View style={{flex: 1}}>
+			<View style={{ flex: 1 }}>
 				<TableOfContents
 					sceneVisible={this.state.sceneVisible}
 					contents={{
@@ -53,6 +54,16 @@ export default class NatureOfCodeApp extends Component {
 											this.mountScene(<Scene02 />)
 									}
 								]
+							},
+							{
+								heading: "Physics Libs",
+								items: [
+									{
+										heading: "Rigid Bodies",
+										onPress: () =>
+											this.mountScene(<RigidBodies />)
+									}
+								]
 							}
 						]
 					}}
@@ -61,13 +72,12 @@ export default class NatureOfCodeApp extends Component {
 					animationType={"slide"}
 					transparent={false}
 					visible={this.state.sceneVisible}
+					onRequestClose={_ => {}}
 				>
 
 					{this.state.scene}
 
-					<CloseButton
-						onPress={this.unMountScene}
-					/>
+					<CloseButton onPress={this.unMountScene} />
 
 				</Modal>
 			</View>
