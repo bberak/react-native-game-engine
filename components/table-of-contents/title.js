@@ -33,7 +33,7 @@ const css = EStyleSheet.create({
     fontSize: "$fontHeight",
     backgroundColor: "transparent",
     letterSpacing: "$letterSpacingWidth",
-    color: "#000"
+    color: "#FFF"
   },
   bold: {
     fontWeight: "900"

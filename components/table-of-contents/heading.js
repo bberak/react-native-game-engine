@@ -53,11 +53,12 @@ const css = EStyleSheet.create({
   $letterSpacingWidth: "1.3%",
   container: {
     borderBottomWidth: "$borderHeight",
+    borderColor: "#FFF"
   },
   text: {
     backgroundColor: "transparent",
     letterSpacing: "$letterSpacingWidth",
-    color: "#000",
+    color: "#FFF",
     fontSize: "$fontHeight",
     lineHeight: "$lineHeight",
     fontWeight: "bold"

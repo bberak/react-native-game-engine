@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StatusBar, View, StyleSheet, ScrollView } from "react-native";
+import { StatusBar, View, StyleSheet, ScrollView, Image } from "react-native";
 import { ComponentEntitySystem } from "../react-native-game-engine";
 import { ParticleSystem } from "./renderers";
 import {
@@ -15,6 +15,7 @@ import Heading from "./heading";
 import BackButton from "./backButton";
 import Item from "./item";
 import LinearGradient from "react-native-linear-gradient";
+import Logo from "./images/logo.png"
 
 export default class TableOfContents extends Component {
   constructor(props) {
@@ -96,7 +97,7 @@ export default class TableOfContents extends Component {
 
     return (
       <LinearGradient
-        colors={["#4c669f", "#3b5998", "#192f6a"]}
+        colors={["#271E77", "#C96DD8"]}
         style={css.linearGradient}
       >
 
@@ -112,18 +113,16 @@ export default class TableOfContents extends Component {
           ]}
           entities={{
             "particle-system-01": {
-              origin: [0, -50],
               particles: [],
               renderable: ParticleSystem
             }
           }}
         >
-          <StatusBar hidden={false} />
+          <StatusBar hidden={false} barStyle={"light-content"} />
 
           <ScrollView contentContainerStyle={css.container}>
 
-            <Title />
-
+            <Image style={css.logo} source={Logo} />
             <View
               style={[
                 css.headingContainer,
@@ -167,6 +166,10 @@ export default class TableOfContents extends Component {
 const css = StyleSheet.create({
   linearGradient: {
     flex: 1
+  },
+  logo: {
+    marginTop: "20%",
+    marginBottom: "10%"
   },
   container: {
     alignSelf: "center",

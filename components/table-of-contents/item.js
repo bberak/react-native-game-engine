@@ -48,6 +48,6 @@ const css = EStyleSheet.create({
     backgroundColor: "transparent",
     fontSize: "$fontHeight",
     lineHeight: "$lineHeight",
-    color: "#000"
+    color: "#FFF"
   }
 });

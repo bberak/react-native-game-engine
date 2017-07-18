@@ -68,7 +68,6 @@ export default class NatureOfCodeApp extends Component {
 
 					<CloseButton
 						onPress={this.unMountScene}
-						animation={"fadeInLeft"}
 					/>
 
 				</Modal>
