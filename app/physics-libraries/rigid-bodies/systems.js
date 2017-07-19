@@ -26,8 +26,7 @@ const SpawnBox = (state,  { touches }) => {
 
 		state[++boxIds] = {
 			body: body,
-			width: 50,
-			height: 50,
+			size: [50, 50],
 			renderable: Box
 		};
 	});

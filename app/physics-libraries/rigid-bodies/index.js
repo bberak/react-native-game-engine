@@ -5,7 +5,7 @@ import { Physics, SpawnBox, MoveBox, RemoveBox } from "./systems";
 import { Box } from "./renderers";
 import Matter from "matter-js";
 
-Matter.Common.isElement = () => false;
+Matter.Common.isElement = () => false; //-- Overriding this function because the original references HTMLElement
 
 export default class RigidBodies extends Component {
   constructor() {
@@ -28,8 +28,8 @@ export default class RigidBodies extends Component {
         entities={{
           engine: { engine: engine },
           world: { world: world },
-          box: { body: body, width: 50, height: 50, renderable: Box  },
-          floor: { body: floor, width: width, height: 100, color: "blue", renderable: Box }
+          box: { body: body, size: [50, 50], renderable: Box  },
+          floor: { body: floor, size: [width, 100], color: "blue", renderable: Box }
         }}
       >
 
