@@ -6,9 +6,9 @@ export default class Timer {
     this.loopId = null;
   }
 
-  loop = () => {
+  loop = (time) => {
     this.subscribers.forEach(callback => {
-      callback.call();
+      callback(time);
     });
 
     this.loopId = requestAnimationFrame(this.loop);

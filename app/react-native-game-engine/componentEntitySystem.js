@@ -17,6 +17,8 @@ export default class ComponentEntitySystem extends Component {
     this.touches = [];
     this.events = [];
     this.screen = Dimensions.get("window");
+    this.previousTime = null;
+    this.previousDelta = null;
 
     this.touchStart = new Rx.Subject();
     this.touchMove = new Rx.Subject();
@@ -117,13 +119,30 @@ export default class ComponentEntitySystem extends Component {
     this.onLongTouch.dispose();
   }
 
-  onUpdate = () => {
-    let newState = this.systems.reduce((state, sys) => sys(state,  { touches: this.touches, screen: this.screen, events: this.events }), this.state);
-    
-    this.touches.length = 0;
-    this.events.length = 0;
-    this.setState(newState);
-  };
+onUpdate = currentTime => {
+  let delta = currentTime - (this.previousTime || currentTime);
+  let newState = this.systems.reduce(
+    (state, sys) =>
+      sys(state, {
+        touches: this.touches,
+        screen: this.screen,
+        events: this.events,
+        time: {
+          current: currentTime,
+          previous: this.previousTime,
+          delta: delta,
+          previousDelta: this.previousDelta
+        }
+      }),
+    this.state
+  );
+
+  this.touches.length = 0;
+  this.events.length = 0;
+  this.previousTime = currentTime;
+  this.previousDelta = delta;
+  this.setState(newState);
+};
 
   onPublishTouchStart = e => {
     this.touchStart.onNext(e.nativeEvent);

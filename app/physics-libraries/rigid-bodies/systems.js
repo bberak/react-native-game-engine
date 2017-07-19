@@ -7,11 +7,11 @@ let boxIds = 0;
 const distance = ([x1, y1], [x2, y2]) =>
 	Math.sqrt(Math.abs(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)));
 
-const Physics = (state, { touches }) => {
+const Physics = (state, { touches, time }) => {
 	let engineId = Object.keys(state).find(key => state[key].engine);
 	let engine = state[engineId].engine;
-
-	Matter.Engine.update(engine);
+	console.log(time)
+	Matter.Engine.update(engine, time.delta);
 
 	return state;
 };
