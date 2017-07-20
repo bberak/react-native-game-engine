@@ -24,13 +24,19 @@ export default class ComponentEntitySystem extends Component {
     this.touchMove = new Rx.Subject();
     this.touchEnd = new Rx.Subject();
     this.touchPress = this.touchStart.flatMap(e =>
-      this.touchEnd.first(x => x.identifier === e.identifier).timeout(200, Rx.Observable.empty())
+      this.touchEnd
+        .first(x => x.identifier === e.identifier)
+        .timeout(200, Rx.Observable.empty())
     );
     this.longTouch = this.touchStart.flatMap(e =>
       Rx.Observable
         .return(e)
         .delay(700)
-        .takeUntil(this.touchMove.merge(this.touchEnd).first(x => x.identifier === e.identifier))
+        .takeUntil(
+          this.touchMove
+            .merge(this.touchEnd)
+            .first(x => x.identifier === e.identifier)
+        )
     );
 
     this.onTouchStart = new Rx.CompositeDisposable();
@@ -119,30 +125,30 @@ export default class ComponentEntitySystem extends Component {
     this.onLongTouch.dispose();
   }
 
-onUpdate = currentTime => {
-  let delta = currentTime - (this.previousTime || currentTime);
-  let newState = this.systems.reduce(
-    (state, sys) =>
-      sys(state, {
-        touches: this.touches,
-        screen: this.screen,
-        events: this.events,
-        time: {
-          current: currentTime,
-          previous: this.previousTime,
-          delta: delta,
-          previousDelta: this.previousDelta
-        }
-      }),
-    this.state
-  );
+  onUpdate = currentTime => {
+    let args = {
+      touches: this.touches,
+      screen: this.screen,
+      events: this.events,
+      time: {
+        current: currentTime,
+        previous: this.previousTime,
+        delta: currentTime - (this.previousTime || currentTime),
+        previousDelta: this.previousDelta
+      }
+    };
 
-  this.touches.length = 0;
-  this.events.length = 0;
-  this.previousTime = currentTime;
-  this.previousDelta = delta;
-  this.setState(newState);
-};
+    let newState = this.systems.reduce(
+      (state, sys) => sys(state, args),
+      this.state
+    );
+
+    this.touches.length = 0;
+    this.events.length = 0;
+    this.previousTime = currentTime;
+    this.previousDelta = args.time.delta;
+    this.setState(newState);
+  };
 
   onPublishTouchStart = e => {
     this.touchStart.onNext(e.nativeEvent);
@@ -162,16 +168,14 @@ onUpdate = currentTime => {
   };
 
   start = () => {
-    if (this.timer)
-      this.timer.start();
+    if (this.timer) this.timer.start();
   };
 
   stop = () => {
-    if (this.timer)
-      this.timer.stop();
+    if (this.timer) this.timer.stop();
   };
 
-  publishEvent = (e) => {
+  publishEvent = e => {
     this.events.push(e);
   };
 
@@ -196,7 +200,13 @@ onUpdate = currentTime => {
             })}
         </View>
 
-        <View pointerEvents={"box-none"} style={[css.childrenContainer, { width: this.screen.width, height: this.screen.height}]}>
+        <View
+          pointerEvents={"box-none"}
+          style={[
+            css.childrenContainer,
+            { width: this.screen.width, height: this.screen.height }
+          ]}
+        >
           {this.props.children}
         </View>
 
@@ -213,7 +223,7 @@ const css = StyleSheet.create({
     flex: 1,
     //-- Looks like Android requires bg color here
     //-- to register touches. If we didn't worry about
-    //-- 'children' (foreground) components capturing events, 
+    //-- 'children' (foreground) components capturing events,
     //-- this whole shenanigan could be avoided..
     backgroundColor: "transparent"
   },
