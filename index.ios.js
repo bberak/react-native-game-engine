@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { AppRegistry, View, Modal, Text, TouchableOpacity } from "react-native";
-import Scene01 from "./app/extras/scene-01";
-import Scene02 from "./app/extras/scene-02";
-import RigidBodies from "./app/physics-libraries/rigid-bodies";
+import SingleTouch from "./app/input/single-touch";
+import MultiTouch from "./app/input/multi-touch";
+import RigidBodies from "./app/physics/rigid-bodies";
 import TableOfContents from "./app/table-of-contents";
 import CloseButton from "./app/table-of-contents/closeButton";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -41,22 +41,22 @@ export default class NatureOfCodeApp extends Component {
 						heading: "Chapters",
 						items: [
 							{
-								heading: "Extras",
+								heading: "Input",
 								items: [
 									{
-										heading: "Single Worm",
+										heading: "Single Touch",
 										onPress: () =>
-											this.mountScene(<Scene01 />)
+											this.mountScene(<SingleTouch />)
 									},
 									{
-										heading: "Multi-Touch Worms",
+										heading: "Multi Touch",
 										onPress: () =>
-											this.mountScene(<Scene02 />)
+											this.mountScene(<MultiTouch />)
 									}
 								]
 							},
 							{
-								heading: "Physics Libs",
+								heading: "Physics",
 								items: [
 									{
 										heading: "Rigid Bodies",

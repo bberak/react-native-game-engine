@@ -9,7 +9,7 @@ import Worm from "./worm";
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 
-export default class Scene01 extends Component {
+export default class SingleTouch extends Component {
   constructor() {
     super();
     this.state = {

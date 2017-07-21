@@ -13,7 +13,7 @@ import {
   RemoveWorm
 } from "./systems";
 
-export default class Scene02 extends Component {
+export default class MultiTouch extends Component {
   constructor() {
     super();
 
