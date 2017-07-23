@@ -48,7 +48,7 @@ const Sprinkles = (state, { events }) => {
 	let sysId = Object.keys(state).find(key => state[key].particles);
 	let sys = state[sysId];
 	if (sys) {
-		events.filter(e => e.type === "back-press").forEach(e => {
+		events.filter(e => e.type === "back-pressed").forEach(e => {
 			for (let i = 0; i < 8; i++) {
 				sys.particles.push({
 					position: [e.x, e.y],

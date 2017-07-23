@@ -8,17 +8,19 @@ export default class ComponentEntitySystem extends Component {
     super(props);
     this.state = props.initState || props.initialState || props.entities || {};
     this.systems = props.systems || [];
-  }
-
-  componentWillMount() {
     this.timer = new Timer();
-    this.timer.start();
     this.timer.subscribe(this.onUpdate);
     this.touches = [];
-    this.events = [];
     this.screen = Dimensions.get("window");
     this.previousTime = null;
     this.previousDelta = null;
+    this.events = [];
+    let push = this.events.push;
+    this.events.push = (e) => {
+      let res = push.call(this.events, e);
+      if (this.props.onEvent) this.props.onEvent(e);
+      return res;
+    }
 
     this.touchStart = new Rx.Subject();
     this.touchMove = new Rx.Subject();
@@ -110,6 +112,10 @@ export default class ComponentEntitySystem extends Component {
     );
   }
 
+  componentDidMount() {
+    this.start();
+  }
+
   componentWillUnmount() {
     this.timer.stop();
     this.timer.unsubscribe(this.update);
@@ -168,15 +174,13 @@ export default class ComponentEntitySystem extends Component {
   };
 
   start = () => {
-    if (this.timer) this.timer.start();
+    this.timer.start();
+    this.events.push({ type: "started"})
   };
 
   stop = () => {
-    if (this.timer) this.timer.stop();
-  };
-
-  publishEvent = e => {
-    this.events.push(e);
+    this.timer.stop();
+    this.events.push({ type: "stopped"})
   };
 
   render() {
