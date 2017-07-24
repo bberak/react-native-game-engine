@@ -6,10 +6,11 @@ import Rx from "rx";
 export default class ComponentEntitySystem extends Component {
   constructor(props) {
     super(props);
+
     this.state = props.initState || props.initialState || props.entities || {};
     this.systems = props.systems || [];
     this.timer = new Timer();
-    this.timer.subscribe(this.onUpdate);
+    this.timer.subscribe(this.update);
     this.touches = [];
     this.screen = Dimensions.get("window");
     this.previousTime = null;
@@ -131,7 +132,17 @@ export default class ComponentEntitySystem extends Component {
     this.onLongTouch.dispose();
   }
 
-  onUpdate = currentTime => {
+  start = () => {
+    this.timer.start();
+    this.events.push({ type: "started"})
+  };
+
+  stop = () => {
+    this.timer.stop();
+    this.events.push({ type: "stopped"})
+  };
+
+  update = currentTime => {
     let args = {
       touches: this.touches,
       screen: this.screen,
@@ -171,16 +182,6 @@ export default class ComponentEntitySystem extends Component {
   onLayout = () => {
     this.screen = Dimensions.get("window");
     this.forceUpdate();
-  };
-
-  start = () => {
-    this.timer.start();
-    this.events.push({ type: "started"})
-  };
-
-  stop = () => {
-    this.timer.stop();
-    this.events.push({ type: "stopped"})
   };
 
   render() {
