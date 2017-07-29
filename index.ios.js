@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { AppRegistry, View, Modal, Text, TouchableOpacity } from "react-native";
-import SingleTouch from "./app/input/single-touch";
-import MultiTouch from "./app/input/multi-touch";
+import SingleTouch from "./app/touch-events/single-touch";
+import MultiTouch from "./app/touch-events/multi-touch";
 import RigidBodies from "./app/physics/rigid-bodies";
 import TableOfContents from "./app/table-of-contents";
 import CloseButton from "./app/table-of-contents/closeButton";
@@ -41,7 +41,7 @@ export default class NatureOfCodeApp extends Component {
 						heading: "Chapters",
 						items: [
 							{
-								heading: "Input",
+								heading: "Touch Events",
 								items: [
 									{
 										heading: "Single Touch",
