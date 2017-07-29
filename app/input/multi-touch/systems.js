@@ -11,7 +11,6 @@ const SpawnWorm = (state,  { touches }) => {
 		if (_.size(state) < 5) {
 			state[++wormIds] = {
 				position: [t.event.pageX, t.event.pageY],
-				offset: [0, 0],
 				renderable: Worm
 			};
 		}
@@ -38,11 +37,7 @@ const AssignFingerToWorm = (state, { touches }) => {
 				),
 			"distance"
 		);
-		if (closestWorm) { 
-			let pos = closestWorm.components.position;
-			closestWorm.components.touchId = t.id;
-			closestWorm.components.offset = [touchOrigin[0] - pos[0], touchOrigin[1] - pos[1]];
-		}
+		if (closestWorm) closestWorm.components.touchId = t.id;
 	});
 
 	return state;
@@ -56,8 +51,8 @@ const MoveWorm = (state, { touches }) => {
 		let worm = state[wormId];
 		if (worm) {
 			worm.position = [
-				t.event.pageX - worm.offset[0],
-				t.event.pageY - worm.offset[1]
+				worm.position[0] + t.delta.pageX,
+				worm.position[1] + t.delta.pageY
 			];
 		}
 	});

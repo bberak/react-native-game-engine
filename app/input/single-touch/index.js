@@ -11,25 +11,15 @@ export default class SingleTouch extends Component {
     this.state = {
       x: WIDTH / 2,
       y: HEIGHT / 2,
-      offsetX: 0,
-      offsetY: 0
     };
   }
 
   onUpdate = ({ touches }) => {
-    let start = touches.find(x => x.type === "start");
-    if (start) {
-      this.setState({
-        offsetX: start.event.pageX - this.state.x,
-        offsetY: start.event.pageY - this.state.y
-      })
-    }
-
     let move = touches.find(x => x.type === "move");
     if (move) {
       this.setState({
-        x: move.event.pageX - this.state.offsetX,
-        y: move.event.pageY - this.state.offsetY
+        x: this.state.x + move.delta.pageX,
+        y: this.state.y + move.delta.pageY
       });
     }
   };

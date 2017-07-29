@@ -49,11 +49,29 @@ export default class BasicGameLoop extends Component {
 
     this.onTouchMove = new Rx.CompositeDisposable();
     this.onTouchMove.add(
-      this.touchMove
+      Rx.Observable
+        .merge(
+          this.touchStart.map(x => Object.assign(x, { type: "start" })),
+          this.touchMove.map(x => Object.assign(x, { type: "move" })),
+          this.touchEnd.map(x => Object.assign(x, { type: "end" }))
+        )
         .groupBy(e => e.identifier)
         .map(group => {
-          return group.map(e => {
-            this.touches.push({ id: group.key, type: "move", event: e });
+          return group.pairwise().map(([e1, e2]) => {
+            if (e1.type !== "end") {
+              this.touches.push({
+                id: group.key,
+                type: "move",
+                event: e2,
+                delta: {
+                  locationX: e2.locationX - e1.locationX,
+                  locationY: e2.locationY - e1.locationY,
+                  pageX: e2.pageX - e1.pageX,
+                  pageY: e2.pageY - e1.pageY,
+                  timestamp: e2.timestamp - e1.timestamp
+                }
+              });
+            }
           });
         })
         .subscribe(group => {

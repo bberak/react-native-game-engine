@@ -17,11 +17,11 @@ export default class ComponentEntitySystem extends Component {
     this.previousDelta = null;
     this.events = [];
     let push = this.events.push;
-    this.events.push = (e) => {
+    this.events.push = e => {
       let res = push.call(this.events, e);
       if (this.props.onEvent) this.props.onEvent(e);
       return res;
-    }
+    };
 
     this.touchStart = new Rx.Subject();
     this.touchMove = new Rx.Subject();
@@ -58,11 +58,29 @@ export default class ComponentEntitySystem extends Component {
 
     this.onTouchMove = new Rx.CompositeDisposable();
     this.onTouchMove.add(
-      this.touchMove
+      Rx.Observable
+        .merge(
+          this.touchStart.map(x => Object.assign(x, { type: "start" })),
+          this.touchMove.map(x => Object.assign(x, { type: "move" })),
+          this.touchEnd.map(x => Object.assign(x, { type: "end" }))
+        )
         .groupBy(e => e.identifier)
         .map(group => {
-          return group.map(e => {
-            this.touches.push({ id: group.key, type: "move", event: e });
+          return group.pairwise().map(([e1, e2]) => {
+            if (e1.type !== "end") {
+              this.touches.push({
+                id: group.key,
+                type: "move",
+                event: e2,
+                delta: {
+                  locationX: e2.locationX - e1.locationX,
+                  locationY: e2.locationY - e1.locationY,
+                  pageX: e2.pageX - e1.pageX,
+                  pageY: e2.pageY - e1.pageY,
+                  timestamp: e2.timestamp - e1.timestamp
+                }
+              });
+            }
           });
         })
         .subscribe(group => {
@@ -134,12 +152,12 @@ export default class ComponentEntitySystem extends Component {
 
   start = () => {
     this.timer.start();
-    this.events.push({ type: "started"})
+    this.events.push({ type: "started" });
   };
 
   stop = () => {
     this.timer.stop();
-    this.events.push({ type: "stopped"})
+    this.events.push({ type: "stopped" });
   };
 
   update = currentTime => {
@@ -166,6 +184,10 @@ export default class ComponentEntitySystem extends Component {
     this.previousDelta = args.time.delta;
     this.setState(newState);
   };
+
+  publishEvent = e => {
+    this.events.push(e);
+  }
 
   onPublishTouchStart = e => {
     this.touchStart.onNext(e.nativeEvent);
