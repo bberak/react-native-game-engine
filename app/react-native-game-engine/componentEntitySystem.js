@@ -6,9 +6,13 @@ import Rx from "rx";
 export default class ComponentEntitySystem extends Component {
   constructor(props) {
     super(props);
-
-    this.state = props.initState || props.initialState || props.entities || {};
-    this.systems = props.systems || [];
+    this.state =
+      props.initState ||
+      props.initialState ||
+      props.state ||
+      props.initEntities ||
+      props.initialEntities ||
+      props.entities;
     this.timer = new Timer();
     this.timer.subscribe(this.update);
     this.touches = [];
@@ -173,7 +177,7 @@ export default class ComponentEntitySystem extends Component {
       }
     };
 
-    let newState = this.systems.reduce(
+    let newState = this.props.systems.reduce(
       (state, sys) => sys(state, args),
       this.state
     );
@@ -187,7 +191,7 @@ export default class ComponentEntitySystem extends Component {
 
   publishEvent = e => {
     this.events.push(e);
-  }
+  };
 
   onPublishTouchStart = e => {
     this.touchStart.onNext(e.nativeEvent);
@@ -241,6 +245,8 @@ export default class ComponentEntitySystem extends Component {
     );
   }
 }
+
+ComponentEntitySystem.defaultProps = { systems: [], entities: {} };
 
 const css = StyleSheet.create({
   container: {
