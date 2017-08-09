@@ -3,6 +3,7 @@ import { AppRegistry, View, Modal, Text, TouchableOpacity } from "react-native";
 import SingleTouch from "./app/touch-events/single-touch";
 import MultiTouch from "./app/touch-events/multi-touch";
 import RigidBodies from "./app/physics/rigid-bodies";
+import Accelerometer from "./app/sensors/accelerometer";
 import TableOfContents from "./app/table-of-contents";
 import CloseButton from "./app/table-of-contents/closeButton";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -62,6 +63,16 @@ export default class NatureOfCodeApp extends Component {
 										heading: "Rigid Bodies",
 										onPress: () =>
 											this.mountScene(<RigidBodies />)
+									}
+								]
+							},
+							{
+								heading: "Sensors",
+								items: [
+									{
+										heading: "Accelerometer",
+										onPress: () =>
+											this.mountScene(<Accelerometer />)
 									}
 								]
 							}

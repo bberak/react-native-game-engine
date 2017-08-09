@@ -133,6 +133,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-sensors')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-svg')
     compile fileTree(dir: "libs", include: ["*.jar"])
