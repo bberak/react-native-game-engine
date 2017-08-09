@@ -28,7 +28,7 @@
     "rx": "^4.1.0"
   },
   "peerDependencies": {
-    "react": "16.0.0-alpha.12",
-    "react-native": "0.45.1"
+    "react": "15.x",
+    "react-native": "0.41.x"
   }
 }
