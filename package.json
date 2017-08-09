@@ -1,32 +1,34 @@
 {
-  "name": "NatureOfCodeApp",
-  "version": "0.0.1",
-  "private": true,
+  "name": "react-native-game-engine",
+  "version": "0.5.0",
+  "description": "Some React Native components that make it easier to construct interactive scenes using the familiar update + draw lifecycle used in the development of many games ✨",
+  "main": "index.js",
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bberak/react-native-game-engine.git"
+  },
+  "keywords": [
+    "React",
+    "Native",
+    "Game",
+    "Gaming",
+    "Game",
+    "Engine"
+  ],
+  "author": "Boris Berak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bberak/react-native-game-engine/issues"
+  },
+  "homepage": "https://github.com/bberak/react-native-game-engine#readme",
   "dependencies": {
-    "art": "^0.10.1",
-    "lodash": "^4.17.4",
-    "matter-js": "^0.13.0",
-    "react": "16.0.0-alpha.12",
-    "react-motion": "^0.5.0",
-    "react-native": "0.45.1",
-    "react-native-animatable": "^1.2.2",
-    "react-native-extended-stylesheet": "git+https://github.com/bberak/react-native-extended-stylesheet.git",
-    "react-native-linear-gradient": "^2.0.0",
-    "react-native-sensors": "^2.3.1",
-    "react-native-svg": "^5.2.0",
     "rx": "^4.1.0"
   },
-  "devDependencies": {
-    "babel-jest": "20.0.3",
-    "babel-preset-react-native": "1.9.2",
-    "jest": "20.0.4",
-    "react-test-renderer": "16.0.0-alpha.12"
-  },
-  "jest": {
-    "preset": "react-native"
+  "peerDependencies": {
+    "react": "16.0.0-alpha.12",
+    "react-native": "0.45.1"
   }
 }
