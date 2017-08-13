@@ -10,7 +10,7 @@ Some React Native components that make it easier to construct interactive scenes
 - Do you know of any apps that currently utilize this library?
 - How do I manage physics?
 - Do I have a choice of renderers?
-- The ```ComponentEntitySystem``` and ```BasicGameLoop``` don't give me sensor data out of the box - what gives?
+- The ```React Native Game Engine``` doesn't give me sensor data out of the box - what gives?
 - Is this compatible with Android and iOS?
 - Won't this kind of be harsh on the old battery?
 
@@ -70,19 +70,20 @@ All we've done here is hookup a timer to a function that fires every **~16ms**, 
 
 ## Building complex scenes with Component-Entity-Systems 👷
 
-- https://www.gamedev.net/articles/programming/general-and-gameplay-programming/understanding-component-entity-systems-r3013/
-- http://docs.aws.amazon.com/lumberyard/latest/developerguide/component-entity-system-intro.html
-- https://github.com/junkdog/artemis-odb/wiki/Introduction-to-Entity-Systems
+Some related content:
+
+- [Gamedev.net article](https://www.gamedev.net/articles/programming/general-and-gameplay-programming/)understanding-component-entity-systems-r3013/
+- [CES Systems in Amazon Lumberyard](http://docs.aws.amazon.com/lumberyard/latest/developerguide/component-entity-system-intro.html)
+- [Intro to Entity Systems](https://github.com/junkdog/artemis-odb/wiki/Introduction-to-Entity-Systems)
 
 ## Super useful packages for game devlopment 🎁
 
 The following is a list of invaluable packages when it comes to coding interactive scenes. Please feel free to nominate others:
 
-- https://github.com/oblador/react-native-animatable
-- https://github.com/chenglou/react-motion
-- https://github.com/liabru/matter-js (beware has some DOM code)
-- https://github.com/FormidableLabs/react-game-kit
-- https://github.com/sebmarkbage/art
-- https://github.com/react-native-community/react-native-svg
-- https://github.com/react-native-community/react-native-linear-gradient
-- https://github.com/react-native-sensors/react-native-sensors
+- [React Native Animatable](https://github.com/oblador/react-native-animatable)
+- [React Motion](https://github.com/chenglou/react-motion)
+- [Matter JS](https://github.com/liabru/matter-js) (beware has some DOM code)
+- [React Game Kit](https://github.com/FormidableLabs/react-game-kit)
+- [React Native SVG](https://github.com/react-native-community/react-native-svg)
+- [React Native Linear Gradient](https://github.com/react-native-community/react-native-linear-gradient)
+- [React Native Sensors](https://github.com/react-native-sensors/react-native-sensors)
