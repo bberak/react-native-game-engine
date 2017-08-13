@@ -72,7 +72,7 @@ All we've done here is hookup a timer to a function that fires every **~16ms**, 
 
 Some related content:
 
-- [Gamedev.net article](https://www.gamedev.net/articles/programming/general-and-gameplay-programming/)understanding-component-entity-systems-r3013/
+- [Gamedev.net article](https://www.gamedev.net/articles/programming/general-and-gameplay-programming/understanding-component-entity-systems-r3013/)
 - [CES Systems in Amazon Lumberyard](http://docs.aws.amazon.com/lumberyard/latest/developerguide/component-entity-system-intro.html)
 - [Intro to Entity Systems](https://github.com/junkdog/artemis-odb/wiki/Introduction-to-Entity-Systems)
 
