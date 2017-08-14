@@ -9,7 +9,7 @@ Some React Native components that make it easier to construct interactive scenes
 - [Using the BasicGameLoop Component](#using-the-basicgameloop-component)
   - [Behind the Scenes](#behind-the-scenes)
   - [Where is the Draw Function?](#where-is-the-draw-function?)
-- [Package for Game Development](#packages-for-game-development🎁)
+- [Package for Game Development](#packages-for-game-development)
 - [Package for Game Development](#packages-for-game-development)
 
 ## TLDR; 🤓
@@ -127,7 +127,7 @@ Some related material:
 - [CES Systems in Amazon Lumberyard](http://docs.aws.amazon.com/lumberyard/latest/developerguide/component-entity-system-intro.html)
 - [Intro to Entity Systems](https://github.com/junkdog/artemis-odb/wiki/Introduction-to-Entity-Systems)
 
-## Packages for Game Development 🎁
+## Packages for Game Development
 
 The following is a list of invaluable packages when it comes to coding interactive scenes. Please feel free to nominate others:
 
