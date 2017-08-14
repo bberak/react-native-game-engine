@@ -4,17 +4,13 @@ Some React Native components that make it easier to construct interactive scenes
 
 ## Table of Contents 📗
 
-- [TLDR;](#TLDR;)
-- [FAQ](#FAQ)
-- [Useful](#Super-useful-packages-for-game-devlopment-🎁)
-- [Available Scripts](#available-scripts)
-  - [npm start](#npm-start)
-  - [npm test](#npm-test)
-  - [npm run build](#npm-run-build)
-  - [npm run eject](#npm-run-eject)
-- [Supported Language Features and Polyfills](#supported-language-features-and-polyfills)
-- [Syntax Highlighting in the Editor](#syntax-highlighting-in-the-editor)
-- [Displaying Lint Output in the Editor](#displaying-lint-output-in-the-editor)
+- [TLDR;](#tldr;)
+- [FAQ](#faq)
+- [Using the BasicGameLoop Component](#using-the-basicgameloop-component)
+  - [Behind the Scenes](#behind-the-scenes)
+  - [Where is the Draw Function?](#where-is-the-draw-function?)
+- [Package for Game Development](#packages-for-game-development🎁)
+- [Package for Game Development](#packages-for-game-development)
 
 ## TLDR; 🤓
 
@@ -117,7 +113,7 @@ const styles = StyleSheet.create({
 - Our ```updateHandler``` looks for any ```move``` touches that were made between now and the last time throught the loop.
 - If found, we update the position of our lone game object.
 
-### Where's the Draw Function? 🎨
+### Where is the Draw Function? 🎨
 
 Nice observation! Indeed, there is none. The logic of our scene is processed in the ```updateHandler``` function, and our drawing is handled by our component's out-of-the-box ```render()``` function.
 
