@@ -58,25 +58,23 @@ Then import the BasicGameLoop component:
 Let's code a basic scene with a single moveable game object. Add this into your ```index.ios.js``` (or ```index.android.js```):
 
 ```
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { AppRegistry, StyleSheet, Dimensions, View } from "react-native";
 import { BasicGameLoop } from "react-native-game-engine";
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
+const RADIUS = 25;
 
-export default class BestGameEver extends Component {
+export default class BestGameEver extends PureComponent {
   constructor() {
     super();
     this.state = {
-      x: WIDTH / 2,
-      y: HEIGHT / 2
+      x: WIDTH / 2 - RADIUS,
+      y: HEIGHT / 2 - RADIUS
     };
   }
 
-  //-- The BasicGameLoop uses requestAnimationFrame(fn) to call onUpdate every 16ms.
-  //-- The onUpdate function is called with some useful arguments which will help us
-  //-- process all the logic in our game and calculate the next state of our scene.
-  onUpdate = ({ touches, screen, time }) => {
+  updateHandler = ({ touches, screen, time }) => {
     let move = touches.find(x => x.type === "move");
     if (move) {
       this.setState({
@@ -86,13 +84,9 @@ export default class BestGameEver extends Component {
     }
   };
 
-  //-- The out-of-the-box render() function provides the draw functionality of our scene.
-  //-- Here, we read the current state and render it onto our component using whatever
-  //-- means necessary. The example below uses standard Views and StyleSheets. 
-  //-- As the complexity of your scene increases, the frame rate will begin drop.
   render() {
     return (
-      <BasicGameLoop style={styles.container} onUpdate={this.onUpdate}>
+      <BasicGameLoop style={styles.container} onUpdate={this.updateHandler}>
 
         <View style={[styles.player, { left: this.state.x, top: this.state.y }]} />
 
@@ -109,9 +103,9 @@ const styles = StyleSheet.create({
   player: {
     position: "absolute",
     backgroundColor: "pink",
-    width: 50,
-    height: 50,
-    borderRadius: 50
+    width: RADIUS * 2,
+    height: RADIUS * 2,
+    borderRadius: RADIUS * 2
   }
 });
 
@@ -120,9 +114,9 @@ AppRegistry.registerComponent("BestGameEver", () => BestGameEver);
 
 ### Behind the Scenes
 
-- The ```BasicGameLoop``` starts a timer ⏰ using ```requestAnimationFrame(fn)```. This is our game loop.
+- The ```BasicGameLoop``` starts a timer ⏰ using ```requestAnimationFrame(fn)```. Effectively, this is our game loop.
 - Each iteration through the loop, the ```BasicGameLoop``` will call the function passed in via ```props.onUpdate```.
-- Our ```updateHandler``` looks for any ```move``` touches that were made between now and the last time throught the loop.
+- Our ```updateHandler``` looks for any ```move``` touches that were made between now and the last time through the loop.
 - If found, we update the position of our lone game object.
 
 ### Where is the Draw Function?
@@ -131,20 +125,23 @@ Nice observation! Indeed, there is none. The logic of our scene is processed in 
 
 All we've done here is hookup a timer to a function that fires every **~16ms**, and used ```this.setState()``` to force React Native to diff the changes in our scene and send them across the bridge to the host device. ```React Native Game Engine``` only takes care of the game timing and input processing for us.
 
-Now let's do something cooler:
-
-```
-```
-
 ## Building Complex scenes with Component-Entity-Systems
 
-Some related material:
+
+
+Now let's try a cooler example:
+
+```
+```
+
+Some great CES resources:
 
 - [Gamedev.net article](https://www.gamedev.net/articles/programming/general-and-gameplay-programming/understanding-component-entity-systems-r3013/)
-- [CES Systems in Amazon Lumberyard](http://docs.aws.amazon.com/lumberyard/latest/developerguide/component-entity-system-intro.html)
 - [Intro to Entity Systems](https://github.com/junkdog/artemis-odb/wiki/Introduction-to-Entity-Systems)
 
-## Packages for Game Development
+## Upcoming Improvements
+
+## Awesome Packages for Game Development
 
 The following is a list of invaluable packages when it comes to coding interactive scenes. Please feel free to nominate others:
 
