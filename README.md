@@ -117,7 +117,7 @@ AppRegistry.registerComponent("BestGameEver", () => BestGameEver);
 - The ```BasicGameLoop``` starts a timer ⏰ using ```requestAnimationFrame(fn)```. Effectively, this is our game loop.
 - Each iteration through the loop, the ```BasicGameLoop``` will call the function passed in via ```props.onUpdate```.
 - Our ```updateHandler``` looks for any ```move``` touches that were made between now and the last time through the loop.
-- If found, we update the position of our lone game object.
+- If found, we update the position of our lone game object using ```this.setState()```.
 
 ### Where is the Draw Function?
 
@@ -127,7 +127,36 @@ All we've done here is hookup a timer to a function that fires every **~16ms**, 
 
 ## Building Complex scenes with Component-Entity-Systems
 
+Typically, game developers have used OOP to implement complex game objects and scenes. Each game object is instantiated from a class, and polymorphism allows code re-use and behaviors to be extended through inheritance. As class hierarchies grow, it becomes increasingly difficult to create new types of game entities without duplicating code or seriously re-thinking the entire class hierarchy.
 
+```
+               [GameEntity]
+                    |
+                    |
+                [Vehicle]
+               /    |    \
+              /     |     \
+             /      |      \
+            /       |       \ 
+   [Terrestrial] [Marine] [Airborne]
+           |        |        |
+           |        |        |
+         [Tank]   [Boat]   [Jet]
+```
+> How do we insert a new terrestrial and marine-based vehicle - say a Hovercraft - into the class hierarchy?
+
+One way to address these problems is to favor composition over inheritance. With this approach, we break out the attributes and behaviours of our various game entities into decoupled, encapsulated and atomic components. This allows us to be really imaginative with the sorts of game entities we create because we can easily compose them with components from disparate domains and concerns.
+
+```
+[Tank]               [Boat]                [Hovercraft]
+   |                    |                       | 
+   |--[@Position]       |-- [@Position]         |-- [@Position]
+   |                    |                       |
+   |-- [@LandSpeed]     |-- [@Lift]             |-- [@Lift] 
+                                                |
+                                                |-- 
+ 
+```
 
 Now let's try a cooler example:
 
