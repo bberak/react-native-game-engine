@@ -25,7 +25,7 @@ Some React Native ⚡ components that make it easier to construct interactive sc
 
 ## The Game Loop
 
-The game loop 🔁 is a common pattern in game development and other interactive programs. It loosely consists of two main functions that get called over and over again: ```update``` and ```draw```. 
+The game loop is a common pattern in game development and other interactive programs. It loosely consists of two main functions that get called over and over again: ```update``` and ```draw```. 
 
 The ```update``` function is responsible for calculating the next state of your game. It updates all of your game objects, taking into consideration physics, ai, movement, input, health/fire/damage etc. We can consider this the *logic* of your game.
 
@@ -114,7 +114,7 @@ AppRegistry.registerComponent("BestGameEver", () => BestGameEver);
 
 ### Behind the Scenes
 
-- The ```BasicGameLoop``` starts a timer ⏰ using ```requestAnimationFrame(fn)```. Effectively, this is our game loop.
+- The ```BasicGameLoop``` starts a timer using ```requestAnimationFrame(fn)```. Effectively, this is our game loop.
 - Each iteration through the loop, the ```BasicGameLoop``` will call the function passed in via ```props.onUpdate```.
 - Our ```updateHandler``` looks for any ```move``` touches that were made between now and the last time through the loop.
 - If found, we update the position of our lone game object using ```this.setState()```.
@@ -147,28 +147,43 @@ Typically, game developers have used OOP to implement complex game objects and s
 
 One way to address these problems is to favor composition over inheritance. With this approach, we break out the attributes and behaviours of our various game entities into decoupled, encapsulated and atomic components. This allows us to be really imaginative with the sorts of game entities we create because we can easily compose them with components from disparate domains and concerns.
 
-```
-[Tank]               [Boat]                [Hovercraft]
-   |                    |                       | 
-   |--[@Position]       |-- [@Position]         |-- [@Position]
-   |                    |                       |
-   |-- [@LandSpeed]     |-- [@Lift]             |-- [@Lift] 
-                                                |
-                                                |-- 
- 
-```
+Component entity systems are one way to organize your game entities in a composable manner. To start with, we take the common attributes (data) of our game entities and move them into siloed components. These don't have to be concrete classes, simple hash maps (or equivalent) and scalars will do - but this depends on the data you're storing.
 
-Now let's try a cooler example:
+- Position: { x: 0, y: 0 }
+- Velocity: { x: 0, y: 0 }
+- Acceleration: { x: 0, y: 0 }
+- Mass: 1.0
+- Health: 100
+- Physics: Body b
+- Controls: { jump: 'w', left: 'a', crouch: 's', right: 'd' }
 
-```
-```
+> Examples of different types of components in a hypothetical programming language.
 
-Some great CES resources:
+Your game entities will be reduced to lists/arrays of components and labeled with a unique identifier. An entity's components are by no means static - you're free to update components and even add or remove them on the fly. If our favourite Italian plumber ingests a mushroom, we simple double his velocity. If our character turns into a ghost - we remove his physics component and let him walk through walls.
+
+- Player#1:   [Position, Velocity, Health, Sprite, Physics, Controls]
+- Enemy#1:    [Position, Velocity, Health, Sprite, Physics, AI]
+- Platform#1: [Position, Sprite, Physics]
+- Platform#2: [Position, Sprite, Physics, Velocity] <-- Moving platorm!
+
+> All entities are assigned a unique id.
+
+Since our entities are simple data holders now, we must move all our game logic into our systems. At its core, a system is a function that processes related groups of components. The system will extract entities that contain the necessary components it requires to run, update those entities as necessary, and wait for the next cycle. For example, we could code a "Gravity" component that calculates the force of gravity and applies it to all entities that have an acceleration AND velocity AND mass component. Entities that do not contain these components will not be affected by gravity.
+
+- Gravity  (Acceleration, Velocity, Mass)
+- Render   (Sprite, Position)
+- Movement (Position, Velocity, Controls)
+- Damage   (Health)
+- Bot      (Position, Velocity, AI)
+
+> The logic in a system is inherently reusable because it can be applied to all entities that meet the system's criteria.
+
+How exactly you choose to define your components, entities and systems is up to you. You'll probably find that coming up with well-defined components and systems will take some practice - but the general pattern is conducive to refactoring and the long term benefits will outweight the costs (learning curve).
+
+### Great CES Reading Material
 
 - [Gamedev.net article](https://www.gamedev.net/articles/programming/general-and-gameplay-programming/understanding-component-entity-systems-r3013/)
 - [Intro to Entity Systems](https://github.com/junkdog/artemis-odb/wiki/Introduction-to-Entity-Systems)
-
-## Upcoming Improvements
 
 ## Awesome Packages for Game Development
 
