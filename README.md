@@ -149,32 +149,32 @@ One way to address these problems is to favor composition over inheritance. With
 
 Component entity systems are one way to organize your game entities in a composable manner. To start with, we take the common attributes (data) of our game entities and move them into siloed components. These don't have to be concrete classes, simple hash maps (or equivalent) and scalars will do - but this depends on the data you're storing.
 
-- Position: { x: 0, y: 0 }
-- Velocity: { x: 0, y: 0 }
-- Acceleration: { x: 0, y: 0 }
-- Mass: 1.0
-- Health: 100
-- Physics: Body b
-- Controls: { jump: 'w', left: 'a', crouch: 's', right: 'd' }
+- ***Position:**     { x: 0, y: 0 }*
+- ***Velocity:**     { x: 0, y: 0 }*
+- ***Acceleration:** { x: 0, y: 0 }*
+- ***Mass:**         1.0*
+- ***Health:**       100*
+- ***Physics:**      Body b*
+- ***Controls:**     { jump: 'w', left: 'a', crouch: 's', right: 'd' }*
 
 > Examples of different types of components in a hypothetical programming language.
 
 Your game entities will be reduced to lists/arrays of components and labeled with a unique identifier. An entity's components are by no means static - you're free to update components and even add or remove them on the fly. If our favourite Italian plumber ingests a mushroom, we simple double his velocity. If our character turns into a ghost - we remove his physics component and let him walk through walls.
 
-- Player#1:   [Position, Velocity, Health, Sprite, Physics, Controls]
-- Enemy#1:    [Position, Velocity, Health, Sprite, Physics, AI]
-- Platform#1: [Position, Sprite, Physics]
-- Platform#2: [Position, Sprite, Physics, Velocity] <-- Moving platorm!
+- ***Player#1:**   [Position, Velocity, Health, Sprite, Physics, Controls]*
+- ***Enemy#1:**    [Position, Velocity, Health, Sprite, Physics, AI]*
+- ***Platform#1:** [Position, Sprite, Physics]*
+- ***Platform#2:** [Position, Sprite, Physics, Velocity] // <-- Moving platorm!*
 
 > All entities are assigned a unique id.
 
-Since our entities are simple data holders now, we must move all our game logic into our systems. At its core, a system is a function that processes related groups of components. The system will extract entities that contain the necessary components it requires to run, update those entities as necessary, and wait for the next cycle. For example, we could code a "Gravity" component that calculates the force of gravity and applies it to all entities that have an acceleration AND velocity AND mass component. Entities that do not contain these components will not be affected by gravity.
+Since our entities are simple data holders now, we must move all our game logic into our systems. At its core, a system is a function that processes related groups of components and is called on each iteration of the game loop. The system will extract entities that contain the necessary components it requires to run, update those entities as necessary, and wait for the next cycle. For example, we could code a "Gravity" component that calculates the force of gravity and applies it to all entities that have an acceleration AND velocity AND mass component. Entities that do not contain these components will not be affected by gravity.
 
-- Gravity  (Acceleration, Velocity, Mass)
-- Render   (Sprite, Position)
-- Movement (Position, Velocity, Controls)
-- Damage   (Health)
-- Bot      (Position, Velocity, AI)
+- ***Gravity:**  (Acceleration, Velocity, Mass) => { // Update all matching entities // }*
+- ***Render:**   (Sprite, Position) => { }*
+- ***Movement:** (Position, Velocity, Controls) => { }*
+- ***Damage:**   (Health) => { }*
+- ***Bot:**      (Position, Velocity, AI) => { }*
 
 > The logic in a system is inherently reusable because it can be applied to all entities that meet the system's criteria.
 
