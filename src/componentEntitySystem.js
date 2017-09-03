@@ -14,7 +14,7 @@ export default class ComponentEntitySystem extends Component {
       props.initialEntities ||
       props.entities;
     this.timer = new Timer();
-    this.timer.subscribe(this.update);
+    this.timer.subscribe(this.updateHandler);
     this.touches = [];
     this.screen = Dimensions.get("window");
     this.previousTime = null;
@@ -141,7 +141,7 @@ export default class ComponentEntitySystem extends Component {
 
   componentWillUnmount() {
     this.timer.stop();
-    this.timer.unsubscribe(this.update);
+    this.timer.unsubscribe(this.updateHandler);
 
     this.touchStart.dispose();
     this.touchMove.dispose();
@@ -164,7 +164,23 @@ export default class ComponentEntitySystem extends Component {
     this.events.push({ type: "stopped" });
   };
 
-  update = currentTime => {
+  publish = e => {
+    this.events.push(e);
+  };
+
+  publishEvent = e => {
+    this.events.push(e);
+  };
+
+  dispatch = e => {
+    this.events.push(e);
+  };
+
+  dispatchEvent = e => {
+    this.events.push(e);
+  };
+
+  updateHandler = currentTime => {
     let args = {
       touches: this.touches,
       screen: this.screen,
@@ -189,45 +205,42 @@ export default class ComponentEntitySystem extends Component {
     this.setState(newState);
   };
 
-  publishEvent = e => {
-    this.events.push(e);
-  };
-
-  onPublishTouchStart = e => {
-    this.touchStart.onNext(e.nativeEvent);
-  };
-
-  onPublishTouchMove = e => {
-    this.touchMove.onNext(e.nativeEvent);
-  };
-
-  onPublishTouchEnd = e => {
-    this.touchEnd.onNext(e.nativeEvent);
-  };
-
-  onLayout = () => {
+  onLayoutHandler = () => {
     this.screen = Dimensions.get("window");
     this.forceUpdate();
   };
 
+  onTouchStartHandler = e => {
+    this.touchStart.onNext(e.nativeEvent);
+  };
+
+  onTouchMoveHandler = e => {
+    this.touchMove.onNext(e.nativeEvent);
+  };
+
+  onTouchEndHandler = e => {
+    this.touchEnd.onNext(e.nativeEvent);
+  };
+
   render() {
     return (
-      <View style={[css.container, this.props.style]} onLayout={this.onLayout}>
+      <View style={[css.container, this.props.style]} onLayout={this.onLayoutHandler}>
 
         <View
           style={css.entityContainer}
-          onTouchStart={this.onPublishTouchStart}
-          onTouchMove={this.onPublishTouchMove}
-          onTouchEnd={this.onPublishTouchEnd}
+          onTouchStart={this.onTouchStartHandler}
+          onTouchMove={this.onTouchMoveHandler}
+          onTouchEnd={this.onTouchEndHandler}
         >
           {Object.keys(this.state)
-            .filter(key => this.state[key].renderable)
+            .filter(key => this.state[key].renderable || this.state[key].renderer)
             .map(key => {
               let entity = this.state[key];
-              if (typeof entity.renderable === "object")
-                return <entity.renderable.type key={key} {...entity} />;
-              else if (typeof entity.renderable === "function")
-                return <entity.renderable key={key} {...entity} />;
+              let renderer = entity.renderable || entity.renderer
+              if (typeof renderer === "object")
+                return <renderer.type key={key} {...entity} />;
+              else if (typeof renderer === "function")
+                return <renderer key={key} {...entity} />;
             })}
         </View>
 

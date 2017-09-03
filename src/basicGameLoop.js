@@ -8,7 +8,7 @@ export default class BasicGameLoop extends Component {
     super(props);
 
     this.timer = new Timer();
-    this.timer.subscribe(this.update);
+    this.timer.subscribe(this.updateHandler);
     this.touches = [];
     this.screen = Dimensions.get("window");
     this.previousTime = null;
@@ -128,7 +128,7 @@ export default class BasicGameLoop extends Component {
 
   componentWillUnmount() {
     this.timer.stop();
-    this.timer.unsubscribe(this.update);
+    this.timer.unsubscribe(this.updateHandler);
 
     this.touchStart.dispose();
     this.touchMove.dispose();
@@ -149,7 +149,7 @@ export default class BasicGameLoop extends Component {
     this.timer.stop();
   };
 
-  update = currentTime => {
+  updateHandler = currentTime => {
     let args = {
       touches: this.touches,
       screen: this.screen,
@@ -168,31 +168,31 @@ export default class BasicGameLoop extends Component {
     this.previousDelta = args.time.delta;
   };
 
-  onPublishTouchStart = e => {
+  onLayoutHandler = () => {
+    this.screen = Dimensions.get("window");
+    this.forceUpdate();
+  };
+
+  onTouchStartHandler = e => {
     this.touchStart.onNext(e.nativeEvent);
   };
 
-  onPublishTouchMove = e => {
+  onTouchMoveHandler = e => {
     this.touchMove.onNext(e.nativeEvent);
   };
 
-  onPublishTouchEnd = e => {
+  onTouchEndHandler = e => {
     this.touchEnd.onNext(e.nativeEvent);
-  };
-
-  onLayout = () => {
-    this.screen = Dimensions.get("window");
-    this.forceUpdate();
   };
 
   render() {
     return (
       <View
         style={[css.container, this.props.style]}
-        onLayout={this.onLayout}
-        onTouchStart={this.onPublishTouchStart}
-        onTouchMove={this.onPublishTouchMove}
-        onTouchEnd={this.onPublishTouchEnd}
+        onLayout={this.onLayoutHandler}
+        onTouchStart={this.onTouchStartHandler}
+        onTouchMove={this.onTouchMoveHandler}
+        onTouchEnd={this.onTouchEndHandler}
       >
         {this.props.children}
       </View>

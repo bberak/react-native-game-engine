@@ -26,15 +26,72 @@ Then import the GameEngine component:
 
 ```import { GameEngine } from "react-native-game-engine"```
 
-Let's code a scene that incorporates some mult-touch logic. Add this into your ```index.ios.js``` (or ```index.android.js```):
+Let's code a scene that incorporates some mult-touch logic. Create a file called ```renderers.js```
 
 ```javascript
 import React, { PureComponent } from "react";
-import { AppRegistry, StyleSheet, Dimensions, View } from "react-native";
-import { GameEngine } from "react-native-game-engine";
+import { StyleSheet, View } from "react-native";
 
-const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
-const RADIUS = 25;
+const RADIUS = 50;
+
+class Finger extends PureComponent {
+  render() {
+    const x = this.props.position[0] - RADIUS / 2;
+    const y = this.props.position[1] - RADIUS / 2;
+    return (
+      <View style={[styles.finger, { left: x, top: y }]} />
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  finger: {
+    borderColor: "#CCC",
+    borderWidth: 4,
+    borderRadius: RADIUS * 2,
+    width: RADIUS * 2,
+    height: RADIUS * 2,
+    backgroundColor: "pink",
+    position: "absolute"
+  }
+});
+
+export { Finger };
+```
+
+Next, let's code our systems in a file called ```systems.js```
+
+```javascript
+const MoveFinger = (entities, { touches }) => {
+
+  //-- I'm choosing to update the game state (entities) directly for the sake of brevity and simplicity.
+  //-- There's nothing stopping you from treating the game state as immutable and returning a copy..
+  //-- Example: return { ...entities, t.id: { UPDATED COMPONENTS }};
+
+  touches.filter(t => t.type === "move").forEach(t => {
+    let finger = entities[t.id];
+    if (finger && finger.position) {
+      finger.position = [
+        finger.position[0] + t.delta.pageX,
+        finger.position[1] + t.delta.pageY
+      ];
+    }
+  });
+
+  return entities;
+};
+
+export { MoveFinger };
+```
+
+Finally let's bring it all together in our ```index.ios.js``` (or ```index.android.js```):
+
+```javascript
+import React, { PureComponent } from "react";
+import { AppRegistry, StyleSheet } from "react-native";
+import { GameEngine } from "react-native-game-engine";
+import { Finger } from "./renderers";
+import { MoveFinger } from "./systems"
 
 export default class BestGameEver extends PureComponent {
   constructor() {
@@ -43,9 +100,16 @@ export default class BestGameEver extends PureComponent {
 
   render() {
     return (
-      <GameEngine style={styles.container}>
-
-        <!-- INCOMPLETE -->
+      <GameEngine 
+        style={styles.container} 
+        systems={[MoveFinger]}
+        entities={{ 
+          1: { position: [50, 50],   renderer: <Finger />}, 
+          2: { position: [150, 150], renderer: <Finger />}, 
+          3: { position: [250, 250], renderer: <Finger />}, 
+          4: { position: [350, 450], renderer: <Finger />}, 
+          5: { position: [450, 550], renderer: <Finger />}
+        }}>
 
       </GameEngine>
     );
@@ -56,18 +120,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFF"
-  },
-  player: {
-    position: "absolute",
-    backgroundColor: "pink",
-    width: RADIUS * 2,
-    height: RADIUS * 2,
-    borderRadius: RADIUS * 2
   }
 });
 
 AppRegistry.registerComponent("BestGameEver", () => BestGameEver);
 ```
+
+Compile and run. Each entity is a "finger" and is assigned to a particular touch id. The touch ids increase as you place more fingers on the screen. Move your fingers around the screen to move the entities. As an exercise, try add a system that will insert another finger entity into the game state when a "start" touch event is encountered. What about adding a system that removes the closest entity from the game state when a "long-press" is encountered?
 
 ## FAQ
 
@@ -192,7 +251,7 @@ Nice observation! Indeed, there is none. The logic of our scene is processed in 
 
 All we've done here is hookup a timer to a function that fires every **~16ms**, and used ```this.setState()``` to force React Native to diff the changes in our scene and send them across the bridge to the host device. ```React Native Game Engine``` only takes care of the game timing and input processing for us.
 
-## Managing Complexity with Component Entity System
+## Managing Complexity with Component Entity Systems
 
 Typically, game developers have used OOP to implement complex game objects and scenes. Each game object is instantiated from a class, and polymorphism allows code re-use and behaviors to be extended through inheritance. As class hierarchies grow, it becomes increasingly difficult to create new types of game entities without duplicating code or seriously re-thinking the entire class hierarchy.
 
