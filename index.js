@@ -1,11 +1,11 @@
-import ComponentEntitySystem from "./src/componentEntitySystem";
-import BasicGameLoop from "./src/basicGameLoop";
+import GameLoop from "./src/gameLoop";
+import GameEngine from "./src/gameEngine";
 
 export {
-	ComponentEntitySystem,
-	ComponentEntitySystem as ComponentEntitySystems,
-	ComponentEntitySystem as GameEngine,
-	BasicGameLoop,
-	BasicGameLoop as GameLoop
+	GameLoop,
+	GameLoop as BasicGameLoop,
+	GameEngine,
+	GameEngine as ComponentEntitySystem,
+	GameEngine as ComponentEntitySystems
 };
 
