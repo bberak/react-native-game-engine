@@ -6,12 +6,68 @@ Some React Native ⚡ components that make it easier to construct interactive sc
 
 - [Quick Start](#quick-start)
 - [FAQ](#faq)
-- [Using the BasicGameLoop Component](#using-the-basicgameloop-component)
+- [Introduction](#introduction)
+- [The Game Loop](#the-game-loop)
+- [The Game Loop vs React Native](#the-game-loop-vs-react-native)
+- [Using the GameLoop Component](#using-the-gameloop-component)
   - [Behind the Scenes](#behind-the-scenes)
   - [Where is the Draw Function?](#where-is-the-draw-function?)
-- [Package for Game Development](#packages-for-game-development)
+- [Building Complex scenes with the Component Entity Systems Pattern](#building-complex-scenes-with-the-component-entity-systems pattern)
+  - [Additional CES Reading Material](#additional-ces-reading-material)
+- [Awesome Packages for Game Development](#awesome-packages-for-game-development)
 
 ## Quick Start
+
+Firstly, install the package to your project: 
+
+```npm install --save react-native-game-engine```
+
+Then import the GameEngine component: 
+
+```import { GameEngine } from "react-native-game-engine"```
+
+Let's code a scene that incorporates some mult-touch logic. Add this into your ```index.ios.js``` (or ```index.android.js```):
+
+```javascript
+import React, { PureComponent } from "react";
+import { AppRegistry, StyleSheet, Dimensions, View } from "react-native";
+import { GameEngine } from "react-native-game-engine";
+
+const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
+const RADIUS = 25;
+
+export default class BestGameEver extends PureComponent {
+  constructor() {
+    super();
+  }
+
+  render() {
+    return (
+      <GameEngine style={styles.container}>
+
+        <View style={[styles.player, { left: this.state.x, top: this.state.y }]} />
+
+      </GameEngine>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFF"
+  },
+  player: {
+    position: "absolute",
+    backgroundColor: "pink",
+    width: RADIUS * 2,
+    height: RADIUS * 2,
+    borderRadius: RADIUS * 2
+  }
+});
+
+AppRegistry.registerComponent("BestGameEver", () => BestGameEver);
+```
 
 ## FAQ
 
@@ -22,6 +78,17 @@ Some React Native ⚡ components that make it easier to construct interactive sc
 - The ```React Native Game Engine``` doesn't give me sensor data out of the box - what gives?
 - Is this compatible with Android and iOS?
 - Won't this kind of be harsh on the old battery?
+
+## Introduction
+
+This package contains only two components: 
+
+- ```GameLoop```
+- ```GameEngine```
+
+Both are standalone components. The ```GameLoop``` is a subset of the ```GameEngine``` and gives you access to an ```onUpdate``` callback that fires every **16ms** (or roughly 60 fps). On top of this, the ```GameLoop``` will supply a reference to the screen (via ```Dimensions.get("window"))```, touch events for multiple fingers (start, end, press, long-press, move) and time + deltas. The ```GameLoop``` is useful for simple interactive scenes, and pretty much stays out of your way.
+
+The ```GameEngine``` is more opinionated and is a react-friendly implementation of the [Component-Entity-Systems pattern](#building-complex-scenes-with-the-component-entity-systems pattern). It provides the same features out of the box as the ```GameEngine``` but also includes a crude event/signalling pipeline for communcation between your game and your other React Native components. You probably want to use the ```GameEngine``` to implement slightly more complex games and interactive scenes.
 
 ## The Game Loop
 
@@ -45,22 +112,22 @@ This works perfectly fine (and is even ideal) for a business-oriented app - but 
 
 That said, React Native and game loops are not mutually exclusive, and we can use ```React Native Game Engine``` to bridge the two paradigms.
 
-## Using the BasicGameLoop Component
+## Using the GameLoop Component
 
 Firstly, install the package to your project: 
 
 ```npm install --save react-native-game-engine```
 
-Then import the BasicGameLoop component: 
+Then import the GameLoop component: 
 
-```import { BasicGameLoop } from "react-native-game-engine"```
+```import { GameLoop } from "react-native-game-engine"```
 
 Let's code a basic scene with a single moveable game object. Add this into your ```index.ios.js``` (or ```index.android.js```):
 
-```
+```javascript
 import React, { PureComponent } from "react";
 import { AppRegistry, StyleSheet, Dimensions, View } from "react-native";
-import { BasicGameLoop } from "react-native-game-engine";
+import { GameLoop } from "react-native-game-engine";
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 const RADIUS = 25;
@@ -86,11 +153,11 @@ export default class BestGameEver extends PureComponent {
 
   render() {
     return (
-      <BasicGameLoop style={styles.container} onUpdate={this.updateHandler}>
+      <GameLoop style={styles.container} onUpdate={this.updateHandler}>
 
         <View style={[styles.player, { left: this.state.x, top: this.state.y }]} />
 
-      </BasicGameLoop>
+      </GameLoop>
     );
   }
 }
@@ -125,7 +192,7 @@ Nice observation! Indeed, there is none. The logic of our scene is processed in 
 
 All we've done here is hookup a timer to a function that fires every **~16ms**, and used ```this.setState()``` to force React Native to diff the changes in our scene and send them across the bridge to the host device. ```React Native Game Engine``` only takes care of the game timing and input processing for us.
 
-## Building Complex scenes with Component-Entity-Systems
+## Building Complex scenes with the Component Entity Systems Pattern
 
 Typically, game developers have used OOP to implement complex game objects and scenes. Each game object is instantiated from a class, and polymorphism allows code re-use and behaviors to be extended through inheritance. As class hierarchies grow, it becomes increasingly difficult to create new types of game entities without duplicating code or seriously re-thinking the entire class hierarchy.
 
@@ -180,7 +247,7 @@ Since our entities are simple data holders now, we must move all our game logic 
 
 How exactly you choose to define your components, entities and systems is up to you. You'll probably find that coming up with well-defined components and systems will take some practice - but the general pattern is conducive to refactoring and the long term benefits will outweight the costs (learning curve).
 
-### Great CES Reading Material
+### Additional CES Reading Material
 
 - [Gamedev.net article](https://www.gamedev.net/articles/programming/general-and-gameplay-programming/understanding-component-entity-systems-r3013/)
 - [Intro to Entity Systems](https://github.com/junkdog/artemis-odb/wiki/Introduction-to-Entity-Systems)

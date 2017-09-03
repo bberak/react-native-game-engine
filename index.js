@@ -3,6 +3,9 @@ import BasicGameLoop from "./src/basicGameLoop";
 
 export {
 	ComponentEntitySystem,
-	BasicGameLoop
+	ComponentEntitySystem as ComponentEntitySystems,
+	ComponentEntitySystem as GameEngine,
+	BasicGameLoop,
+	BasicGameLoop as GameLoop
 };
 
