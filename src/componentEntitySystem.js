@@ -233,14 +233,13 @@ export default class ComponentEntitySystem extends Component {
           onTouchEnd={this.onTouchEndHandler}
         >
           {Object.keys(this.state)
-            .filter(key => this.state[key].renderable || this.state[key].renderer)
+            .filter(key => this.state[key].renderer)
             .map(key => {
               let entity = this.state[key];
-              let renderer = entity.renderable || entity.renderer
-              if (typeof renderer === "object")
-                return <renderer.type key={key} {...entity} />;
-              else if (typeof renderer === "function")
-                return <renderer key={key} {...entity} />;
+              if (typeof entity.renderer === "object")
+                return <entity.renderer.type key={key} {...entity} />;
+              else if (typeof entity.renderer === "function")
+                return <entity.renderer key={key} {...entity} />;
             })}
         </View>
 
