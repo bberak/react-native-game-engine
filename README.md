@@ -12,7 +12,7 @@ Some React Native ⚡ components that make it easier to construct interactive sc
 - [Using the GameLoop Component](#using-the-gameloop-component)
   - [Behind the Scenes](#behind-the-scenes)
   - [Where is the Draw Function?](#where-is-the-draw-function?)
-- [Building Complex scenes with the Component Entity Systems Pattern](#building-complex-scenes-with-the-component-entity-systems pattern)
+- [Managing Complexity with Component Entity Systems](#managing-complexity-with-component-entity-systems)
   - [Additional CES Reading Material](#additional-ces-reading-material)
 - [Awesome Packages for Game Development](#awesome-packages-for-game-development)
 
@@ -45,7 +45,7 @@ export default class BestGameEver extends PureComponent {
     return (
       <GameEngine style={styles.container}>
 
-        <View style={[styles.player, { left: this.state.x, top: this.state.y }]} />
+        <!-- INCOMPLETE -->
 
       </GameEngine>
     );
@@ -192,7 +192,7 @@ Nice observation! Indeed, there is none. The logic of our scene is processed in 
 
 All we've done here is hookup a timer to a function that fires every **~16ms**, and used ```this.setState()``` to force React Native to diff the changes in our scene and send them across the bridge to the host device. ```React Native Game Engine``` only takes care of the game timing and input processing for us.
 
-## Building Complex scenes with the Component Entity Systems Pattern
+## Managing Complexity with Component Entity System
 
 Typically, game developers have used OOP to implement complex game objects and scenes. Each game object is instantiated from a class, and polymorphism allows code re-use and behaviors to be extended through inheritance. As class hierarchies grow, it becomes increasingly difficult to create new types of game entities without duplicating code or seriously re-thinking the entire class hierarchy.
 
