@@ -258,7 +258,7 @@ export default class GameEngine extends Component {
   }
 }
 
-ComponentEntitySystem.defaultProps = { systems: [], entities: {} };
+GameEngine.defaultProps = { systems: [], entities: {} };
 
 const css = StyleSheet.create({
   container: {
