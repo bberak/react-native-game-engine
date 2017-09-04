@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import Timer from "./timer";
+import Timer from "./Timer";
 import Rx from "rx";
 
-export default class ComponentEntitySystem extends Component {
+export default class GameEngine extends Component {
   constructor(props) {
     super(props);
     this.state =

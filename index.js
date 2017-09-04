@@ -1,5 +1,5 @@
-import GameLoop from "./src/gameLoop";
-import GameEngine from "./src/gameEngine";
+import GameLoop from "./src/GameLoop";
+import GameEngine from "./src/GameEngine";
 
 export {
 	GameLoop,
