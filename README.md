@@ -11,7 +11,7 @@ Some React Native ⚡ components that make it easier to construct interactive sc
 - [The Game Loop vs React Native](#the-game-loop-vs-react-native)
 - [Using the GameLoop Component](#using-the-gameloop-component)
   - [Behind the Scenes](#behind-the-scenes)
-  - [Where is the Draw Function?](#where-is-the-draw-function?)
+  - [Where is the Draw Function?](#where-is-the-draw-function)
 - [Managing Complexity with Component Entity Systems](#managing-complexity-with-component-entity-systems)
   - [Additional CES Reading Material](#additional-ces-reading-material)
 - [Awesome Packages for Game Development](#awesome-packages-for-game-development)
@@ -273,7 +273,7 @@ AppRegistry.registerComponent("BestGameEver", () => BestGameEver);
 - Our ```updateHandler``` looks for any ```move``` touches that were made between now and the last time through the loop.
 - If found, we update the position of our lone game object using ```this.setState()```.
 
-### Where is the Draw Function?
+### Where is the Draw Function
 
 Nice observation! Indeed, there is none. The logic of our scene is processed in the ```updateHandler``` function, and our drawing is handled by our component's out-of-the-box ```render()``` function.
 
