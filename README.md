@@ -1,6 +1,6 @@
 # React Native Game Engine &middot; [![npm version](https://badge.fury.io/js/react-native-game-engine.svg)](https://badge.fury.io/js/react-native-game-engine)
 
-Some React Native ⚡ components that make it easier to construct interactive scenes using the familiar ```update``` + ```draw``` lifecycle used in the development of many games ✨
+Some React Native ⚡ components that make it easier to construct interactive scenes using the familiar ```update``` + ```draw``` lifecycle used in the development of many games 🕹✨🎮
 
 ## Table of Contents 📗
 
@@ -24,15 +24,17 @@ Firstly, install the package to your project:
 
 Then import the GameEngine component: 
 
-```import { GameEngine } from "react-native-game-engine"```
+```javascript 
+import { GameEngine } from "react-native-game-engine"
+```
 
-Let's code a scene that incorporates some mult-touch logic. Create a file called ```renderers.js```
+Let's code a scene that incorporates some mult-touch logic. Create a file called ```renderers.js```:
 
 ```javascript
 import React, { PureComponent } from "react";
 import { StyleSheet, View } from "react-native";
 
-const RADIUS = 50;
+const RADIUS = 20;
 
 class Finger extends PureComponent {
   render() {
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
 export { Finger };
 ```
 
-Next, let's code our systems in a file called ```systems.js```
+Next, let's code our systems in a file called ```systems.js```:
 
 ```javascript
 const MoveFinger = (entities, { touches }) => {
@@ -88,7 +90,7 @@ Finally let's bring it all together in our ```index.ios.js``` (or ```index.andro
 
 ```javascript
 import React, { PureComponent } from "react";
-import { AppRegistry, StyleSheet } from "react-native";
+import { AppRegistry, StyleSheet, StatusBar } from "react-native";
 import { GameEngine } from "react-native-game-engine";
 import { Finger } from "./renderers";
 import { MoveFinger } from "./systems"
@@ -104,12 +106,14 @@ export default class BestGameEver extends PureComponent {
         style={styles.container} 
         systems={[MoveFinger]}
         entities={{ 
-          1: { position: [50, 50],   renderer: <Finger />}, 
-          2: { position: [150, 150], renderer: <Finger />}, 
-          3: { position: [250, 250], renderer: <Finger />}, 
-          4: { position: [350, 450], renderer: <Finger />}, 
-          5: { position: [450, 550], renderer: <Finger />}
+          1: { position: [40,  200], renderer: <Finger />}, 
+          2: { position: [100, 200], renderer: <Finger />}, 
+          3: { position: [160, 200], renderer: <Finger />}, 
+          4: { position: [220, 200], renderer: <Finger />}, 
+          5: { position: [280, 200], renderer: <Finger />}
         }}>
+
+        <StatusBar hidden={true} />
 
       </GameEngine>
     );
@@ -126,17 +130,39 @@ const styles = StyleSheet.create({
 AppRegistry.registerComponent("BestGameEver", () => BestGameEver);
 ```
 
-Compile and run. Each entity is a "finger" and is assigned to a particular touch id. The touch ids increase as you place more fingers on the screen. Move your fingers around the screen to move the entities. As an exercise, try add a system that will insert another finger entity into the game state when a "start" touch event is encountered. What about adding a system that removes the closest entity from the game state when a "long-press" is encountered?
+Compile and run. Each entity is a **"finger"** and is assigned to a particular touch id. The touch ids increase as you place more fingers on the screen. Move your fingers around the screen to move the entities. As an exercise, try add a system that will insert another finger entity into the game state when a **"start"** touch event is encountered. What about adding a system that removes the closest entity from the game state when a **"long-press"** is encountered?
+
+If you're curious, our ```GameEngine``` component is a loose implementation of the [Compenent-Entity-System](#managing-complexity-with-component-entity-systems) pattern - we've written up a quick intro [here](#managing-complexity-with-component-entity-systems).
 
 ## FAQ
 
-- Is React Native Game Engine suitable for production quality games?
-- Do you know of any apps that currently utilize this library?
-- How do I manage physics?
-- Do I have a choice of renderers?
-- The ```React Native Game Engine``` doesn't give me sensor data out of the box - what gives?
-- Is this compatible with Android and iOS?
-- Won't this kind of be harsh on the old battery?
+### Is React Native Game Engine suitable for production quality games?
+
+> This depends on your definition of production quality. You're not going to make a AAA rated title with RNGE. You could however create some more basic games (doesn't mean they can't be fun games), or even jazz up your existing business applications with some interactive eye candy.
+
+### Do you know of any apps that currently utilize this library?
+
+> Not to my knowledge. The RNGE Handbook app is currently in development. If you're aware of any others or wouldn't mind a shameless plug here - please reach out.
+
+### How do I manage physics?
+
+> RNGE does not come with an out-of-the-box physics engine. We felt that this would be an area where the game designers should be given greater liberty. There are lots of JS-based physics engines out there, each with their pros and cons. Check out [Matter JS](https://github.com/liabru/matter-js) if you're stuck.
+
+### Do I have a choice of renderers?
+
+> How you render your entities is up to you. You can use the stand React Native components (View, Image) or try [react-native-svg](https://github.com/react-native-community/react-native-svg) or go full exotic with [gl-react-native](https://github.com/gre/gl-react-native-v2).
+
+### RNGE doesn't give me sensor data out of the box - what gives?
+
+> I felt that this would be a nice-to-have and for most use cases it would not be required. Hence, I didn't want to burden RNGE users with any native linking or additional configuration. I was also weary about any uncessary performance and battery costs. Again, it is easy to integrate into the GameEngine and then RNGE Hanbook will have an example using [react-native-sensors](https://github.com/react-native-sensors/react-native-sensors).
+
+### Is this compatible with Android and iOS?
+
+> Yes.
+
+### Won't this kind of be harsh on the battery?
+
+> Well kinda.. But so will any game really! It's a bit of a trade-off, hopefully it's worthwhile!
 
 ## Introduction
 
@@ -179,7 +205,9 @@ Firstly, install the package to your project:
 
 Then import the GameLoop component: 
 
-```import { GameLoop } from "react-native-game-engine"```
+```javascript
+import { GameLoop } from "react-native-game-engine"
+```
 
 Let's code a basic scene with a single moveable game object. Add this into your ```index.ios.js``` (or ```index.android.js```):
 
