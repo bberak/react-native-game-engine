@@ -58,7 +58,7 @@ export default class GameLoop extends Component {
         .groupBy(e => e.identifier)
         .map(group => {
           return group.pairwise().map(([e1, e2]) => {
-            if (e1.type !== "end") {
+            if (e1.type !== "end" && e2.type === "move") {
               this.touches.push({
                 id: group.key,
                 type: "move",
@@ -127,7 +127,7 @@ export default class GameLoop extends Component {
   }
 
   componentWillUnmount() {
-    this.timer.stop();
+    this.stop();
     this.timer.unsubscribe(this.updateHandler);
 
     this.touchStart.dispose();
