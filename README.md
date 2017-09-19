@@ -1,9 +1,12 @@
-# React Native Game Engine &middot; [![npm version](https://badge.fury.io/js/react-native-game-engine.svg)](https://badge.fury.io/js/react-native-game-engine)
+<a href="https://github.com/bberak/react-native-game-engine"><p align="center"><img src='https://raw.githubusercontent.com/bberak/react-native-game-engine/master/logo.png?raw=true' alt="React Native Game Engine" height='120' /></p></a>
 
-Some React Native ⚡ components that make it easier to construct interactive scenes using the familiar ```update``` + ```draw``` lifecycle used in the development of many games 🕹✨🎮
+# React Native Game Engine &middot; [![npm version](https://badge.fury.io/js/react-native-game-engine.svg)](https://badge.fury.io/js/react-native-game-engine) [![mit license](https://img.shields.io/badge/license-MIT-50CB22.svg)](https://opensource.org/licenses/MIT)
+
+Some React Native components that make it easier to construct interactive scenes using the familiar ```update``` + ```draw``` lifecycle used in the development of many games 🕹⚡🎮
 
 ## Table of Contents 📗
 
+- [Handbook](#handbook)
 - [Quick Start](#quick-start)
 - [FAQ](#faq)
 - [Introduction](#introduction)
@@ -15,6 +18,10 @@ Some React Native ⚡ components that make it easier to construct interactive sc
 - [Managing Complexity with Component Entity Systems](#managing-complexity-with-component-entity-systems)
   - [Additional CES Reading Material](#additional-ces-reading-material)
 - [Awesome Packages for Game Development](#awesome-packages-for-game-development)
+
+## Handbook
+
+See the [React Native Game Engine Handbook]("https://github.com/bberak/react-native-game-engine-handbook") for a complimentary app, detailed examples and ideas.
 
 ## Quick Start
 
@@ -142,7 +149,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 
 ### Do you know of any apps that currently utilize this library?
 
-> Not to my knowledge. The RNGE Handbook app is currently in development. If you're aware of any others or wouldn't mind a shameless plug here - please reach out.
+> Not to my knowledge. The [React Native Game Engine Handbook]("https://github.com/bberak/react-native-game-engine-handbook") is a complimentary app that showcases some examples and ideas. If you're aware of any others or wouldn't mind a shameless plug here - please reach out.
 
 ### How do I manage physics?
 
