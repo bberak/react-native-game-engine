@@ -21,7 +21,7 @@ Some React Native components that make it easier to construct interactive scenes
 
 ## Handbook
 
-See the [React Native Game Engine Handbook]("https://github.com/bberak/react-native-game-engine-handbook") for a complimentary app, detailed examples and ideas.
+See the [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) for a complimentary app, detailed examples and ideas.
 
 ## Quick Start
 
@@ -149,7 +149,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 
 ### Do you know of any apps that currently utilize this library?
 
-> Not to my knowledge. The [React Native Game Engine Handbook]("https://github.com/bberak/react-native-game-engine-handbook") is a complimentary app that showcases some examples and ideas. If you're aware of any others or wouldn't mind a shameless plug here - please reach out.
+> Not to my knowledge. The [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) is a complimentary app that showcases some examples and ideas. If you're aware of any others or wouldn't mind a shameless plug here - please reach out.
 
 ### How do I manage physics?
 
