@@ -1,4 +1,6 @@
-<a href="https://github.com/bberak/react-native-game-engine"><p align="center"><img src='https://raw.githubusercontent.com/bberak/react-native-game-engine/master/logo.png?raw=true' alt="React Native Game Engine" height='120' /></p></a>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine/master/logo.png" alt="React Native Game Engine" height="120" />
+</p>
 
 # React Native Game Engine &middot; [![npm version](https://badge.fury.io/js/react-native-game-engine.svg)](https://badge.fury.io/js/react-native-game-engine) [![mit license](https://img.shields.io/badge/license-MIT-50CB22.svg)](https://opensource.org/licenses/MIT)
 
@@ -22,6 +24,12 @@ Some React Native components that make it easier to construct interactive scenes
 ## Handbook
 
 See the [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) for a complimentary app, detailed examples and ideas.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/single-touch.gif" height="400" />
+  <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/multi-touch.gif" height="400" />
+  <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/rigid-bodies.gif" height="400" />
+</p>
 
 ## Quick Start
 
