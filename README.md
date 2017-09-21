@@ -4,7 +4,7 @@
 
 # React Native Game Engine &middot; [![npm version](https://badge.fury.io/js/react-native-game-engine.svg)](https://badge.fury.io/js/react-native-game-engine) [![mit license](https://img.shields.io/badge/license-MIT-50CB22.svg)](https://opensource.org/licenses/MIT)
 
-Some React Native components that make it easier to construct interactive scenes using the familiar ```update``` + ```draw``` lifecycle used in the development of many games.
+Some components that make it easier to construct dynamic and interactive scenes using React Native.
 
 ## Table of Contents
 
