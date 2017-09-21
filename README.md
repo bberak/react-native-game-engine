@@ -23,7 +23,7 @@ Some React Native components that make it easier to construct interactive scenes
 
 ## Handbook
 
-See the [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) for a complimentary app, detailed examples and ideas.
+See the [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) for a complimentary app, examples and ideas.
 
 <a href="https://github.com/bberak/react-native-game-engine-handbook">
   <p align="center">
@@ -45,7 +45,7 @@ Then import the GameEngine component:
 import { GameEngine } from "react-native-game-engine"
 ```
 
-Let's code a scene that incorporates some mult-touch logic. Create a file called ```renderers.js```:
+Let's code a scene that incorporates some mult-touch logic. To start with, let's create some components that can be rendered by React. Create a file called ```renderers.js```:
 
 ```javascript
 import React, { PureComponent } from "react";
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 export { Finger };
 ```
 
-Next, let's code our systems in a file called ```systems.js```:
+Next, let's code our logic in a file called ```systems.js```:
 
 ```javascript
 const MoveFinger = (entities, { touches }) => {
@@ -86,6 +86,7 @@ const MoveFinger = (entities, { touches }) => {
   //-- I'm choosing to update the game state (entities) directly for the sake of brevity and simplicity.
   //-- There's nothing stopping you from treating the game state as immutable and returning a copy..
   //-- Example: return { ...entities, t.id: { UPDATED COMPONENTS }};
+  //-- That said, it's probably worth considering performance implications in either case.
 
   touches.filter(t => t.type === "move").forEach(t => {
     let finger = entities[t.id];
@@ -123,9 +124,9 @@ export default class BestGameEver extends PureComponent {
         style={styles.container} 
         systems={[MoveFinger]}
         entities={{ 
-          1: { position: [40,  200], renderer: <Finger />}, 
-          2: { position: [100, 200], renderer: <Finger />}, 
-          3: { position: [160, 200], renderer: <Finger />}, 
+          1: { position: [40,  200], renderer: <Finger />}, //-- Notice that each entity has a unique id (required)
+          2: { position: [100, 200], renderer: <Finger />}, //-- and a renderer property (optional). If no renderer
+          3: { position: [160, 200], renderer: <Finger />}, //-- is supplied with the entity - it won't get displayed.
           4: { position: [220, 200], renderer: <Finger />}, 
           5: { position: [280, 200], renderer: <Finger />}
         }}>
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
 AppRegistry.registerComponent("BestGameEver", () => BestGameEver);
 ```
 
-Compile and run. Each entity is a **"finger"** and is assigned to a particular touch id. The touch ids increase as you place more fingers on the screen. Move your fingers around the screen to move the entities. As an exercise, try add a system that will insert another finger entity into the game state when a **"start"** touch event is encountered. What about adding a system that removes the closest entity from the game state when a **"long-press"** is encountered?
+Build and run. Each entity is a **"finger"** and is assigned to a particular touch id. The touch ids increase as you place more fingers on the screen. Move your fingers around the screen to move the entities. As an exercise, try add a system that will insert another finger entity into the game state when a **"start"** touch event is encountered. What about adding a system that removes the closest entity from the game state when a **"long-press"** is encountered?
 
 If you're curious, our ```GameEngine``` component is a loose implementation of the [Compenent-Entity-System](#managing-complexity-with-component-entity-systems) pattern - we've written up a quick intro [here](#managing-complexity-with-component-entity-systems).
 
@@ -155,7 +156,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 
 ### Is React Native Game Engine suitable for production quality games?
 
-> This depends on your definition of production quality. You're not going to make a AAA rated title with RNGE. You could however create some more basic games (doesn't mean they can't be fun games), or even jazz up your existing business applications with some interactive eye candy.
+> This depends on your definition of production quality. You're not going to make a AAA title with RNGE. You could however create some more basic games (doesn't mean they can't be fun games), or even jazz up your existing business applications with some interactive eye candy.
 
 ### Do you know of any apps that currently utilize this library?
 
