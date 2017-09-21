@@ -20,18 +20,19 @@ Some React Native components that make it easier to construct interactive scenes
 - [Managing Complexity with Component Entity Systems](#managing-complexity-with-component-entity-systems)
   - [Additional CES Reading Material](#additional-ces-reading-material)
 - [Awesome Packages for Game Development](#awesome-packages-for-game-development)
+- [License](#license)
 
 ## Handbook
 
 See the [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) for a complimentary app, examples and ideas.
 
-<a href="https://github.com/bberak/react-native-game-engine-handbook">
-  <p align="center">
-    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/single-touch.gif" height="400" />
-    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/multi-touch.gif" height="400" />
-    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/rigid-bodies.gif" height="400" />
-  </p>
-</a>
+<p align="center">
+  <a href="https://github.com/bberak/react-native-game-engine-handbook">
+    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/single-touch.gif" alt="Single Touch Preview" height="400" />
+    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/multi-touch.gif" alt="Multi Touch Preview" height="400" />
+    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/rigid-bodies.gif" alt="Rigid Bodies Preview" height="400" />
+   </a> 
+</p>
 
 ## Quick Start
 
@@ -368,3 +369,33 @@ The following is a list of invaluable packages when it comes to coding interacti
 - [React Native SVG](https://github.com/react-native-community/react-native-svg)
 - [React Native Linear Gradient](https://github.com/react-native-community/react-native-linear-gradient)
 - [React Native Sensors](https://github.com/react-native-sensors/react-native-sensors)
+
+## License
+
+MIT License
+
+Copyright (c) 2017 Boris Berak
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+<p align="center">
+  <a href="https://neap.co/">
+    <img src="https://neap.co/img/neap_black_small_logo.png" alt="Neap Pty Ltd" title="Neap" height="50"/>
+  </a>
+</p>
