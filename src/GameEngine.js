@@ -46,8 +46,6 @@ export default class GameEngine extends Component {
         )
     );
 
-    this.hold = this.touchStart.flatMap(e => Rx.Observable.interval(16).)
-
     this.onTouchStart = new Rx.CompositeDisposable();
     this.onTouchStart.add(
       this.touchStart
