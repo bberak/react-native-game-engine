@@ -46,6 +46,8 @@ export default class GameEngine extends Component {
         )
     );
 
+    this.hold = this.touchStart.flatMap(e => Rx.Observable.interval(16).)
+
     this.onTouchStart = new Rx.CompositeDisposable();
     this.onTouchStart.add(
       this.touchStart
@@ -237,9 +239,9 @@ export default class GameEngine extends Component {
             .map(key => {
               let entity = this.state[key];
               if (typeof entity.renderer === "object")
-                return <entity.renderer.type key={key} {...entity} />;
+                return <entity.renderer.type key={key} {...entity} screen={this.screen} />;
               else if (typeof entity.renderer === "function")
-                return <entity.renderer key={key} {...entity} />;
+                return <entity.renderer key={key} {...entity} screen={this.screen} />;
             })}
         </View>
 
