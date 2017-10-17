@@ -224,23 +224,17 @@ export default class GameEngine extends Component {
 
   render() {
     return (
-      <View style={[css.container, this.props.style]} onLayout={this.onLayoutHandler}>
-
+      <View
+        style={[css.container, this.props.style]}
+        onLayout={this.onLayoutHandler}
+      >
         <View
           style={css.entityContainer}
           onTouchStart={this.onTouchStartHandler}
           onTouchMove={this.onTouchMoveHandler}
           onTouchEnd={this.onTouchEndHandler}
         >
-          {Object.keys(this.state)
-            .filter(key => this.state[key].renderer)
-            .map(key => {
-              let entity = this.state[key];
-              if (typeof entity.renderer === "object")
-                return <entity.renderer.type key={key} {...entity} screen={this.screen} />;
-              else if (typeof entity.renderer === "function")
-                return <entity.renderer key={key} {...entity} screen={this.screen} />;
-            })}
+          {this.props.renderer(this.state, this.screen)}
         </View>
 
         <View
@@ -252,13 +246,30 @@ export default class GameEngine extends Component {
         >
           {this.props.children}
         </View>
-
       </View>
     );
   }
 }
 
-GameEngine.defaultProps = { systems: [], entities: {} };
+const defaultRenderer = (state, screen) => {
+  return Object.keys(state)
+    .filter(key => state[key].renderer)
+    .map(key => {
+      let entity = state[key];
+      if (typeof entity.renderer === "object")
+        return (
+          <entity.renderer.type key={key} {...entity} screen={screen} />
+        );
+      else if (typeof entity.renderer === "function")
+        return <entity.renderer key={key} {...entity} screen={screen} />;
+    });
+};
+
+GameEngine.defaultProps = {
+  systems: [],
+  entities: {},
+  renderer: defaultRenderer
+};
 
 const css = StyleSheet.create({
   container: {
