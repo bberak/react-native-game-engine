@@ -251,7 +251,7 @@ export default class GameEngine extends Component {
   }
 }
 
-const defaultRenderer = (state, screen) => {
+const DefaultRenderer = (state, screen) => {
   return Object.keys(state)
     .filter(key => state[key].renderer)
     .map(key => {
@@ -268,7 +268,7 @@ const defaultRenderer = (state, screen) => {
 GameEngine.defaultProps = {
   systems: [],
   entities: {},
-  renderer: defaultRenderer
+  renderer: DefaultRenderer
 };
 
 const css = StyleSheet.create({
