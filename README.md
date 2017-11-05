@@ -218,6 +218,8 @@ That said, React Native and game loops are not mutually exclusive, and we can us
 
 ## Using the GameLoop Component
 
+**The ```GameLoop``` component is suitable for simple scenes and interactions only. For more complex scenes and games, please take a look at the ```GameEngine``` components and have a quick read through [Managing Complexity with Component Entity Systems](#managing-complexity-with-component-entity-systems)**
+
 Firstly, install the package to your project: 
 
 ```npm install --save react-native-game-engine```
