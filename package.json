@@ -1,6 +1,6 @@
 {
   "name": "react-native-game-engine",
-  "version": "0.6.8",
+  "version": "0.6.9",
   "description": "Some React Native components that make it easier to construct interactive scenes using the familiar update + draw lifecycle used in the development of many games ✨",
   "main": "index.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "rx": "^4.1.0"
   },
   "peerDependencies": {
-    "react": "16.0.0-alpha.12",
-    "react-native": "0.45.1"
+    "react": "*",
+    "react-native": "*"
   }
 }
