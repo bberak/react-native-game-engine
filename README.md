@@ -19,6 +19,7 @@ Some components that make it easier to construct dynamic and interactive scenes 
   - [Where is the Draw Function?](#where-is-the-draw-function)
 - [Managing Complexity with Component Entity Systems](#managing-complexity-with-component-entity-systems)
   - [Additional CES Reading Material](#additional-ces-reading-material)
+- [Using the GameEngine Component](#using-the-gameengine-component)
 - [Awesome Packages for Game Development](#awesome-packages-for-game-development)
 - [License](#license)
 
@@ -218,7 +219,7 @@ That said, React Native and game loops are not mutually exclusive, and we can us
 
 ## Using the GameLoop Component
 
-**The ```GameLoop``` component is suitable for simple scenes and interactions only. For more complex scenes and games, please take a look at the ```GameEngine``` components and have a quick read through [Managing Complexity with Component Entity Systems](#managing-complexity-with-component-entity-systems)**
+**The ```GameLoop``` component is suitable for simple scenes and interactions only. For more complex scenes and games, please take a look at the ```GameEngine``` component and have a quick read through [Managing Complexity with Component Entity Systems](#managing-complexity-with-component-entity-systems)**
 
 Firstly, install the package to your project: 
 
@@ -289,8 +290,8 @@ AppRegistry.registerComponent("BestGameEver", () => BestGameEver);
 
 ### Behind the Scenes
 
-- The ```BasicGameLoop``` starts a timer using ```requestAnimationFrame(fn)```. Effectively, this is our game loop.
-- Each iteration through the loop, the ```BasicGameLoop``` will call the function passed in via ```props.onUpdate```.
+- The ```GameLoop``` starts a timer using ```requestAnimationFrame(fn)```. Effectively, this is our game loop.
+- Each iteration through the loop, the ```GameLoop``` will call the function passed in via ```props.onUpdate```.
 - Our ```updateHandler``` looks for any ```move``` touches that were made between now and the last time through the loop.
 - If found, we update the position of our lone game object using ```this.setState()```.
 
@@ -353,12 +354,131 @@ Since our entities are simple data holders now, we must move all our game logic 
 
 > The logic in a system is inherently reusable because it can be applied to all entities that meet the system's criteria.
 
-How exactly you choose to define your components, entities and systems is up to you. You'll probably find that coming up with well-defined components and systems will take some practice - but the general pattern is conducive to refactoring and the long term benefits will outweight the costs (learning curve).
+How exactly you choose to define your components, entities and systems is up to you. You'll probably find that coming up with well-defined components and systems will take some practice - but the general pattern is conducive to refactoring and the long term benefits will outweight the learning curve.
 
 ### Additional CES Reading Material
 
 - [Gamedev.net article](https://www.gamedev.net/articles/programming/general-and-gameplay-programming/understanding-component-entity-systems-r3013/)
 - [Intro to Entity Systems](https://github.com/junkdog/artemis-odb/wiki/Introduction-to-Entity-Systems)
+
+## Using the GameEngine Component
+
+The ```GameEngine``` component is a loose implementation of a [Component-Entity-Systems architecture](#managing-complexity-with-component-entity-systems). It is a plain React component that allows us to pass in a map of entities (and their components) and an array of systems that will process the entities on each frame. In addition, the ```GameEngine``` will provide touch feedback, screen size and some other niceties to help us code our logic. 
+
+To begin with, install the package to your project: 
+
+```npm install --save react-native-game-engine```
+
+Then import the GameEngine component: 
+
+```javascript 
+import { GameEngine } from "react-native-game-engine"
+```
+
+Let's code a scene that incorporates some mult-touch logic. To start with, let's create some components that can be rendered by React. Create a file called ```renderers.js```:
+
+```javascript
+import React, { PureComponent } from "react";
+import { StyleSheet, View } from "react-native";
+
+const RADIUS = 20;
+
+class Finger extends PureComponent {
+  render() {
+    const x = this.props.position[0] - RADIUS / 2;
+    const y = this.props.position[1] - RADIUS / 2;
+    return (
+      <View style={[styles.finger, { left: x, top: y }]} />
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  finger: {
+    borderColor: "#CCC",
+    borderWidth: 4,
+    borderRadius: RADIUS * 2,
+    width: RADIUS * 2,
+    height: RADIUS * 2,
+    backgroundColor: "pink",
+    position: "absolute"
+  }
+});
+
+export { Finger };
+```
+
+Next, let's code our logic in a file called ```systems.js```:
+
+```javascript
+const MoveFinger = (entities, { touches }) => {
+
+  //-- I'm choosing to update the game state (entities) directly for the sake of brevity and simplicity.
+  //-- There's nothing stopping you from treating the game state as immutable and returning a copy..
+  //-- Example: return { ...entities, t.id: { UPDATED COMPONENTS }};
+  //-- That said, it's probably worth considering performance implications in either case.
+
+  touches.filter(t => t.type === "move").forEach(t => {
+    let finger = entities[t.id];
+    if (finger && finger.position) {
+      finger.position = [
+        finger.position[0] + t.delta.pageX,
+        finger.position[1] + t.delta.pageY
+      ];
+    }
+  });
+
+  return entities;
+};
+
+export { MoveFinger };
+```
+
+Finally let's bring it all together in our ```index.ios.js``` (or ```index.android.js```):
+
+```javascript
+import React, { PureComponent } from "react";
+import { AppRegistry, StyleSheet, StatusBar } from "react-native";
+import { GameEngine } from "react-native-game-engine";
+import { Finger } from "./renderers";
+import { MoveFinger } from "./systems"
+
+export default class BestGameEver extends PureComponent {
+  constructor() {
+    super();
+  }
+
+  render() {
+    return (
+      <GameEngine 
+        style={styles.container} 
+        systems={[MoveFinger]} //-- We can add as many systems as needed
+        entities={{ 
+          1: { position: [40,  200], renderer: <Finger />}, //-- Notice that each entity has a unique id (required)
+          2: { position: [100, 200], renderer: <Finger />}, //-- and a map of components. Each entity has an optional
+          3: { position: [160, 200], renderer: <Finger />}, //-- renderer component. If no renderer is supplied with the
+          4: { position: [220, 200], renderer: <Finger />}, //-- entity - it won't get displayed.
+          5: { position: [280, 200], renderer: <Finger />}
+        }}>
+
+        <StatusBar hidden={true} />
+
+      </GameEngine>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFF"
+  }
+});
+
+AppRegistry.registerComponent("BestGameEver", () => BestGameEver);
+```
+
+Build and run. Each entity is a **"finger"** and is assigned to a particular touch id. The touch ids increase as you place more fingers on the screen. Move your fingers around the screen to move the entities. As an exercise, try add a system that will insert another finger entity into the game state when a **"start"** touch event is encountered. What about adding a system that removes the closest entity from the game state when a **"long-press"** is encountered?
 
 ## Awesome Packages for Game Development
 
