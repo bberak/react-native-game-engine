@@ -360,6 +360,7 @@ How exactly you choose to define your components, entities and systems is up to 
 
 - [Gamedev.net article](https://www.gamedev.net/articles/programming/general-and-gameplay-programming/understanding-component-entity-systems-r3013/)
 - [Intro to Entity Systems](https://github.com/junkdog/artemis-odb/wiki/Introduction-to-Entity-Systems)
+- [Intro to CES from A-Frame](https://aframe.io/docs/0.7.0/introduction/entity-component-system.html)
 
 ## Using the GameEngine Component
 
@@ -491,6 +492,8 @@ The following is a list of invaluable packages when it comes to coding interacti
 - [React Native SVG](https://github.com/react-native-community/react-native-svg)
 - [React Native Linear Gradient](https://github.com/react-native-community/react-native-linear-gradient)
 - [React Native Sensors](https://github.com/react-native-sensors/react-native-sensors)
+- [React Native WebGL](https://github.com/react-community/react-native-webgl)
+- [GL React](https://github.com/gre/gl-react)
 
 ## License
 
