@@ -156,20 +156,20 @@ export default class GameEngine extends Component {
 
   start = () => {
     this.timer.start();
-    this.events.push({ type: "started" });
+    this.dispatch({ type: "started" });
   };
 
   stop = () => {
     this.timer.stop();
-    this.events.push({ type: "stopped" });
+    this.dispatch({ type: "stopped" });
   };
 
   publish = e => {
-    this.events.push(e);
+    this.dispatch(e);
   };
 
   publishEvent = e => {
-    this.events.push(e);
+    this.dispatch(e);
   };
 
   dispatch = e => {
@@ -177,7 +177,7 @@ export default class GameEngine extends Component {
   };
 
   dispatchEvent = e => {
-    this.events.push(e);
+    this.dispatch(e);
   };
 
   updateHandler = currentTime => {
