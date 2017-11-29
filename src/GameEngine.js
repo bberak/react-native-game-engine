@@ -167,8 +167,6 @@ export default class GameEngine extends Component {
   };
 
   dispatch = e => {
-    this.events.push(e);
-
     setTimeout(() => {
       this.events.push(e);
       if (this.props.onEvent) 
