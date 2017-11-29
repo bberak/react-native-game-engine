@@ -20,12 +20,6 @@ export default class GameEngine extends Component {
     this.previousTime = null;
     this.previousDelta = null;
     this.events = [];
-    let push = this.events.push;
-    this.events.push = e => {
-      let res = push.call(this.events, e);
-      if (this.props.onEvent) this.props.onEvent(e);
-      return res;
-    };
 
     this.touchStart = new Rx.Subject();
     this.touchMove = new Rx.Subject();
@@ -174,6 +168,12 @@ export default class GameEngine extends Component {
 
   dispatch = e => {
     this.events.push(e);
+
+    setTimeout(() => {
+      this.events.push(e);
+      if (this.props.onEvent) 
+        this.props.onEvent(e);
+    }, 0);
   };
 
   dispatchEvent = e => {
@@ -185,6 +185,7 @@ export default class GameEngine extends Component {
       touches: this.touches,
       screen: this.screen,
       events: this.events,
+      dispatch: this.dispatch,
       time: {
         current: currentTime,
         previous: this.previousTime,
