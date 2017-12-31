@@ -13,7 +13,7 @@ export default class GameLoop extends Component {
     this.screen = Dimensions.get("window");
     this.previousTime = null;
     this.previousDelta = null;
-    this.touchProcessor = props.touchProcessor(touches);
+    this.touchProcessor = props.touchProcessor(this.touches);
   }
 
   componentDidMount() {
