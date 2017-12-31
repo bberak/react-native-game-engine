@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import Timer from "./Timer";
-import Rx from "rx";
+import DefaultTouchProcessor from "./DefaultTouchProcessor";
 
 export default class GameLoop extends Component {
   constructor(props) {
@@ -13,113 +13,7 @@ export default class GameLoop extends Component {
     this.screen = Dimensions.get("window");
     this.previousTime = null;
     this.previousDelta = null;
-
-    this.touchStart = new Rx.Subject();
-    this.touchMove = new Rx.Subject();
-    this.touchEnd = new Rx.Subject();
-    this.touchPress = this.touchStart.flatMap(e =>
-      this.touchEnd
-        .first(x => x.identifier === e.identifier)
-        .timeout(200, Rx.Observable.empty())
-    );
-    this.longTouch = this.touchStart.flatMap(e =>
-      Rx.Observable
-        .return(e)
-        .delay(700)
-        .takeUntil(
-          this.touchMove
-            .merge(this.touchEnd)
-            .first(x => x.identifier === e.identifier)
-        )
-    );
-
-    this.onTouchStart = new Rx.CompositeDisposable();
-    this.onTouchStart.add(
-      this.touchStart
-        .groupBy(e => e.identifier)
-        .map(group => {
-          return group.map(e => {
-            this.touches.push({ id: group.key, type: "start", event: e });
-          });
-        })
-        .subscribe(group => {
-          this.onTouchStart.add(group.subscribe());
-        })
-    );
-
-    this.onTouchMove = new Rx.CompositeDisposable();
-    this.onTouchMove.add(
-      Rx.Observable
-        .merge(
-          this.touchStart.map(x => Object.assign(x, { type: "start" })),
-          this.touchMove.map(x => Object.assign(x, { type: "move" })),
-          this.touchEnd.map(x => Object.assign(x, { type: "end" }))
-        )
-        .groupBy(e => e.identifier)
-        .map(group => {
-          return group.pairwise().map(([e1, e2]) => {
-            if (e1.type !== "end" && e2.type === "move") {
-              this.touches.push({
-                id: group.key,
-                type: "move",
-                event: e2,
-                delta: {
-                  locationX: e2.locationX - e1.locationX,
-                  locationY: e2.locationY - e1.locationY,
-                  pageX: e2.pageX - e1.pageX,
-                  pageY: e2.pageY - e1.pageY,
-                  timestamp: e2.timestamp - e1.timestamp
-                }
-              });
-            }
-          });
-        })
-        .subscribe(group => {
-          this.onTouchMove.add(group.subscribe());
-        })
-    );
-
-    this.onTouchEnd = new Rx.CompositeDisposable();
-    this.onTouchEnd.add(
-      this.touchEnd
-        .groupBy(e => e.identifier)
-        .map(group => {
-          return group.map(e => {
-            this.touches.push({ id: group.key, type: "end", event: e });
-          });
-        })
-        .subscribe(group => {
-          this.onTouchEnd.add(group.subscribe());
-        })
-    );
-
-    this.onTouchPress = new Rx.CompositeDisposable();
-    this.onTouchPress.add(
-      this.touchPress
-        .groupBy(e => e.identifier)
-        .map(group => {
-          return group.map(e => {
-            this.touches.push({ id: group.key, type: "press", event: e });
-          });
-        })
-        .subscribe(group => {
-          this.onTouchPress.add(group.subscribe());
-        })
-    );
-
-    this.onLongTouch = new Rx.CompositeDisposable();
-    this.onLongTouch.add(
-      this.longTouch
-        .groupBy(e => e.identifier)
-        .map(group => {
-          return group.map(e => {
-            this.touches.push({ id: group.key, type: "long-press", event: e });
-          });
-        })
-        .subscribe(group => {
-          this.onLongTouch.add(group.subscribe());
-        })
-    );
+    this.touchProcessor = props.touchProcessor(touches);
   }
 
   componentDidMount() {
@@ -129,16 +23,7 @@ export default class GameLoop extends Component {
   componentWillUnmount() {
     this.stop();
     this.timer.unsubscribe(this.updateHandler);
-
-    this.touchStart.dispose();
-    this.touchMove.dispose();
-    this.touchEnd.dispose();
-
-    this.onTouchStart.dispose();
-    this.onTouchMove.dispose();
-    this.onTouchEnd.dispose();
-    this.onTouchPress.dispose();
-    this.onLongTouch.dispose();
+    this.touchProcessor.end();
   }
 
   start = () => {
@@ -174,15 +59,15 @@ export default class GameLoop extends Component {
   };
 
   onTouchStartHandler = e => {
-    this.touchStart.onNext(e.nativeEvent);
+    this.touchProcessor.process("start", e.nativeEvent);
   };
 
   onTouchMoveHandler = e => {
-    this.touchMove.onNext(e.nativeEvent);
+    this.touchProcessor.process("move", e.nativeEvent);
   };
 
   onTouchEndHandler = e => {
-    this.touchEnd.onNext(e.nativeEvent);
+    this.touchProcessor.process("end", e.nativeEvent);
   };
 
   render() {
@@ -199,6 +84,10 @@ export default class GameLoop extends Component {
     );
   }
 }
+
+GameLoop.defaultProps = {
+  touchProcessor: DefaultTouchProcessor({ pressInterval: 200, longPressInterval: 700 })
+};
 
 const css = StyleSheet.create({
   container: {
