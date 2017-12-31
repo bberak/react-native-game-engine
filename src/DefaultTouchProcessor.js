@@ -1,6 +1,6 @@
 import Rx from "rx";
 
-export default ({ pressInterval = 200, longPressInterval = 700 }) => {
+export default ({ triggerPressEventBefore = 200, triggerLongPressAfter = 700 }) => {
 	return touches => {
 		let touchStart = new Rx.Subject();
 		let touchMove = new Rx.Subject();
@@ -9,13 +9,13 @@ export default ({ pressInterval = 200, longPressInterval = 700 }) => {
 		let touchPress = touchStart.flatMap(e =>
 			touchEnd
 				.first(x => x.identifier === e.identifier)
-				.timeout(pressInterval, Rx.Observable.empty())
+				.timeout(triggerPressEventBefore, Rx.Observable.empty())
 		);
 
 		let longTouch = touchStart.flatMap(e =>
 			Rx.Observable
 				.return(e)
-				.delay(longPressInterval)
+				.delay(triggerLongPressAfter)
 				.takeUntil(
 					touchMove
 						.merge(touchEnd)
