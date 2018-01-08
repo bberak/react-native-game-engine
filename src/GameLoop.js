@@ -86,7 +86,7 @@ export default class GameLoop extends Component {
 }
 
 GameLoop.defaultProps = {
-  touchProcessor: DefaultTouchProcessor({ triggerPressEventBefore: 200, triggerLongPressAfter: 700 })
+  touchProcessor: DefaultTouchProcessor({ triggerPressEventBefore: 200, triggerLongPressEventAfter: 700 })
 };
 
 const css = StyleSheet.create({

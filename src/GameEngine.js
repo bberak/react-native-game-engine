@@ -139,7 +139,7 @@ GameEngine.defaultProps = {
   systems: [],
   entities: {},
   renderer: DefaultRenderer,
-  touchProcessor: DefaultTouchProcessor({ triggerPressEventBefore: 200, triggerLongPressAfter: 700 })
+  touchProcessor: DefaultTouchProcessor({ triggerPressEventBefore: 200, triggerLongPressEventAfter: 700 })
 };
 
 const css = StyleSheet.create({
