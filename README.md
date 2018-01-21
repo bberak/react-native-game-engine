@@ -21,6 +21,7 @@ Some components that make it easier to construct dynamic and interactive scenes 
   - [Additional CES Reading Material](#additional-ces-reading-material)
 - [Using the GameEngine Component](#using-the-gameengine-component)
 - [Awesome Packages for Game Development](#awesome-packages-for-game-development)
+- [Get in Touch](#get-in-touch)
 - [License](#license)
 
 ## Handbook
@@ -494,6 +495,28 @@ The following is a list of invaluable packages when it comes to coding interacti
 - [React Native Sensors](https://github.com/react-native-sensors/react-native-sensors)
 - [React Native WebGL](https://github.com/react-community/react-native-webgl)
 - [GL React](https://github.com/gre/gl-react)
+
+## Get in Touch
+
+We are Neap - a development and design team in Sydney. We love building stuff and meeting new people, so get in touch with us at [https://neap.co](https://neap.co).
+
+Some of our projects:
+
+#### React & React Native
+* [__*react-native-game-engine*__](https://github.com/bberak/react-native-game-engine): A lightweight game engine for react native.
+* [__*react-native-game-engine-handbook*__](https://github.com/bberak/react-native-game-engine-handbook): A React Native app showcasing some examples using react-native-game-engine.
+
+#### Web Framework & Deployment Tools
+* [__*webfunc*__](https://github.com/nicolasdao/webfunc): Write code for serverless similar to Express once, deploy everywhere. 
+* [__*now-flow*__](https://github.com/nicolasdao/now-flow): Automate your Zeit Now Deployments.
+
+#### GraphQL
+* [__*graphql-serverless*__](https://github.com/nicolasdao/graphql-serverless): GraphQL (incl. a GraphiQL interface) middleware for [webfunc](https://github.com/nicolasdao/webfunc).
+* [__*schemaglue*__](https://github.com/nicolasdao/schemaglue): Naturally breaks down your monolithic graphql schema into bits and pieces and then glue them back together.
+* [__*graphql-s2s*__](https://github.com/nicolasdao/graphql-s2s): Add GraphQL Schema support for type inheritance, generic typing, metadata decoration. Transpile the enriched GraphQL string schema into the standard string schema understood by graphql.js and the Apollo server client.
+
+#### Tools
+* [__*aws-cloudwatch-logger*__](https://github.com/nicolasdao/aws-cloudwatch-logger): Promise based logger for AWS CloudWatch LogStream.
 
 ## License
 
