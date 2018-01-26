@@ -17,13 +17,20 @@ export default class GameLoop extends Component {
   }
 
   componentDidMount() {
-    this.start();
+    if (this.props.running) this.start();
   }
 
   componentWillUnmount() {
     this.stop();
     this.timer.unsubscribe(this.updateHandler);
     this.touchProcessor.end();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.running !== this.props.running) {
+      if (nextProps.running) this.start();
+      else this.stop();
+    }
   }
 
   start = () => {
@@ -86,7 +93,11 @@ export default class GameLoop extends Component {
 }
 
 GameLoop.defaultProps = {
-  touchProcessor: DefaultTouchProcessor({ triggerPressEventBefore: 200, triggerLongPressEventAfter: 700 })
+  touchProcessor: DefaultTouchProcessor({
+    triggerPressEventBefore: 200,
+    triggerLongPressEventAfter: 700
+  }),
+  running: true
 };
 
 const css = StyleSheet.create({

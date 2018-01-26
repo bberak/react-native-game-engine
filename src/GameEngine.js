@@ -4,16 +4,18 @@ import Timer from "./Timer";
 import DefaultRenderer from "./DefaultRenderer";
 import DefaultTouchProcessor from "./DefaultTouchProcessor";
 
+const getEntitiesFromProps = props =>
+  props.initState ||
+  props.initialState ||
+  props.state ||
+  props.initEntities ||
+  props.initialEntities ||
+  props.entities;
+
 export default class GameEngine extends Component {
   constructor(props) {
     super(props);
-    this.state =
-      props.initState ||
-      props.initialState ||
-      props.state ||
-      props.initEntities ||
-      props.initialEntities ||
-      props.entities;
+    this.state = getEntitiesFromProps(props);
     this.timer = new Timer();
     this.timer.subscribe(this.updateHandler);
     this.touches = [];
@@ -25,13 +27,25 @@ export default class GameEngine extends Component {
   }
 
   componentDidMount() {
-    this.start();
+    if (this.props.running) this.start();
   }
 
   componentWillUnmount() {
     this.stop();
     this.timer.unsubscribe(this.updateHandler);
     this.touchProcessor.end();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.running !== this.props.running) {
+      if (nextProps.running) this.start();
+      else this.stop();
+    }
+
+    let nextEntities = getEntitiesFromProps(nextProps);
+    let currentEntities = getEntitiesFromProps(this.props);
+
+    if (nextEntities !== currentEntities) this.setState(nextEntities);
   }
 
   start = () => {
@@ -42,6 +56,11 @@ export default class GameEngine extends Component {
   stop = () => {
     this.timer.stop();
     this.dispatch({ type: "stopped" });
+  };
+
+  restart = (entities = getEntitiesFromProps(this.props)) => {
+    this.setState(entities);
+    this.start();
   };
 
   publish = e => {
@@ -139,7 +158,11 @@ GameEngine.defaultProps = {
   systems: [],
   entities: {},
   renderer: DefaultRenderer,
-  touchProcessor: DefaultTouchProcessor({ triggerPressEventBefore: 200, triggerLongPressEventAfter: 700 })
+  touchProcessor: DefaultTouchProcessor({
+    triggerPressEventBefore: 200,
+    triggerLongPressEventAfter: 700
+  }),
+  running: true
 };
 
 const css = StyleSheet.create({
