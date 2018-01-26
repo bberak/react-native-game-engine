@@ -23,7 +23,7 @@ export default class GameLoop extends Component {
   componentWillUnmount() {
     this.stop();
     this.timer.unsubscribe(this.updateHandler);
-    this.touchProcessor.end();
+    if (this.touchProcessor.end) this.touchProcessor.end();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -34,6 +34,9 @@ export default class GameLoop extends Component {
   }
 
   start = () => {
+    this.touches.length = 0;
+    this.previousTime = null;
+    this.previousDelta = null;
     this.timer.start();
   };
 

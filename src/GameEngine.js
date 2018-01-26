@@ -33,7 +33,7 @@ export default class GameEngine extends Component {
   componentWillUnmount() {
     this.stop();
     this.timer.unsubscribe(this.updateHandler);
-    this.touchProcessor.end();
+    if (this.touchProcessor.end) this.touchProcessor.end();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -44,11 +44,14 @@ export default class GameEngine extends Component {
 
     let nextEntities = getEntitiesFromProps(nextProps);
     let currentEntities = getEntitiesFromProps(this.props);
-
     if (nextEntities !== currentEntities) this.setState(nextEntities);
   }
 
   start = () => {
+    this.touches.length = 0;
+    this.events.length = 0;
+    this.previousTime = null;
+    this.previousDelta = null;
     this.timer.start();
     this.dispatch({ type: "started" });
   };
