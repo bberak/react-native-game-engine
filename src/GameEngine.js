@@ -45,6 +45,11 @@ export default class GameEngine extends Component {
     let nextEntities = getEntitiesFromProps(nextProps);
     let currentEntities = getEntitiesFromProps(this.props);
     if (nextEntities !== currentEntities) this.setState(nextEntities);
+
+    if (nextProps.touchProcessor !== this.props.touchProcessor) {
+      if (this.touchProcessor.end) this.touchProcessor.end();
+      this.touchProcessor = nextProps.touchProcessor(this.touches);   
+    }
   }
 
   start = () => {
