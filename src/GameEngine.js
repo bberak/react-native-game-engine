@@ -48,27 +48,30 @@ export default class GameEngine extends Component {
 
     if (nextProps.touchProcessor !== this.props.touchProcessor) {
       if (this.touchProcessor.end) this.touchProcessor.end();
-      this.touchProcessor = nextProps.touchProcessor(this.touches);   
+      this.touchProcessor = nextProps.touchProcessor(this.touches);
     }
   }
 
-  start = () => {
+  start = (event = { type: "started" }) => {
     this.touches.length = 0;
     this.events.length = 0;
     this.previousTime = null;
     this.previousDelta = null;
     this.timer.start();
-    this.dispatch({ type: "started" });
+    this.dispatch(event);
   };
 
-  stop = () => {
+  stop = (event = { type: "stopped" }) => {
     this.timer.stop();
-    this.dispatch({ type: "stopped" });
+    this.dispatch(event);
   };
 
-  restart = (entities = getEntitiesFromProps(this.props)) => {
+  restart = (
+    entities = getEntitiesFromProps(this.props),
+    event = { type: "restarted" }
+  ) => {
     this.setState(entities);
-    this.start();
+    this.start(event);
   };
 
   publish = e => {
