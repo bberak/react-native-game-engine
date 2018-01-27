@@ -15,7 +15,7 @@ const getEntitiesFromProps = props =>
 export default class GameEngine extends Component {
   constructor(props) {
     super(props);
-    this.state = getEntitiesFromProps(props);
+    this.state = { ...getEntitiesFromProps(props) };
     this.timer = new Timer();
     this.timer.subscribe(this.updateHandler);
     this.touches = [];
@@ -44,7 +44,7 @@ export default class GameEngine extends Component {
 
     let nextEntities = getEntitiesFromProps(nextProps);
     let currentEntities = getEntitiesFromProps(this.props);
-    if (nextEntities !== currentEntities) this.setState(nextEntities);
+    if (nextEntities !== currentEntities) this.setState({ ...nextEntities });
 
     if (nextProps.touchProcessor !== this.props.touchProcessor) {
       if (this.touchProcessor.end) this.touchProcessor.end();
@@ -70,7 +70,7 @@ export default class GameEngine extends Component {
     entities = getEntitiesFromProps(this.props),
     event = { type: "restarted" }
   ) => {
-    this.setState(entities);
+    this.setState({ ...entities });
     this.start(event);
   };
 
