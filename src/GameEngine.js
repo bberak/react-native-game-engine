@@ -12,10 +12,15 @@ const getEntitiesFromProps = props =>
   props.initialEntities ||
   props.entities;
 
+const copy = entities =>
+  Array.isArray(entities) ? [...entities] : { ...entities };
+
 export default class GameEngine extends Component {
   constructor(props) {
     super(props);
-    this.state = { ...getEntitiesFromProps(props) };
+    this.state = {
+      entities: copy(getEntitiesFromProps(props))
+    };
     this.timer = new Timer();
     this.timer.subscribe(this.updateHandler);
     this.touches = [];
@@ -44,7 +49,8 @@ export default class GameEngine extends Component {
 
     let nextEntities = getEntitiesFromProps(nextProps);
     let currentEntities = getEntitiesFromProps(this.props);
-    if (nextEntities !== currentEntities) this.setState({ ...nextEntities });
+    if (nextEntities !== currentEntities)
+      this.setState({ entities: copy(nextEntities) });
 
     if (nextProps.touchProcessor !== this.props.touchProcessor) {
       if (this.touchProcessor.end) this.touchProcessor.end();
@@ -70,7 +76,7 @@ export default class GameEngine extends Component {
     entities = getEntitiesFromProps(this.props),
     event = { type: "restarted" }
   ) => {
-    this.setState({ ...entities });
+    this.setState({ entities: copy(entities) });
     this.start(event);
   };
 
@@ -109,14 +115,14 @@ export default class GameEngine extends Component {
 
     let newState = this.props.systems.reduce(
       (state, sys) => sys(state, args),
-      this.state
+      this.state.entities
     );
 
     this.touches.length = 0;
     this.events.length = 0;
     this.previousTime = currentTime;
     this.previousDelta = args.time.delta;
-    this.setState(newState);
+    this.setState({ entities: newState });
   };
 
   onLayoutHandler = () => {
@@ -148,7 +154,7 @@ export default class GameEngine extends Component {
           onTouchMove={this.onTouchMoveHandler}
           onTouchEnd={this.onTouchEndHandler}
         >
-          {this.props.renderer(this.state, this.screen)}
+          {this.props.renderer(this.state.entities, this.screen)}
         </View>
 
         <View
