@@ -12,14 +12,11 @@ const getEntitiesFromProps = props =>
   props.initialEntities ||
   props.entities;
 
-const copy = entities =>
-  Array.isArray(entities) ? [...entities] : { ...entities };
-
 export default class GameEngine extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      entities: copy(getEntitiesFromProps(props))
+      entities: getEntitiesFromProps(props)
     };
     this.timer = new Timer();
     this.timer.subscribe(this.updateHandler);
@@ -49,8 +46,7 @@ export default class GameEngine extends Component {
 
     let nextEntities = getEntitiesFromProps(nextProps);
     let currentEntities = getEntitiesFromProps(this.props);
-    if (nextEntities !== currentEntities)
-      this.setState({ entities: copy(nextEntities) });
+    if (nextEntities !== currentEntities) this.swap(nextEntities);
 
     if (nextProps.touchProcessor !== this.props.touchProcessor) {
       if (this.touchProcessor.end) this.touchProcessor.end();
@@ -58,26 +54,23 @@ export default class GameEngine extends Component {
     }
   }
 
-  start = (event = { type: "started" }) => {
+  start = () => {
     this.touches.length = 0;
     this.events.length = 0;
     this.previousTime = null;
     this.previousDelta = null;
     this.timer.start();
-    this.dispatch(event);
+    this.dispatch({ type: "started" });
   };
 
-  stop = (event = { type: "stopped" }) => {
+  stop = () => {
     this.timer.stop();
-    this.dispatch(event);
+    this.dispatch({ type: "stopped" });
   };
 
-  restart = (
-    entities = getEntitiesFromProps(this.props),
-    event = { type: "restarted" }
-  ) => {
-    this.setState({ entities: copy(entities) });
-    this.start(event);
+  swap = (newEntities = {}) => {
+    this.setState({ entities: newEntities });
+    this.dispatch({ type: "swapped" });
   };
 
   publish = e => {
