@@ -31,11 +31,6 @@ export default class GameLoop extends Component {
       if (nextProps.running) this.start();
       else this.stop();
     }
-
-    if (nextProps.touchProcessor !== this.props.touchProcessor) {
-      if (this.touchProcessor.end) this.touchProcessor.end();
-      this.touchProcessor = nextProps.touchProcessor(this.touches);   
-    }
   }
 
   start = () => {
