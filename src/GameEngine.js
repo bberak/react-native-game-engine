@@ -43,15 +43,6 @@ export default class GameEngine extends Component {
       if (nextProps.running) this.start();
       else this.stop();
     }
-
-    let nextEntities = getEntitiesFromProps(nextProps);
-    let currentEntities = getEntitiesFromProps(this.props);
-    if (nextEntities !== currentEntities) this.swap(nextEntities);
-
-    if (nextProps.touchProcessor !== this.props.touchProcessor) {
-      if (this.touchProcessor.end) this.touchProcessor.end();
-      this.touchProcessor = nextProps.touchProcessor(this.touches);
-    }
   }
 
   start = () => {
