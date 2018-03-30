@@ -20,10 +20,12 @@ export default class Timer {
     this.loopId = null;
   }
 
-  loop = (time) => {
-    this.subscribers.forEach(callback => {
-      callback(time);
-    });
+  loop = time => {
+    if (this.loopId) {
+      this.subscribers.forEach(callback => {
+        callback(time);
+      });
+    }
 
     this.loopId = requestAnimationFrame(this.loop);
   };
