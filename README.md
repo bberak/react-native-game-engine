@@ -8,7 +8,7 @@ Some components that make it easier to construct dynamic and interactive scenes 
 
 ## Table of Contents
 
-- [Handbook](#handbook)
+- [Examples](#examples)
 - [Quick Start](#quick-start)
 - [FAQ](#faq)
 - [Introduction](#introduction)
@@ -24,7 +24,7 @@ Some components that make it easier to construct dynamic and interactive scenes 
 - [Get in Touch](#get-in-touch)
 - [License](#license)
 
-## Handbook
+## Examples
 
 See the [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) for a complimentary app, examples and ideas.
 
@@ -34,6 +34,16 @@ See the [React Native Game Engine Handbook](https://github.com/bberak/react-nati
     <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/multi-touch.gif" alt="Multi Touch Preview" height="450" />
     <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/rigid-bodies.gif" alt="Rigid Bodies Preview" height="450" />
    </a> 
+</p>
+
+Also check out [React Native Donkey Kong](https://github.com/bberak/react-native-donkey-kong) for a knocked-off but playable game made with RNGE.
+
+<p align="center">
+  <a href="https://github.com/bberak/react-native-donkey-kong">
+    <img src="https://raw.githubusercontent.com/bberak/react-native-donkey-kong/master/assets/gifs/1.gif" height="450" />
+    <img src="https://raw.githubusercontent.com/bberak/react-native-donkey-kong/master/assets/gifs/2.gif" height="450" />
+    <img src="https://raw.githubusercontent.com/bberak/react-native-donkey-kong/master/assets/gifs/3.gif" height="450" />
+  </a>
 </p>
 
 ## Quick Start
