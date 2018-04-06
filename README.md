@@ -10,6 +10,8 @@ Some components that make it easier to construct dynamic and interactive scenes 
 
 - [Examples](#examples)
 - [Quick Start](#quick-start)
+- [GameEngine Properties](#gameengine-properties)
+- [GameEngine Methods](#gameengine-methods)
 - [FAQ](#faq)
 - [Introduction](#introduction)
 - [The Game Loop](#the-game-loop)
@@ -164,6 +166,28 @@ AppRegistry.registerComponent("BestGameEver", () => BestGameEver);
 Build and run. Each entity is a **"finger"** and is assigned to a particular touch id. The touch ids increase as you place more fingers on the screen. Move your fingers around the screen to move the entities. As an exercise, try add a system that will insert another finger entity into the game state when a **"start"** touch event is encountered. What about adding a system that removes the closest entity from the game state when a **"long-press"** is encountered?
 
 If you're curious, our ```GameEngine``` component is a loose implementation of the [Compenent-Entity-System](#managing-complexity-with-component-entity-systems) pattern - we've written up a quick intro [here](#managing-complexity-with-component-entity-systems).
+
+## GameEngine Properties
+
+| Prop | Description | Default |
+|---|---|---|
+|**`systems`**|An array of functions to be called on every tick. |*[]*|
+|**`entities`**|An object containing your game's initial entities |`{}`|
+|**`renderer`**|A function that receives the entities and needs to render them on every tick. ```(entities,screen) => { /* DRAW ENTITIES */ }``` |`DefaultRenderer`|
+|**`touchProcessor`**|A function that can be used to override the default touch processing behavior |`DefaultTouchProcessor`|
+|**`running`**|A boolean that can be used to control whether the game loop is runnong or not |`true`|
+|**`onEvent`**|A callback for being notified when events are dispatched |`undefined`|
+|**`style`**|An object containing styles for the root container |`undefined`|
+|**`children`**|React components that will be rendered after the entities |`undefined`|
+
+## GameEngine Methods
+
+| Method | Description | Arg1, Arg2, ArgN |
+|---|---|---|
+|**`stop`**|Stop the game loop |`NA`|
+|**`start`**|Start the game loop. |*NA*|
+|**`swap`**|A method that can be called to update your game with new entities. Can be useful for level switching etc. |`newEntities = {}`|
+|**`dispatch`**|A method that can be called to dispatch events. The event will be received by the systems and any `onEvent` callbacks |`event`|
 
 ## FAQ
 
