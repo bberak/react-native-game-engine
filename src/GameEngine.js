@@ -18,7 +18,7 @@ export default class GameEngine extends Component {
     this.state = {
       entities: getEntitiesFromProps(props)
     };
-    this.timer = new Timer();
+    this.timer = props.timer;
     this.timer.subscribe(this.updateHandler);
     this.touches = [];
     this.screen = Dimensions.get("window");
@@ -163,6 +163,7 @@ GameEngine.defaultProps = {
     triggerPressEventBefore: 200,
     triggerLongPressEventAfter: 700
   }),
+  timer: new Timer(),
   running: true
 };
 

@@ -7,7 +7,7 @@ export default class GameLoop extends Component {
   constructor(props) {
     super(props);
 
-    this.timer = new Timer();
+    this.timer = props.timer;
     this.timer.subscribe(this.updateHandler);
     this.touches = [];
     this.screen = Dimensions.get("window");
@@ -100,6 +100,7 @@ GameLoop.defaultProps = {
     triggerPressEventBefore: 200,
     triggerLongPressEventAfter: 700
   }),
+  timer: new Timer(),
   running: true
 };
 
