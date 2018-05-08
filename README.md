@@ -171,7 +171,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 
 | Prop | Description | Default |
 |---|---|---|
-|**`systems`**|An array of functions to be called on every tick. |*[]*|
+|**`systems`**|An array of functions to be called on every tick. |`[]`|
 |**`entities`**|An object containing your game's initial entities |`{}`|
 |**`renderer`**|A function that receives the entities and needs to render them on every tick. ```(entities,screen) => { /* DRAW ENTITIES */ }``` |`DefaultRenderer`|
 |**`touchProcessor`**|A function that can be used to override the default touch processing behavior |`DefaultTouchProcessor`|
