@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import Timer from "./Timer";
+import DefaultTimer from "./DefaultTimer";
 import DefaultRenderer from "./DefaultRenderer";
 import DefaultTouchProcessor from "./DefaultTouchProcessor";
 
@@ -163,7 +163,7 @@ GameEngine.defaultProps = {
     triggerPressEventBefore: 200,
     triggerLongPressEventAfter: 700
   }),
-  timer: new Timer(),
+  timer: new DefaultTimer(),
   running: true
 };
 

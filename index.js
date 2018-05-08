@@ -1,6 +1,7 @@
 import GameLoop from "./src/GameLoop";
 import GameEngine from "./src/GameEngine";
-import DefaultTouchProcessor from "./src/DefaultTouchProcessor"
+import DefaultTouchProcessor from "./src/DefaultTouchProcessor";
+import DefaultTimer from "./src/DefaultTimer";
 
 export {
 	GameLoop,
@@ -8,6 +9,7 @@ export {
 	GameEngine,
 	GameEngine as ComponentEntitySystem,
 	GameEngine as ComponentEntitySystems,
-	DefaultTouchProcessor
+	DefaultTouchProcessor,
+	DefaultTimer
 };
 

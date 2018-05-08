@@ -175,6 +175,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 |**`entities`**|An object containing your game's initial entities |`{}`|
 |**`renderer`**|A function that receives the entities and needs to render them on every tick. ```(entities,screen) => { /* DRAW ENTITIES */ }``` |`DefaultRenderer`|
 |**`touchProcessor`**|A function that can be used to override the default touch processing behavior |`DefaultTouchProcessor`|
+|**`timer`**|An object that can be used to override the default timer behavior |`new DefaultTimer()`|
 |**`running`**|A boolean that can be used to control whether the game loop is runnong or not |`true`|
 |**`onEvent`**|A callback for being notified when events are dispatched |`undefined`|
 |**`style`**|An object containing styles for the root container |`undefined`|
