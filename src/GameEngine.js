@@ -45,11 +45,15 @@ export default class GameEngine extends Component {
     }
   }
 
-  start = () => {
+  clear = () => {
     this.touches.length = 0;
     this.events.length = 0;
     this.previousTime = null;
     this.previousDelta = null;
+  };
+
+  start = () => {
+    this.clear();
     this.timer.start();
     this.dispatch({ type: "started" });
   };
@@ -60,6 +64,7 @@ export default class GameEngine extends Component {
   };
 
   swap = (newEntities = {}) => {
+    this.clear();
     this.setState({ entities: newEntities });
     this.dispatch({ type: "swapped" });
   };
