@@ -44,10 +44,10 @@ export default class DefaultTimer {
   }
 
   subscribe(callback) {
-    return this.subscribers.push(callback);
+    this.subscribers.push(callback);
   }
 
-  unsubscribe(id) {
-    delete this.subscribers[id - 1];
+  unsubscribe(callback) {
+    this.subscribers = this.subscribers.filter(s => s !== callback)
   }
 }
