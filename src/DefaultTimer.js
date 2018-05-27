@@ -44,7 +44,8 @@ export default class DefaultTimer {
   }
 
   subscribe(callback) {
-    this.subscribers.push(callback);
+    if (this.subscribers.indexOf(callback) === -1)
+      this.subscribers.push(callback);
   }
 
   unsubscribe(callback) {
