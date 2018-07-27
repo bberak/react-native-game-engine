@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/bberak/react-native-game-engine#readme",
   "dependencies": {
-    "rxjs": "^6.2.2"
+    "rxjs": "^6.2.2",
+    "rxjs-compat": "^6.2.2"
   },
   "peerDependencies": {
     "react": "*",
