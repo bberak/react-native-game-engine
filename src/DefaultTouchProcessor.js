@@ -1,4 +1,5 @@
-import { Subject, Observable, CompositeDisposable } from "rxjs";
+import { Subject, CompositeDisposable } from "rxjs";
+import { Observable } from 'rxjs/Observable';
 
 export default ({ triggerPressEventBefore = 200, triggerLongPressEventAfter = 700 }) => {
 	return touches => {
