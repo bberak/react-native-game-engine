@@ -6,13 +6,13 @@ export default ({ triggerPressEventBefore = 200, triggerLongPressEventAfter = 70
 		let touchMove = new Subject();
 		let touchEnd = new Subject();
 
-		let touchPress = touchStart.flatMap(e =>
+		let touchPress = touchStart.mergeMap(e =>
 			touchEnd
 				.first(x => x.identifier === e.identifier)
 				.timeout(triggerPressEventBefore, Observable.empty())
 		);
 
-		let longTouch = touchStart.flatMap(e =>
+		let longTouch = touchStart.mergeMap(e =>
 			Observable
 				.return(e)
 				.delay(triggerLongPressEventAfter)
