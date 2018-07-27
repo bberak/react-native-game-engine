@@ -1,6 +1,4 @@
-import { Subject, CompositeDisposable } from "rxjs";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/mergeMap";
+import { Subject, CompositeDisposable, Observable } from "rx";
 
 export default ({ triggerPressEventBefore = 200, triggerLongPressEventAfter = 700 }) => {
 	return touches => {
