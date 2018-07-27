@@ -1,19 +1,19 @@
-import Rx from "rx";
+import { Subject, Observable, CompositeDisposable } from "rxjs";
 
 export default ({ triggerPressEventBefore = 200, triggerLongPressEventAfter = 700 }) => {
 	return touches => {
-		let touchStart = new Rx.Subject();
-		let touchMove = new Rx.Subject();
-		let touchEnd = new Rx.Subject();
+		let touchStart = new Subject();
+		let touchMove = new Subject();
+		let touchEnd = new Subject();
 
 		let touchPress = touchStart.flatMap(e =>
 			touchEnd
 				.first(x => x.identifier === e.identifier)
-				.timeout(triggerPressEventBefore, Rx.Observable.empty())
+				.timeout(triggerPressEventBefore, Observable.empty())
 		);
 
 		let longTouch = touchStart.flatMap(e =>
-			Rx.Observable
+			Observable
 				.return(e)
 				.delay(triggerLongPressEventAfter)
 				.takeUntil(
@@ -23,11 +23,11 @@ export default ({ triggerPressEventBefore = 200, triggerLongPressEventAfter = 70
 				)
 		);
 
-		let touchStartComposite = new Rx.CompositeDisposable();
-		let touchMoveComposite = new Rx.CompositeDisposable();
-		let touchEndComposite = new Rx.CompositeDisposable();
-		let touchPressComposite = new Rx.CompositeDisposable();
-		let longTouchComposite = new Rx.CompositeDisposable();
+		let touchStartComposite = new CompositeDisposable();
+		let touchMoveComposite = new CompositeDisposable();
+		let touchEndComposite = new CompositeDisposable();
+		let touchPressComposite = new CompositeDisposable();
+		let longTouchComposite = new CompositeDisposable();
 
 		touchStartComposite.add(
 			touchStart
@@ -47,7 +47,7 @@ export default ({ triggerPressEventBefore = 200, triggerLongPressEventAfter = 70
 		);
 
 		touchMoveComposite.add(
-			Rx.Observable
+			Observable
 				.merge(
 					touchStart.map(x => Object.assign(x, { type: "start" })),
 					touchMove.map(x => Object.assign(x, { type: "move" })),
