@@ -60,13 +60,13 @@ export default ({
 							return {
 								id: group.key,
 								type: "move",
-								event: e2,
+								event: e2.event,
 								delta: {
-									locationX: e2.locationX - e1.locationX,
-									locationY: e2.locationY - e1.locationY,
-									pageX: e2.pageX - e1.pageX,
-									pageY: e2.pageY - e1.pageY,
-									timestamp: e2.timestamp - e1.timestamp
+									locationX: e2.event.locationX - e1.event.locationX,
+									locationY: e2.event.locationY - e1.event.locationY,
+									pageX: e2.event.pageX - e1.event.pageX,
+									pageY: e2.event.pageY - e1.event.pageY,
+									timestamp: e2.event.timestamp - e1.event.timestamp
 								}
 							};
 						}
