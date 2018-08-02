@@ -1,63 +1,63 @@
-import { Subject, CompositeDisposable, Observable } from "rx";
+import { Observable, Subject, empty, of, merge } from "rxjs";
+import {
+	mergeMap,
+	first,
+	timeoutWith,
+	delay,
+	takeUntil,
+	map,
+	groupBy,
+	filter,
+	pairwise
+} from "rxjs/operators";
 
-export default ({ triggerPressEventBefore = 200, triggerLongPressEventAfter = 700 }) => {
+export default ({
+	triggerPressEventBefore = 200,
+	triggerLongPressEventAfter = 700
+}) => {
 	return touches => {
-		let touchStart = new Subject();
-		let touchMove = new Subject();
-		let touchEnd = new Subject();
-
-		let touchPress = touchStart.mergeMap(e =>
-			touchEnd
-				.first(x => x.identifier === e.identifier)
-				.timeout(triggerPressEventBefore, Observable.empty())
+		let touchStart = new Subject().pipe(
+			map(e => ({ id: e.identifier, type: "start", event: e }))
+		);
+		let touchMove = new Subject().pipe(
+			map(e => ({ id: e.identifier, type: "move", event: e }))
+		);
+		let touchEnd = new Subject().pipe(
+			map(e => ({ id: e.identifier, type: "end", event: e }))
 		);
 
-		let longTouch = touchStart.mergeMap(e =>
-			Observable
-				.return(e)
-				.delay(triggerLongPressEventAfter)
-				.takeUntil(
-					touchMove
-						.merge(touchEnd)
-						.first(x => x.identifier === e.identifier)
+		let touchPress = touchStart.pipe(
+			mergeMap(e =>
+				touchEnd.pipe(
+					first(x => x.id === e.id),
+					timeoutWith(triggerPressEventBefore, empty())
 				)
+			),
+			map(e => ({ ...e, type: "press" }))
 		);
 
-		let touchStartComposite = new CompositeDisposable();
-		let touchMoveComposite = new CompositeDisposable();
-		let touchEndComposite = new CompositeDisposable();
-		let touchPressComposite = new CompositeDisposable();
-		let longTouchComposite = new CompositeDisposable();
-
-		touchStartComposite.add(
-			touchStart
-				.groupBy(e => e.identifier)
-				.map(group => {
-					return group.map(e => {
-						touches.push({
-							id: group.key,
-							type: "start",
-							event: e
-						});
-					});
-				})
-				.subscribe(group => {
-					touchStartComposite.add(group.subscribe());
-				})
-		);
-
-		touchMoveComposite.add(
-			Observable
-				.merge(
-					touchStart.map(x => Object.assign(x, { type: "start" })),
-					touchMove.map(x => Object.assign(x, { type: "move" })),
-					touchEnd.map(x => Object.assign(x, { type: "end" }))
+		let longTouch = touchStart.pipe(
+			mergeMap(e =>
+				of(e).pipe(
+					delay(triggerLongPressEventAfter),
+					takeUntil(
+						merge(touchMove, touchEnd).pipe(
+							first(x => x.id === e.id)
+						)
+					)
 				)
-				.groupBy(e => e.identifier)
-				.map(group => {
-					return group.pairwise().map(([e1, e2]) => {
+			),
+			map(e => ({ ...e, type: "long-press" }))
+		);
+
+		let touchMoveDelta = merge(touchStart, touchMove, touchEnd).pipe(
+			groupBy(e => e.id),
+			mergeMap(group =>
+				group.pipe(
+					pairwise(),
+					map(([e1, e2]) => {
 						if (e1.type !== "end" && e2.type === "move") {
-							touches.push({
+							return {
 								id: group.key,
 								type: "move",
 								event: e2,
@@ -68,86 +68,43 @@ export default ({ triggerPressEventBefore = 200, triggerLongPressEventAfter = 70
 									pageY: e2.pageY - e1.pageY,
 									timestamp: e2.timestamp - e1.timestamp
 								}
-							});
+							};
 						}
-					});
-				})
-				.subscribe(group => {
-					touchMoveComposite.add(group.subscribe());
-				})
+					}),
+					filter(x => x)
+				)
+			)
 		);
 
-		touchEndComposite.add(
-			touchEnd
-				.groupBy(e => e.identifier)
-				.map(group => {
-					return group.map(e => {
-						touches.push({ id: group.key, type: "end", event: e });
-					});
-				})
-				.subscribe(group => {
-					touchEndComposite.add(group.subscribe());
-				})
-		);
-
-		touchPressComposite.add(
-			touchPress
-				.groupBy(e => e.identifier)
-				.map(group => {
-					return group.map(e => {
-						touches.push({
-							id: group.key,
-							type: "press",
-							event: e
-						});
-					});
-				})
-				.subscribe(group => {
-					touchPressComposite.add(group.subscribe());
-				})
-		);
-
-		longTouchComposite.add(
-			longTouch
-				.groupBy(e => e.identifier)
-				.map(group => {
-					return group.map(e => {
-						touches.push({
-							id: group.key,
-							type: "long-press",
-							event: e
-						});
-					});
-				})
-				.subscribe(group => {
-					longTouchComposite.add(group.subscribe());
-				})
-		);
+		let subscriptions = [
+			touchStart,
+			touchEnd,
+			touchPress,
+			longTouch,
+			touchMoveDelta
+		].map(x => x.subscribe(y => touches.push(y)));
 
 		return {
 			process(type, event) {
 				switch (type) {
 					case "start":
-						touchStart.onNext(event);
+						touchStart.next(event);
 						break;
 					case "move":
-						touchMove.onNext(event);
+						touchMove.next(event);
 						break;
 					case "end":
-						touchEnd.onNext(event);
+						touchEnd.next(event);
 						break;
 				}
 			},
 			end() {
-				touchStart.dispose();
-				touchMove.dispose();
-				touchEnd.dispose();
-
-				touchStartComposite.dispose();
-				touchMoveComposite.dispose();
-				touchEndComposite.dispose();
-				touchPressComposite.dispose();
-				longTouchComposite.dispose();
+				touchStart.unsubscribe();
+				touchMove.unsubscribe();
+				touchEnd.unsubscribe();
+				touchPress.unsubscribe();
+				longTouch.unsubscribe();
+				subscriptions.forEach(x => x.unsubscribe());
 			}
 		};
 	};
