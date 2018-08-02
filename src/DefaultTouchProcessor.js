@@ -99,12 +99,12 @@ export default ({
 				}
 			},
 			end() {
+				subscriptions.forEach(x => x.unsubscribe());
 				touchStart.unsubscribe();
 				touchMove.unsubscribe();
 				touchEnd.unsubscribe();
 				touchPress.unsubscribe();
 				longTouch.unsubscribe();
-				subscriptions.forEach(x => x.unsubscribe());
 			}
 		};
 	};
