@@ -186,7 +186,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 | Method | Description | Arg1, Arg2, ArgN |
 |---|---|---|
 |**`stop`**|Stop the game loop |`NA`|
-|**`start`**|Start the game loop. |*NA*|
+|**`start`**|Start the game loop. |`NA`|
 |**`swap`**|A method that can be called to update your game with new entities. Can be useful for level switching etc. |`newEntities = {}`|
 |**`dispatch`**|A method that can be called to dispatch events. The event will be received by the systems and any `onEvent` callbacks |`event`|
 
