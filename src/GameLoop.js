@@ -6,8 +6,7 @@ import DefaultTouchProcessor from "./DefaultTouchProcessor";
 export default class GameLoop extends Component {
   constructor(props) {
     super(props);
-
-    this.timer = props.timer;
+    this.timer = props.timer || new DefaultTimer();
     this.timer.subscribe(this.updateHandler);
     this.touches = [];
     this.screen = Dimensions.get("window");
@@ -100,7 +99,6 @@ GameLoop.defaultProps = {
     triggerPressEventBefore: 200,
     triggerLongPressEventAfter: 700
   }),
-  timer: new DefaultTimer(),
   running: true
 };
 
