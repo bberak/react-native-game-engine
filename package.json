@@ -1,6 +1,6 @@
 {
   "name": "react-native-game-engine",
-  "version": "0.9.9",
+  "version": "0.10.1",
   "description": "Some React Native components that make it easier to construct interactive scenes using the familiar update + draw lifecycle used in the development of many games ✨",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/bberak/react-native-game-engine#readme",
   "dependencies": {
-    "rx": "^4.1.0"
+    "rxjs": "^6.2.2"
   },
   "peerDependencies": {
     "react": "*",

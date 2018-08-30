@@ -557,7 +557,7 @@ Some of our projects:
 
 MIT License
 
-Copyright (c) 2017 Boris Berak
+Copyright (c) 2018 Boris Berak
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
