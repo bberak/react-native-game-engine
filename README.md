@@ -28,6 +28,16 @@ Some components that make it easier to construct dynamic and interactive scenes 
 
 ## Examples
 
+Take a look at [Studious Bear](https://itunes.apple.com/us/app/studious-bear/id1434377602), a super-polished puzzle game with great visuals and music. One of the first published games to use RNGE.
+
+<p align="center">
+  <a href="https://itunes.apple.com/us/app/studious-bear/id1434377602">
+    <img src="https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/5c/bb/0d/5cbb0d5c-d678-8488-1a5e-a0bc2867e6c9/pr_source.png/600x0w.jpg" height="450" />
+    <img src="https://is2-ssl.mzstatic.com/image/thumb/Purple118/v4/e4/aa/0e/e4aa0ebf-c7fb-7b06-df8c-76c40905450f/pr_source.png/600x0w.jpg" height="450" />
+    <img src="https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/e0/05/40/e005407e-e6ef-339e-c4b7-b2b733cb66db/pr_source.png/600x0w.jpg" height="450" />
+  </a>
+</p>
+
 See the [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) for a complimentary app, examples and ideas.
 
 <p align="center">
@@ -198,7 +208,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 
 ### Do you know of any apps that currently utilize this library?
 
-> Not to my knowledge. The [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) is a complimentary app that showcases some examples and ideas. If you're aware of any others or wouldn't mind a shameless plug here - please reach out.
+> [Studious Bear](https://itunes.apple.com/us/app/studious-bear/id1434377602) and [React Native Donkey Kong](https://github.com/bberak/react-native-donkey-kong) both use this library. The [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) is a complimentary app that showcases some examples and ideas. If you're aware of any others or wouldn't mind a shameless plug here - please reach out.
 
 ### How do I manage physics?
 
