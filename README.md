@@ -46,7 +46,7 @@ See the [React Native Game Engine Handbook](https://github.com/bberak/react-nati
     <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/single-touch.gif" alt="Single Touch Preview" height="450" />
     <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/multi-touch.gif" alt="Multi Touch Preview" height="450" />
     <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/rigid-bodies.gif" alt="Rigid Bodies Preview" height="450" />
-   </a> 
+   </a>
 </p>
 
 Also check out [React Native Donkey Kong](https://github.com/bberak/react-native-donkey-kong) for a knocked-off but playable game made with RNGE.
@@ -61,17 +61,17 @@ Also check out [React Native Donkey Kong](https://github.com/bberak/react-native
 
 ## Quick Start
 
-Firstly, install the package to your project: 
+Firstly, install the package to your project:
 
 ```npm install --save react-native-game-engine```
 
-Then import the GameEngine component: 
+Then import the GameEngine component:
 
-```javascript 
+```javascript
 import { GameEngine } from "react-native-game-engine"
 ```
 
-Let's code a scene that incorporates some mult-touch logic. To start with, let's create some components that can be rendered by React. Create a file called ```renderers.js```:
+Let's code a scene that incorporates some multi-touch logic. To start with, let's create some components that can be rendered by React. Create a file called ```renderers.js```:
 
 ```javascript
 import React, { PureComponent } from "react";
@@ -146,14 +146,14 @@ export default class BestGameEver extends PureComponent {
 
   render() {
     return (
-      <GameEngine 
-        style={styles.container} 
+      <GameEngine
+        style={styles.container}
         systems={[MoveFinger]}
-        entities={{ 
+        entities={{
           1: { position: [40,  200], renderer: <Finger />}, //-- Notice that each entity has a unique id (required)
           2: { position: [100, 200], renderer: <Finger />}, //-- and a renderer property (optional). If no renderer
           3: { position: [160, 200], renderer: <Finger />}, //-- is supplied with the entity - it won't get displayed.
-          4: { position: [220, 200], renderer: <Finger />}, 
+          4: { position: [220, 200], renderer: <Finger />},
           5: { position: [280, 200], renderer: <Finger />}
         }}>
 
@@ -187,7 +187,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 |**`renderer`**|A function that receives the entities and needs to render them on every tick. ```(entities,screen) => { /* DRAW ENTITIES */ }``` |`DefaultRenderer`|
 |**`touchProcessor`**|A function that can be used to override the default touch processing behavior |`DefaultTouchProcessor`|
 |**`timer`**|An object that can be used to override the default timer behavior |`new DefaultTimer()`|
-|**`running`**|A boolean that can be used to control whether the game loop is runnong or not |`true`|
+|**`running`**|A boolean that can be used to control whether the game loop is running or not |`true`|
 |**`onEvent`**|A callback for being notified when events are dispatched |`undefined`|
 |**`style`**|An object containing styles for the root container |`undefined`|
 |**`children`**|React components that will be rendered after the entities |`undefined`|
@@ -221,7 +221,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 
 ### RNGE doesn't give me sensor data out of the box - what gives?
 
-> I felt that this would be a nice-to-have and for most use cases it would not be required. Hence, I didn't want to burden RNGE users with any native linking or additional configuration. I was also weary about any uncessary performance and battery costs. Again, it is easy to integrate into the GameEngine and then RNGE Hanbook will have an example using [react-native-sensors](https://github.com/react-native-sensors/react-native-sensors).
+> I felt that this would be a nice-to-have and for most use cases it would not be required. Hence, I didn't want to burden RNGE users with any native linking or additional configuration. I was also weary about any unnecessary performance and battery costs. Again, it is easy to integrate into the GameEngine and then RNGE Handbook will have an example using [react-native-sensors](https://github.com/react-native-sensors/react-native-sensors).
 
 ### Is this compatible with Android and iOS?
 
@@ -233,18 +233,18 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 
 ## Introduction
 
-This package contains only two components: 
+This package contains only two components:
 
 - ```GameLoop```
 - ```GameEngine```
 
 Both are standalone components. The ```GameLoop``` is a subset of the ```GameEngine``` and gives you access to an ```onUpdate``` callback that fires every **16ms** (or roughly 60 fps). On top of this, the ```GameLoop``` will supply a reference to the screen (via ```Dimensions.get("window"))```, touch events for multiple fingers (start, end, press, long-press, move) and time + deltas. The ```GameLoop``` is useful for simple interactive scenes, and pretty much stays out of your way.
 
-The ```GameEngine``` is more opinionated and is a react-friendly implementation of the [Component-Entity-Systems pattern](#managing-complexity-with-component-entity-systems). It provides the same features out of the box as the ```GameEngine``` but also includes a crude event/signalling pipeline for communcation between your game and your other React Native components. You probably want to use the ```GameEngine``` to implement slightly more complex games and interactive scenes.
+The ```GameEngine``` is more opinionated and is a react-friendly implementation of the [Component-Entity-Systems pattern](#managing-complexity-with-component-entity-systems). It provides the same features out of the box as the ```GameEngine``` but also includes a crude event/signaling pipeline for communication between your game and your other React Native components. You probably want to use the ```GameEngine``` to implement slightly more complex games and interactive scenes.
 
 ## The Game Loop
 
-The game loop is a common pattern in game development and other interactive programs. It loosely consists of two main functions that get called over and over again: ```update``` and ```draw```. 
+The game loop is a common pattern in game development and other interactive programs. It loosely consists of two main functions that get called over and over again: ```update``` and ```draw```.
 
 The ```update``` function is responsible for calculating the next state of your game. It updates all of your game objects, taking into consideration physics, ai, movement, input, health/fire/damage etc. We can consider this the *logic* of your game.
 
@@ -254,7 +254,7 @@ Ideally, both functions complete within **16ms**, and we start the next iteratio
 
 ## The Game Loop vs React Native
 
-A typical React Native app will only redraw itself when ```this.setState()``` is called on a component with some new state (for lack of better words). Often times, this is a direct response to user input (button press, keystroke, swipe) or other event (websocket callback, push notificaiton etc).
+A typical React Native app will only redraw itself when ```this.setState()``` is called on a component with some new state (for lack of better words). Often times, this is a direct response to user input (button presses, keystrokes, swipes) or other event (WebSocket callbacks, push notifications, etc).
 
 This works perfectly fine (and is even ideal) for a business-oriented app - but it doesn't give the developer fine grained control to create highly interactive and dynamic scenes.
 
@@ -268,11 +268,11 @@ That said, React Native and game loops are not mutually exclusive, and we can us
 
 **The ```GameLoop``` component is suitable for simple scenes and interactions only. For more complex scenes and games, please take a look at the ```GameEngine``` component and have a quick read through [Managing Complexity with Component Entity Systems](#managing-complexity-with-component-entity-systems)**
 
-Firstly, install the package to your project: 
+Firstly, install the package to your project:
 
 ```npm install --save react-native-game-engine```
 
-Then import the GameLoop component: 
+Then import the GameLoop component:
 
 ```javascript
 import { GameLoop } from "react-native-game-engine"
@@ -360,7 +360,7 @@ Typically, game developers have used OOP to implement complex game objects and s
                /    |    \
               /     |     \
              /      |      \
-            /       |       \ 
+            /       |       \
    [Terrestrial] [Marine] [Airborne]
            |        |        |
            |        |        |
@@ -387,7 +387,7 @@ Your game entities will be reduced to lists/arrays of components and labeled wit
 - ***Player#1:**   [Position, Velocity, Health, Sprite, Physics, Controls]*
 - ***Enemy#1:**    [Position, Velocity, Health, Sprite, Physics, AI]*
 - ***Platform#1:** [Position, Sprite, Physics]*
-- ***Platform#2:** [Position, Sprite, Physics, Velocity] // <-- Moving platorm!*
+- ***Platform#2:** [Position, Sprite, Physics, Velocity] // <-- Moving platform!*
 
 > All entities are assigned a unique id.
 
@@ -401,7 +401,7 @@ Since our entities are simple data holders now, we must move all our game logic 
 
 > The logic in a system is inherently reusable because it can be applied to all entities that meet the system's criteria.
 
-How exactly you choose to define your components, entities and systems is up to you. You'll probably find that coming up with well-defined components and systems will take some practice - but the general pattern is conducive to refactoring and the long term benefits will outweight the learning curve.
+How exactly you choose to define your components, entities and systems is up to you. You'll probably find that coming up with well-defined components and systems will take some practice - but the general pattern is conducive to refactoring and the long term benefits will outweigh the learning curve.
 
 ### Additional CES Reading Material
 
@@ -411,19 +411,19 @@ How exactly you choose to define your components, entities and systems is up to 
 
 ## Using the GameEngine Component
 
-The ```GameEngine``` component is a loose implementation of a [Component-Entity-Systems architecture](#managing-complexity-with-component-entity-systems). It is a plain React component that allows us to pass in a map of entities (and their components) and an array of systems that will process the entities on each frame. In addition, the ```GameEngine``` will provide touch feedback, screen size and some other niceties to help us code our logic. 
+The ```GameEngine``` component is a loose implementation of a [Component-Entity-Systems architecture](#managing-complexity-with-component-entity-systems). It is a plain React component that allows us to pass in a map of entities (and their components) and an array of systems that will process the entities on each frame. In addition, the ```GameEngine``` will provide touch feedback, screen size and some other niceties to help us code our logic.
 
-To begin with, install the package to your project: 
+To begin with, install the package to your project:
 
 ```npm install --save react-native-game-engine```
 
-Then import the GameEngine component: 
+Then import the GameEngine component:
 
-```javascript 
+```javascript
 import { GameEngine } from "react-native-game-engine"
 ```
 
-Let's code a scene that incorporates some mult-touch logic. To start with, let's create some components that can be rendered by React. Create a file called ```renderers.js```:
+Let's code a scene that incorporates some multi-touch logic. To start with, let's create some components that can be rendered by React. Create a file called ```renderers.js```:
 
 ```javascript
 import React, { PureComponent } from "react";
@@ -498,10 +498,10 @@ export default class BestGameEver extends PureComponent {
 
   render() {
     return (
-      <GameEngine 
-        style={styles.container} 
+      <GameEngine
+        style={styles.container}
         systems={[MoveFinger]} //-- We can add as many systems as needed
-        entities={{ 
+        entities={{
           1: { position: [40,  200], renderer: <Finger />}, //-- Notice that each entity has a unique id (required)
           2: { position: [100, 200], renderer: <Finger />}, //-- and a map of components. Each entity has an optional
           3: { position: [160, 200], renderer: <Finger />}, //-- renderer component. If no renderer is supplied with the
@@ -553,7 +553,7 @@ Some of our projects:
 * [__*react-native-game-engine-handbook*__](https://github.com/bberak/react-native-game-engine-handbook): A React Native app showcasing some examples using react-native-game-engine.
 
 #### Web Framework & Deployment Tools
-* [__*webfunc*__](https://github.com/nicolasdao/webfunc): Write code for serverless similar to Express once, deploy everywhere. 
+* [__*webfunc*__](https://github.com/nicolasdao/webfunc): Write code for serverless similar to Express once, deploy everywhere.
 * [__*now-flow*__](https://github.com/nicolasdao/now-flow): Automate your Zeit Now Deployments.
 
 #### GraphQL
@@ -582,7 +582,7 @@ copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
