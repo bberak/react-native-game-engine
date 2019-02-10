@@ -12,6 +12,16 @@ const getEntitiesFromProps = props =>
   props.initialEntities ||
   props.entities;
 
+const isPromise = obj => {
+  return !!(
+    obj &&
+    obj.then &&
+    obj.then.constructor &&
+    obj.then.call &&
+    obj.then.apply
+  );
+};
+
 export default class GameEngine extends Component {
   constructor(props) {
     super(props);
@@ -29,13 +39,13 @@ export default class GameEngine extends Component {
   }
 
   async componentDidMount() {
-    let entities = getEntitiesFromProps(this.props) || {};
+    let entities = getEntitiesFromProps(this.props);
 
-    if (entities.then) entities = await entities;
+    if (isPromise(entities)) entities = await entities;
 
     this.setState(
       {
-        entities
+        entities: entities || {}
       },
       () => {
         if (this.props.running) this.start();
@@ -74,14 +84,13 @@ export default class GameEngine extends Component {
     this.dispatch({ type: "stopped" });
   };
 
-  swap = async (newEntities = {}) => {
-    this.clear();
+  swap = async newEntities => {
+    if (isPromise(newEntities)) newEntities = await newEntities;
 
-    if (newEntities.then) newEntities = await newEntities;
-
-    this.setState({ entities: newEntities }, () =>
-      this.dispatch({ type: "swapped" })
-    );
+    this.setState({ entities: newEntities || {} }, () => {
+      this.clear();
+      this.dispatch({ type: "swapped" });
+    });
   };
 
   publish = e => {
