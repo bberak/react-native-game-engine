@@ -16,7 +16,7 @@ export default class GameEngine extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      entities: getEntitiesFromProps(props)
+      entities: null
     };
     this.timer = props.timer || new DefaultTimer();
     this.timer.subscribe(this.updateHandler);
@@ -28,8 +28,19 @@ export default class GameEngine extends Component {
     this.touchProcessor = props.touchProcessor(this.touches);
   }
 
-  componentDidMount() {
-    if (this.props.running) this.start();
+  async componentDidMount() {
+    let entities = getEntitiesFromProps(this.props) || {};
+
+    if (entities.then) entities = await entities;
+
+    this.setState(
+      {
+        entities
+      },
+      () => {
+        if (this.props.running) this.start();
+      }
+    );
   }
 
   componentWillUnmount() {
@@ -63,10 +74,14 @@ export default class GameEngine extends Component {
     this.dispatch({ type: "stopped" });
   };
 
-  swap = (newEntities = {}) => {
+  swap = async (newEntities = {}) => {
     this.clear();
-    this.setState({ entities: newEntities });
-    this.dispatch({ type: "swapped" });
+
+    if (newEntities.then) newEntities = await newEntities;
+
+    this.setState({ entities: newEntities }, () =>
+      this.dispatch({ type: "swapped" })
+    );
   };
 
   publish = e => {
@@ -143,7 +158,9 @@ export default class GameEngine extends Component {
           onTouchMove={this.onTouchMoveHandler}
           onTouchEnd={this.onTouchEndHandler}
         >
-          {this.props.renderer(this.state.entities, this.screen)}
+          {this.state.entities
+            ? this.props.renderer(this.state.entities, this.screen)
+            : null}
         </View>
 
         <View
