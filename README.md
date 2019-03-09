@@ -183,7 +183,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 | Prop | Description | Default |
 |---|---|---|
 |**`systems`**|An array of functions to be called on every tick. |`[]`|
-|**`entities`**|An object containing your game's initial entities |`{}`|
+|**`entities`**|An object containing your game's initial entities. This can also be a Promise that resolves to an object containing your entities. This is useful when you need to asynchronously load a texture or other assets during the creation of your entities or level. |`{} || Promise`|
 |**`renderer`**|A function that receives the entities and needs to render them on every tick. ```(entities,screen) => { /* DRAW ENTITIES */ }``` |`DefaultRenderer`|
 |**`touchProcessor`**|A function that can be used to override the default touch processing behavior |`DefaultTouchProcessor`|
 |**`timer`**|An object that can be used to override the default timer behavior |`new DefaultTimer()`|
@@ -198,7 +198,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 |---|---|---|
 |**`stop`**|Stop the game loop |`NA`|
 |**`start`**|Start the game loop. |`NA`|
-|**`swap`**|A method that can be called to update your game with new entities. Can be useful for level switching etc. |`newEntities = {}`|
+|**`swap`**|A method that can be called to update your game with new entities. Can be useful for level switching etc. You can also pass a Promise that resolves to an entities object into this method. |`{} || Promise`|
 |**`dispatch`**|A method that can be called to dispatch events. The event will be received by the systems and any `onEvent` callbacks |`event`|
 
 ## FAQ
