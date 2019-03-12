@@ -200,7 +200,7 @@ The `GameEngine` component is a loose implementation of a [Component-Entity-Syst
 |**`swap`**|A method that can be called to update your game with new entities. Can be useful for level switching etc. You can also pass a Promise that resolves to an entities object into this method. |`{} or Promise`|
 |**`dispatch`**|A method that can be called to dispatch events. The event will be received by the systems and any `onEvent` callbacks |`event`|
 
-## The Game Loop
+## GameLoop
 
 The game loop is a common pattern in game development and other interactive programs. It loosely consists of two main functions that get called over and over again: `update` and `draw`.
 
@@ -210,7 +210,7 @@ Once the `update` function has done its thing - the `draw` function is responsib
 
 Ideally, both functions complete within **16ms**, and we start the next iteration of the loop until some loop-breaking condition is encountered: *pause, quit, game over etc*. This might seem like a lot of processing overhead, but unlike regular applications, games are highly interactive and ever changing. The game loop affords us full control over scenes - even when no user input or external events have fired.
 
-### The Game Loop vs React Native
+### Comparison to React Native's rendering
 
 A typical React Native app will only redraw itself when `this.setState()` is called on a component with some new state (for lack of better words). Often times, this is a direct response to user input (button presses, keystrokes, swipes) or other event (WebSocket callbacks, push notifications, etc).
 
@@ -222,11 +222,11 @@ This works perfectly fine (and is even ideal) for a business-oriented app - but 
 
 That said, React Native and game loops are not mutually exclusive, and we can use React Native Game Engine to bridge the two paradigms.
 
-## The `GameLoop` Component
+### Using the GameLoop component
 
-**The `GameLoop` component is suitable for simple scenes and interactions only. For more complex scenes and games, please take a look at the `GameEngine` component and have a quick read through [Managing Complexity with Component Entity Systems](#managing-complexity-with-component-entity-systems)**
+Note: *The `GameLoop` component is suitable for simple scenes and interactions only. For more complex scenes and games, please take a look at the `GameEngine` component and have a quick read through [Managing Complexity with Component Entity Systems](#managing-complexity-with-component-entity-systems)*
 
-Firstly, install the package to your project:
+Install the package to your project:
 
 ```bash
 npm install --save react-native-game-engine
@@ -238,7 +238,7 @@ Then import the `GameLoop` component:
 import { GameLoop } from "react-native-game-engine"
 ```
 
-Let's code a basic scene with a single moveable game object. Add this into your `index.js`:
+Let's code a basic scene with a single moveable game object in `index.js`:
 
 ```javascript
 import React, { PureComponent } from "react";
@@ -297,14 +297,14 @@ AppRegistry.registerComponent("BestGameEver", () => BestGameEver);
 
 ### Behind the Scenes
 
-- The ```GameLoop``` starts a timer using ```requestAnimationFrame(fn)```. Effectively, this is our game loop.
-- Each iteration through the loop, the ```GameLoop``` will call the function passed in via ```props.onUpdate```.
-- Our ```updateHandler``` looks for any ```move``` touches that were made between now and the last time through the loop.
-- If found, we update the position of our lone game object using ```this.setState()```.
+- The `GameLoop` starts a timer using `requestAnimationFrame(fn)`. Effectively, this is our game loop.
+- Each iteration through the loop, the `GameLoop` will call the function passed in via `props.onUpdate`.
+- Our `updateHandler` looks for any `move` touches that were made between now and the last time through the loop.
+- If found, we update the position of our lone game object using `this.setState()`.
 
 ### Where's `draw()`?
 
-Nice observation! Indeed, there is none. The logic of our scene is processed in the `updateHandler` function, and our drawing is handled by our component's out-of-the-box `render` function.
+Nice observation! Indeed, there is no explicit `draw` function. The logic of our scene is processed in the `updateHandler` function, and our drawing is handled by our component's out-of-the-box `render` function.
 
 All we've done here is hookup a timer to a function that fires every **~16ms**, and used `this.setState()` to force React Native to diff the changes in our scene and send them across the bridge to the host device. React Native Game Engine only takes care of the game timing and input processing for us.
 
