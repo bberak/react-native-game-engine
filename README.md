@@ -8,6 +8,39 @@
 Construct dynamic, interactive scenes using React Native.
 
 
+## Examples
+
+Take a look at [Studious Bear](https://itunes.apple.com/us/app/studious-bear/id1434377602), a super-polished puzzle game with great visuals and music. One of the first published games to use RNGE.
+
+<p align="center">
+  <a href="https://itunes.apple.com/us/app/studious-bear/id1434377602">
+    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple118/v4/6e/90/40/6e9040e2-7a02-d011-c050-85326a76b243/pr_source.png/600x0w.jpg" height="450" />
+    <img src="https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/5c/bb/0d/5cbb0d5c-d678-8488-1a5e-a0bc2867e6c9/pr_source.png/600x0w.jpg" height="450" />
+    <img src="https://is2-ssl.mzstatic.com/image/thumb/Purple118/v4/e4/aa/0e/e4aa0ebf-c7fb-7b06-df8c-76c40905450f/pr_source.png/600x0w.jpg" height="450" />
+    <img src="https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/e0/05/40/e005407e-e6ef-339e-c4b7-b2b733cb66db/pr_source.png/600x0w.jpg" height="450" />
+  </a>
+</p>
+
+See the [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) for a complimentary app, examples and ideas.
+
+<p align="center">
+  <a href="https://github.com/bberak/react-native-game-engine-handbook">
+    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/single-touch.gif" alt="Single Touch Preview" height="450" />
+    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/multi-touch.gif" alt="Multi Touch Preview" height="450" />
+    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/rigid-bodies.gif" alt="Rigid Bodies Preview" height="450" />
+   </a>
+</p>
+
+Check out [React Native Donkey Kong](https://github.com/bberak/react-native-donkey-kong) for a classic game re-made in RNGE.
+
+<p align="center">
+  <a href="https://github.com/bberak/react-native-donkey-kong">
+    <img src="https://raw.githubusercontent.com/bberak/react-native-donkey-kong/master/assets/gifs/1.gif" height="450" />
+    <img src="https://raw.githubusercontent.com/bberak/react-native-donkey-kong/master/assets/gifs/2.gif" height="450" />
+    <img src="https://raw.githubusercontent.com/bberak/react-native-donkey-kong/master/assets/gifs/3.gif" height="450" />
+  </a>
+</p>
+
 ## Introduction
 
 This package contains two key components:
@@ -335,39 +368,6 @@ How exactly you choose to define your components, entities and systems is up to 
 - [Gamedev.net article](https://www.gamedev.net/articles/programming/general-and-gameplay-programming/understanding-component-entity-systems-r3013/)
 - [Intro to Entity Systems](https://github.com/junkdog/artemis-odb/wiki/Introduction-to-Entity-Systems)
 - [Intro to CES from A-Frame](https://aframe.io/docs/0.7.0/introduction/entity-component-system.html)
-
-## Examples
-
-Take a look at [Studious Bear](https://itunes.apple.com/us/app/studious-bear/id1434377602), a super-polished puzzle game with great visuals and music. One of the first published games to use RNGE.
-
-<p align="center">
-  <a href="https://itunes.apple.com/us/app/studious-bear/id1434377602">
-    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple118/v4/6e/90/40/6e9040e2-7a02-d011-c050-85326a76b243/pr_source.png/600x0w.jpg" height="450" />
-    <img src="https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/5c/bb/0d/5cbb0d5c-d678-8488-1a5e-a0bc2867e6c9/pr_source.png/600x0w.jpg" height="450" />
-    <img src="https://is2-ssl.mzstatic.com/image/thumb/Purple118/v4/e4/aa/0e/e4aa0ebf-c7fb-7b06-df8c-76c40905450f/pr_source.png/600x0w.jpg" height="450" />
-    <img src="https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/e0/05/40/e005407e-e6ef-339e-c4b7-b2b733cb66db/pr_source.png/600x0w.jpg" height="450" />
-  </a>
-</p>
-
-See the [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) for a complimentary app, examples and ideas.
-
-<p align="center">
-  <a href="https://github.com/bberak/react-native-game-engine-handbook">
-    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/single-touch.gif" alt="Single Touch Preview" height="450" />
-    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/multi-touch.gif" alt="Multi Touch Preview" height="450" />
-    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/rigid-bodies.gif" alt="Rigid Bodies Preview" height="450" />
-   </a>
-</p>
-
-Check out [React Native Donkey Kong](https://github.com/bberak/react-native-donkey-kong) for a classic game re-made in RNGE.
-
-<p align="center">
-  <a href="https://github.com/bberak/react-native-donkey-kong">
-    <img src="https://raw.githubusercontent.com/bberak/react-native-donkey-kong/master/assets/gifs/1.gif" height="450" />
-    <img src="https://raw.githubusercontent.com/bberak/react-native-donkey-kong/master/assets/gifs/2.gif" height="450" />
-    <img src="https://raw.githubusercontent.com/bberak/react-native-donkey-kong/master/assets/gifs/3.gif" height="450" />
-  </a>
-</p>
 
 ## FAQ
 
