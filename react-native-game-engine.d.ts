@@ -22,14 +22,14 @@ declare module "react-native-game-engine" {
     export function DefaultTouchProcessor (touchProcessorOptions?: TouchProcessorOptions): any;
   
     export interface GameEngineProperties {
-      systems: any[];
-      entities: {} | Promise<any>;
-      renderer: any;
-      touchProcessor: any;
-      timer: any;
-      running: boolean;
-      onEvent: any;
-      style: StyleProp<ViewStyle>;
+      systems?: any[];
+      entities?: {} | Promise<any>;
+      renderer?: any;
+      touchProcessor?: any;
+      timer?: any;
+      running?: boolean;
+      onEvent?: any;
+      style?: StyleProp<ViewStyle>;
       children: React.ReactNode;
     }
   
