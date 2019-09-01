@@ -19,13 +19,13 @@ export default class GameLoop extends Component {
     if (this.props.running) this.start();
   }
 
-  componentWillUnmount() {
+  UNSAFE_componentWillUnmount() {
     this.stop();
     this.timer.unsubscribe(this.updateHandler);
     if (this.touchProcessor.end) this.touchProcessor.end();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.running !== this.props.running) {
       if (nextProps.running) this.start();
       else this.stop();
