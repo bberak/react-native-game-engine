@@ -30,7 +30,7 @@ declare module "react-native-game-engine" {
       running?: boolean;
       onEvent?: any;
       style?: StyleProp<ViewStyle>;
-      children: React.ReactNode;
+      children?: React.ReactNode;
     }
   
     export class GameEngine extends React.Component<GameEngineProperties> {}
@@ -47,11 +47,12 @@ declare module "react-native-game-engine" {
     }
   
     export interface GameLoopProperties {
-      touchProcessor: any;
-      timer: any;
-      running: boolean;
-      onUpdate: (args?: GameLoopUpdateEventOptionType) => void;
-      style: StyleProp<ViewStyle>;
+      touchProcessor?: any;
+      timer?: any;
+      running?: boolean;
+      onUpdate?: (args?: GameLoopUpdateEventOptionType) => void;
+      style?: StyleProp<ViewStyle>;
+      children?: React.ReactNode;
     }
   
     export class GameLoop extends React.Component<GameLoopProperties> {}
