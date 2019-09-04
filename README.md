@@ -143,7 +143,7 @@ const MoveFinger = (entities, { touches }) => {
 export { MoveFinger };
 ```
 
-Finally let's bring it all together in our ```index.ios.js``` (or ```index.android.js```):
+Finally let's bring it all together in our ```index.js```:
 
 ```javascript
 import React, { PureComponent } from "react";
