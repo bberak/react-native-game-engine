@@ -6,6 +6,8 @@
 
 Some components that make it easier to construct dynamic and interactive scenes using React Native.
 
+If you are looking for the **React (Web)** version of this library, go to [react-game-engine](https://github.com/bberak/react-game-engine).
+
 ## Table of Contents
 
 - [Examples](#examples)
