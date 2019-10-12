@@ -25,146 +25,150 @@ const isPromise = obj => {
 export default function GameEngine(props) {
   const [entities, setEntities] = useState(null);
 
-  this.timer = props.timer || new DefaultTimer();
-  this.timer.subscribe(this.updateHandler);
-  this.touches = [];
-  this.screen = Dimensions.get("window");
-  this.previousTime = null;
-  this.previousDelta = null;
-  this.events = [];
-  this.touchProcessor = props.touchProcessor(this.touches);
+  let timer = props.timer || new DefaultTimer();
+  timer.subscribe(updateHandler);
+  let touches = [];
+  let screen = Dimensions.get("window");
+  let previousTime = null;
+  let previousDelta = null;
+  let events = [];
+  let touchProcessor = props.touchProcessor(touches);
 
-  useEffect(async () => {
-    let entities = getEntitiesFromProps(this.props);
+  useEffect(() => {
+    async function loadEntities(){
+      let entities = getEntitiesFromProps(props);
+  
+      if (isPromise(entities)) entities = await entities;
+  
+      await setEntities(entities || {});
+    }
 
-    if (isPromise(entities)) entities = await entities;
+    loadEntities();
 
-    await setEntities(entities || {});
-
-    if (this.props.running) this.start();
+    if (props.running) start();
 
     return () => {
-      this.stop();
-      this.timer.unsubscribe(this.updateHandler);
-      if (this.touchProcessor.end) this.touchProcessor.end();
+      stop();
+      timer.unsubscribe(updateHandler);
+      if (touchProcessor.end) touchProcessor.end();
     };
   }, []);
 
   useEffect(() => {
-    if (props.running) this.start();
-    else this.stop();
+    if (props.running) start();
+    else stop();
   }, [props.running]);
 
-  clear = () => {
-    this.touches.length = 0;
-    this.events.length = 0;
-    this.previousTime = null;
-    this.previousDelta = null;
+  const clear = () => {
+    touches.length = 0;
+    events.length = 0;
+    previousTime = null;
+    previousDelta = null;
   };
 
-  start = () => {
-    this.clear();
-    this.timer.start();
-    this.dispatch({ type: "started" });
+  const start = () => {
+    clear();
+    timer.start();
+    dispatch({ type: "started" });
   };
 
-  stop = () => {
-    this.timer.stop();
-    this.dispatch({ type: "stopped" });
+  const stop = () => {
+    timer.stop();
+    dispatch({ type: "stopped" });
   };
 
-  swap = async newEntities => {
+  const swap = async newEntities => {
     if (isPromise(newEntities)) newEntities = await newEntities;
 
     await setEntities(newEntities || {});
-    this.clear();
-    this.dispatch({ type: "swapped" });
+    clear();
+    dispatch({ type: "swapped" });
   };
 
-  publish = e => {
-    this.dispatch(e);
+  const publish = e => {
+    dispatch(e);
   };
 
-  publishEvent = e => {
-    this.dispatch(e);
+  const publishEvent = e => {
+    dispatch(e);
   };
 
-  dispatch = e => {
+  const dispatch = e => {
     setTimeout(() => {
-      this.events.push(e);
-      if (this.props.onEvent) this.props.onEvent(e);
+      events.push(e);
+      if (props.onEvent) props.onEvent(e);
     }, 0);
   };
 
-  dispatchEvent = e => {
-    this.dispatch(e);
+  const dispatchEvent = e => {
+    dispatch(e);
   };
 
-  updateHandler = currentTime => {
+  const updateHandler = currentTime => {
     let args = {
-      touches: this.touches,
-      screen: this.screen,
-      events: this.events,
-      dispatch: this.dispatch,
+      touches: touches,
+      screen: screen,
+      events: events,
+      dispatch: dispatch,
       time: {
         current: currentTime,
-        previous: this.previousTime,
-        delta: currentTime - (this.previousTime || currentTime),
-        previousDelta: this.previousDelta
+        previous: previousTime,
+        delta: currentTime - (previousTime || currentTime),
+        previousDelta: previousDelta
       }
     };
 
-    let newState = this.props.systems.reduce(
+    let newState = props.systems.reduce(
       (state, sys) => sys(state, args),
       entities
     );
 
-    this.touches.length = 0;
-    this.events.length = 0;
-    this.previousTime = currentTime;
-    this.previousDelta = args.time.delta;
+    touches.length = 0;
+    events.length = 0;
+    previousTime = currentTime;
+    previousDelta = args.time.delta;
     setEntities(newState);
   };
 
-  onLayoutHandler = () => {
-    this.screen = Dimensions.get("window");
-    this.forceUpdate();
+  const onLayoutHandler = () => {
+    screen = Dimensions.get("window");
+    forceUpdate();
   };
 
-  onTouchStartHandler = e => {
-    this.touchProcessor.process("start", e.nativeEvent);
+  const onTouchStartHandler = e => {
+    touchProcessor.process("start", e.nativeEvent);
   };
 
-  onTouchMoveHandler = e => {
-    this.touchProcessor.process("move", e.nativeEvent);
+  const onTouchMoveHandler = e => {
+    touchProcessor.process("move", e.nativeEvent);
   };
 
-  onTouchEndHandler = e => {
-    this.touchProcessor.process("end", e.nativeEvent);
+  const onTouchEndHandler = e => {
+    touchProcessor.process("end", e.nativeEvent);
   };
 
   return (
     <View
-      style={[css.container, this.props.style]}
-      onLayout={this.onLayoutHandler}
+      style={[css.container, props.style]}
+      onLayout={onLayoutHandler}
     >
       <View
         style={css.entityContainer}
-        onTouchStart={this.onTouchStartHandler}
-        onTouchMove={this.onTouchMoveHandler}
-        onTouchEnd={this.onTouchEndHandler}
+        onTouchStart={onTouchStartHandler}
+        onTouchMove={onTouchMoveHandler}
+        onTouchEnd={onTouchEndHandler}
       >
-        {entities ? this.props.renderer(entities, this.screen) : null}
+        {entities ? props.renderer(entities, screen) : null}
       </View>
 
       <View
         pointerEvents={"box-none"}
         style={[
           css.childrenContainer,
-          { width: this.screen.width, height: this.screen.height }
+          { width: screen.width, height: screen.height }
         ]}
       >
-        {this.props.children}
+        {props.children}
       </View>
     </View>
   );

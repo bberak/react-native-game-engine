@@ -4,85 +4,85 @@ import DefaultTimer from "./DefaultTimer";
 import DefaultTouchProcessor from "./DefaultTouchProcessor";
 
 export default function GameLoop(props) {
-  this.timer = props.timer || new DefaultTimer();
-  this.timer.subscribe(this.updateHandler);
-  this.touches = [];
-  this.screen = Dimensions.get("window");
-  this.previousTime = null;
-  this.previousDelta = null;
-  this.touchProcessor = props.touchProcessor(this.touches);
+  let timer = props.timer || new DefaultTimer();
+  timer.subscribe(updateHandler);
+  let touches = [];
+  let screen = Dimensions.get("window");
+  let previousTime = null;
+  let previousDelta = null;
+  let touchProcessor = props.touchProcessor(touches);
 
   useEffect(() => {
-    if (this.props.running) this.start();
+    if (props.running) start();
 
     return () => {
-      this.stop();
-      this.timer.unsubscribe(this.updateHandler);
-      if (this.touchProcessor.end) this.touchProcessor.end();
+      stop();
+      timer.unsubscribe(updateHandler);
+      if (touchProcessor.end) touchProcessor.end();
     };
   }, []);
 
   useEffect(() => {
-    if (props.running) this.start();
-    else this.stop();
+    if (props.running) start();
+    else stop();
   }, [props.running]);
 
-  start = () => {
-    this.touches.length = 0;
-    this.previousTime = null;
-    this.previousDelta = null;
-    this.timer.start();
+  const start = () => {
+    touches.length = 0;
+    previousTime = null;
+    previousDelta = null;
+    timer.start();
   };
 
-  stop = () => {
-    this.timer.stop();
+  const stop = () => {
+    timer.stop();
   };
 
-  updateHandler = currentTime => {
+  const updateHandler = currentTime => {
     let args = {
-      touches: this.touches,
-      screen: this.screen,
+      touches: touches,
+      screen: screen,
       time: {
         current: currentTime,
-        previous: this.previousTime,
-        delta: currentTime - (this.previousTime || currentTime),
-        previousDelta: this.previousDelta
+        previous: previousTime,
+        delta: currentTime - (previousTime || currentTime),
+        previousDelta: previousDelta
       }
     };
 
-    if (this.props.onUpdate) this.props.onUpdate(args);
+    if (props.onUpdate) props.onUpdate(args);
 
-    this.touches.length = 0;
-    this.previousTime = currentTime;
-    this.previousDelta = args.time.delta;
+    touches.length = 0;
+    previousTime = currentTime;
+    previousDelta = args.time.delta;
   };
 
-  onLayoutHandler = () => {
-    this.screen = Dimensions.get("window");
-    this.forceUpdate();
+  const onLayoutHandler = () => {
+    screen = Dimensions.get("window");
+    forceUpdate();
   };
 
-  onTouchStartHandler = e => {
-    this.touchProcessor.process("start", e.nativeEvent);
+  const onTouchStartHandler = e => {
+    touchProcessor.process("start", e.nativeEvent);
   };
 
-  onTouchMoveHandler = e => {
-    this.touchProcessor.process("move", e.nativeEvent);
+  const onTouchMoveHandler = e => {
+    touchProcessor.process("move", e.nativeEvent);
   };
 
-  onTouchEndHandler = e => {
-    this.touchProcessor.process("end", e.nativeEvent);
+  const onTouchEndHandler = e => {
+    touchProcessor.process("end", e.nativeEvent);
   };
 
   return (
     <View
-      style={[css.container, this.props.style]}
-      onLayout={this.onLayoutHandler}
-      onTouchStart={this.onTouchStartHandler}
-      onTouchMove={this.onTouchMoveHandler}
-      onTouchEnd={this.onTouchEndHandler}
+      style={[css.container, props.style]}
+      onLayout={onLayoutHandler}
+      onTouchStart={onTouchStartHandler}
+      onTouchMove={onTouchMoveHandler}
+      onTouchEnd={onTouchEndHandler}
     >
-      {this.props.children}
+      {props.children}
     </View>
   );
 }
