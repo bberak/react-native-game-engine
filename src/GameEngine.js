@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import DefaultTimer from "./DefaultTimer";
 import DefaultRenderer from "./DefaultRenderer";
@@ -22,49 +22,38 @@ const isPromise = obj => {
   );
 };
 
-export default class GameEngine extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      entities: null
-    };
-    this.timer = props.timer || new DefaultTimer();
-    this.timer.subscribe(this.updateHandler);
-    this.touches = [];
-    this.screen = Dimensions.get("window");
-    this.previousTime = null;
-    this.previousDelta = null;
-    this.events = [];
-    this.touchProcessor = props.touchProcessor(this.touches);
-  }
+export default function GameEngine(props) {
+  const [entities, setEntities] = useState(null);
 
-  async componentDidMount() {
+  this.timer = props.timer || new DefaultTimer();
+  this.timer.subscribe(this.updateHandler);
+  this.touches = [];
+  this.screen = Dimensions.get("window");
+  this.previousTime = null;
+  this.previousDelta = null;
+  this.events = [];
+  this.touchProcessor = props.touchProcessor(this.touches);
+
+  useEffect(async () => {
     let entities = getEntitiesFromProps(this.props);
 
     if (isPromise(entities)) entities = await entities;
 
-    this.setState(
-      {
-        entities: entities || {}
-      },
-      () => {
-        if (this.props.running) this.start();
-      }
-    );
-  }
+    await setEntities(entities || {});
 
-  componentWillUnmount() {
-    this.stop();
-    this.timer.unsubscribe(this.updateHandler);
-    if (this.touchProcessor.end) this.touchProcessor.end();
-  }
+    if (this.props.running) this.start();
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.running !== this.props.running) {
-      if (nextProps.running) this.start();
-      else this.stop();
-    }
-  }
+    return () => {
+      this.stop();
+      this.timer.unsubscribe(this.updateHandler);
+      if (this.touchProcessor.end) this.touchProcessor.end();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (props.running) this.start();
+    else this.stop();
+  }, [props.running]);
 
   clear = () => {
     this.touches.length = 0;
@@ -87,10 +76,9 @@ export default class GameEngine extends Component {
   swap = async newEntities => {
     if (isPromise(newEntities)) newEntities = await newEntities;
 
-    this.setState({ entities: newEntities || {} }, () => {
-      this.clear();
-      this.dispatch({ type: "swapped" });
-    });
+    await setEntities(newEntities || {});
+    this.clear();
+    this.dispatch({ type: "swapped" });
   };
 
   publish = e => {
@@ -128,14 +116,14 @@ export default class GameEngine extends Component {
 
     let newState = this.props.systems.reduce(
       (state, sys) => sys(state, args),
-      this.state.entities
+      entities
     );
 
     this.touches.length = 0;
     this.events.length = 0;
     this.previousTime = currentTime;
     this.previousDelta = args.time.delta;
-    this.setState({ entities: newState });
+    setEntities(newState);
   };
 
   onLayoutHandler = () => {
@@ -155,35 +143,31 @@ export default class GameEngine extends Component {
     this.touchProcessor.process("end", e.nativeEvent);
   };
 
-  render() {
-    return (
+  return (
+    <View
+      style={[css.container, this.props.style]}
+      onLayout={this.onLayoutHandler}
+    >
       <View
-        style={[css.container, this.props.style]}
-        onLayout={this.onLayoutHandler}
+        style={css.entityContainer}
+        onTouchStart={this.onTouchStartHandler}
+        onTouchMove={this.onTouchMoveHandler}
+        onTouchEnd={this.onTouchEndHandler}
       >
-        <View
-          style={css.entityContainer}
-          onTouchStart={this.onTouchStartHandler}
-          onTouchMove={this.onTouchMoveHandler}
-          onTouchEnd={this.onTouchEndHandler}
-        >
-          {this.state.entities
-            ? this.props.renderer(this.state.entities, this.screen)
-            : null}
-        </View>
-
-        <View
-          pointerEvents={"box-none"}
-          style={[
-            css.childrenContainer,
-            { width: this.screen.width, height: this.screen.height }
-          ]}
-        >
-          {this.props.children}
-        </View>
+        {entities ? this.props.renderer(entities, this.screen) : null}
       </View>
-    );
-  }
+
+      <View
+        pointerEvents={"box-none"}
+        style={[
+          css.childrenContainer,
+          { width: this.screen.width, height: this.screen.height }
+        ]}
+      >
+        {this.props.children}
+      </View>
+    </View>
+  );
 }
 
 GameEngine.defaultProps = {
