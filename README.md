@@ -51,16 +51,6 @@ See the [React Native Game Engine Handbook](https://github.com/bberak/react-nati
    </a>
 </p>
 
-Also check out [React Native Donkey Kong](https://github.com/bberak/react-native-donkey-kong) for a knocked-off but playable game made with RNGE.
-
-<p align="center">
-  <a href="https://github.com/bberak/react-native-donkey-kong">
-    <img src="https://raw.githubusercontent.com/bberak/react-native-donkey-kong/master/assets/gifs/1.gif" height="450" />
-    <img src="https://raw.githubusercontent.com/bberak/react-native-donkey-kong/master/assets/gifs/2.gif" height="450" />
-    <img src="https://raw.githubusercontent.com/bberak/react-native-donkey-kong/master/assets/gifs/3.gif" height="450" />
-  </a>
-</p>
-
 ## Quick Start
 
 If you've used **react-native-game-engine** before and understand the core concepts, take a look at [react-native-game-engine-template](https://github.com/bberak/react-native-game-engine-template). It's a sort of game kickstarter project that allows you to prototype ideas quickly and comes preloaded with a bunch of stuff like:
