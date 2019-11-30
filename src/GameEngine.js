@@ -170,17 +170,12 @@ export default class GameEngine extends Component {
           onTouchMove={this.onTouchMoveHandler}
           onTouchEnd={this.onTouchEndHandler}
         >
-          {this.state.entities
-            ? this.props.renderer(this.state.entities, this.screen, this.layout)
-            : null}
+          {this.props.renderer(this.state.entities, this.screen, this.layout)}
         </View>
 
         <View
           pointerEvents={"box-none"}
-          style={[
-            css.childrenContainer,
-            { width: this.screen.width, height: this.screen.height }
-          ]}
+          style={StyleSheet.absoluteFill}
         >
           {this.props.children}
         </View>
@@ -211,10 +206,5 @@ const css = StyleSheet.create({
     //-- 'children' (foreground) components capturing events,
     //-- this whole shenanigan could be avoided..
     backgroundColor: "transparent"
-  },
-  childrenContainer: {
-    top: 0,
-    left: 0,
-    position: "absolute"
   }
 });
