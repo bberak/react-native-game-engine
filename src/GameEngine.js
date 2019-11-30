@@ -36,6 +36,7 @@ export default class GameEngine extends Component {
     this.previousDelta = null;
     this.events = [];
     this.touchProcessor = props.touchProcessor(this.touches);
+    this.layout = null;
   }
 
   async componentDidMount() {
@@ -116,6 +117,7 @@ export default class GameEngine extends Component {
     let args = {
       touches: this.touches,
       screen: this.screen,
+      layout: this.layout,
       events: this.events,
       dispatch: this.dispatch,
       time: {
@@ -138,8 +140,9 @@ export default class GameEngine extends Component {
     this.setState({ entities: newState });
   };
 
-  onLayoutHandler = () => {
+  onLayoutHandler = e => {
     this.screen = Dimensions.get("window");
+    this.layout = e.nativeEvent.layout;
     this.forceUpdate();
   };
 
@@ -168,7 +171,7 @@ export default class GameEngine extends Component {
           onTouchEnd={this.onTouchEndHandler}
         >
           {this.state.entities
-            ? this.props.renderer(this.state.entities, this.screen)
+            ? this.props.renderer(this.state.entities, this.screen, this.layout)
             : null}
         </View>
 

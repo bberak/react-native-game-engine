@@ -13,6 +13,7 @@ export default class GameLoop extends Component {
     this.previousTime = null;
     this.previousDelta = null;
     this.touchProcessor = props.touchProcessor(this.touches);
+    this.layout = null;
   }
 
   componentDidMount() {
@@ -47,6 +48,7 @@ export default class GameLoop extends Component {
     let args = {
       touches: this.touches,
       screen: this.screen,
+      layout: this.layout,
       time: {
         current: currentTime,
         previous: this.previousTime,
@@ -62,8 +64,9 @@ export default class GameLoop extends Component {
     this.previousDelta = args.time.delta;
   };
 
-  onLayoutHandler = () => {
+  onLayoutHandler = e => {
     this.screen = Dimensions.get("window");
+    this.layout = e.nativeEvent.layout;
     this.forceUpdate();
   };
 

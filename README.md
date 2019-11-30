@@ -189,7 +189,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 |---|---|---|
 |**`systems`**|An array of functions to be called on every tick. |`[]`|
 |**`entities`**|An object containing your game's initial entities. This can also be a Promise that resolves to an object containing your entities. This is useful when you need to asynchronously load a texture or other assets during the creation of your entities or level. |`{} or Promise`|
-|**`renderer`**|A function that receives the entities and needs to render them on every tick. ```(entities,screen) => { /* DRAW ENTITIES */ }``` |`DefaultRenderer`|
+|**`renderer`**|A function that receives the entities and needs to render them on every tick. ```(entities, screen, layout) => { /* DRAW ENTITIES */ }``` |`DefaultRenderer`|
 |**`touchProcessor`**|A function that can be used to override the default touch processing behavior |`DefaultTouchProcessor`|
 |**`timer`**|An object that can be used to override the default timer behavior |`new DefaultTimer()`|
 |**`running`**|A boolean that can be used to control whether the game loop is running or not |`true`|
@@ -302,7 +302,7 @@ export default class BestGameEver extends PureComponent {
     };
   }
 
-  updateHandler = ({ touches, screen, time }) => {
+  updateHandler = ({ touches, screen, layout, time }) => {
     let move = touches.find(x => x.type === "move");
     if (move) {
       this.setState({
@@ -416,7 +416,7 @@ How exactly you choose to define your components, entities and systems is up to 
 
 ## Using the GameEngine Component
 
-The ```GameEngine``` component is a loose implementation of a [Component-Entity-Systems architecture](#managing-complexity-with-component-entity-systems). It is a plain React component that allows us to pass in a map of entities (and their components) and an array of systems that will process the entities on each frame. In addition, the ```GameEngine``` will provide touch feedback, screen size and some other niceties to help us code our logic.
+The ```GameEngine``` component is a loose implementation of a [Component-Entity-Systems architecture](#managing-complexity-with-component-entity-systems). It is a plain React component that allows us to pass in a map of entities (and their components) and an array of systems that will process the entities on each frame. In addition, the ```GameEngine``` will provide touch feedback, screen size, layout and some other niceties to help us code our logic.
 
 To begin with, install the package to your project:
 
