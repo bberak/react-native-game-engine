@@ -26,7 +26,7 @@ export default class GameLoop extends Component {
     if (this.touchProcessor.end) this.touchProcessor.end();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.running !== this.props.running) {
       if (nextProps.running) this.start();
       else this.stop();
