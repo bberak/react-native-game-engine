@@ -13,7 +13,8 @@ import {
 
 export default ({
 	triggerPressEventBefore = 200,
-	triggerLongPressEventAfter = 700
+	triggerLongPressEventAfter = 700,
+	moveThreshold = 0
 }) => {
 	return touches => {
 		let touchStart = new Subject().pipe(
@@ -34,20 +35,6 @@ export default ({
 				)
 			),
 			map(e => ({ ...e, type: "press" }))
-		);
-
-		let longTouch = touchStart.pipe(
-			mergeMap(e =>
-				of(e).pipe(
-					delay(triggerLongPressEventAfter),
-					takeUntil(
-						merge(touchMove, touchEnd).pipe(
-							first(x => x.id === e.id)
-						)
-					)
-				)
-			),
-			map(e => ({ ...e, type: "long-press" }))
 		);
 
 		let touchMoveDelta = merge(touchStart, touchMove, touchEnd).pipe(
@@ -71,9 +58,24 @@ export default ({
 							};
 						}
 					}),
-					filter(x => x)
+					filter(e => e),
+					filter(e => e.delta.pageX ** 2 + e.delta.pageY ** 2 > moveThreshold ** 2)
 				)
 			)
+		);
+
+		let longTouch = touchStart.pipe(
+			mergeMap(e =>
+				of(e).pipe(
+					delay(triggerLongPressEventAfter),
+					takeUntil(
+						merge(touchMoveDelta, touchEnd).pipe(
+							first(x => x.id === e.id)
+						)
+					)
+				)
+			),
+			map(e => ({ ...e, type: "long-press" }))
 		);
 
 		let subscriptions = [
