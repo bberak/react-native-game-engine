@@ -8,14 +8,12 @@ import {
 	map,
 	groupBy,
 	filter,
-	pairwise,
-	combineAll
+	pairwise
 } from "rxjs/operators";
 
 export default ({
 	triggerPressEventBefore = 200,
-	triggerLongPressEventAfter = 700,
-	moveSensitivity = 0.5
+	triggerLongPressEventAfter = 700
 }) => {
 	return touches => {
 		let touchStart = new Subject().pipe(
@@ -36,6 +34,20 @@ export default ({
 				)
 			),
 			map(e => ({ ...e, type: "press" }))
+		);
+
+		let longTouch = touchStart.pipe(
+			mergeMap(e =>
+				of(e).pipe(
+					delay(triggerLongPressEventAfter),
+					takeUntil(
+						merge(touchMove, touchEnd).pipe(
+							first(x => x.id === e.id)
+						)
+					)
+				)
+			),
+			map(e => ({ ...e, type: "long-press" }))
 		);
 
 		let touchMoveDelta = merge(touchStart, touchMove, touchEnd).pipe(
@@ -64,31 +76,12 @@ export default ({
 			)
 		);
 
-		let realMove = touchMoveDelta.pipe(combineAll(),
-			filter(e => e.delta.pageX**2 + e.delta.pageY**2 > moveSensitivity**2)
-		);
-
-		let longTouch = touchStart.pipe(
-			mergeMap(e =>
-				of(e).pipe(
-					delay(triggerLongPressEventAfter),
-					takeUntil(
-						merge(realMove, touchEnd).pipe(
-							first(x => x.id === e.id)
-						)
-					)
-				)
-			),
-			map(e => ({ ...e, type: "long-press" }))
-		);
-
 		let subscriptions = [
 			touchStart,
 			touchEnd,
 			touchPress,
-			touchMoveDelta,
-			realMove,
-			longTouch
+			longTouch,
+			touchMoveDelta
 		].map(x => x.subscribe(y => touches.push(y)));
 
 		return {
