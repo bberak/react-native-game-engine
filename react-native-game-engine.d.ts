@@ -17,6 +17,7 @@ declare module "react-native-game-engine" {
     interface TouchProcessorOptions {
       triggerPressEventBefore: number;
       triggerLongPressEventAfter: number;
+      moveThreshold: number;
     }
   
     export function DefaultTouchProcessor (touchProcessorOptions?: TouchProcessorOptions): any;
