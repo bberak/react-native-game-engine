@@ -21,7 +21,24 @@ declare module "react-native-game-engine" {
     }
   
     export function DefaultTouchProcessor (touchProcessorOptions?: TouchProcessorOptions): any;
+
+    export interface TimeUpdate {
+      current: number;
+      delta: number;
+      previous: number;
+      previousDelta: number;
+    }
+
+    export interface GameEngineUpdateEventOptionType {
+      dispatch: (event: any) => void;
+      events: Array<any>;
+      screen: ScaledSize;
+      time: TimeUpdate;
+      touches: Array<TouchEvent>;
+    }
   
+    export type GameEngineSystem = (entities: any, update: GameEngineUpdateEventOptionType) => any;
+
     export interface GameEngineProperties {
       systems?: any[];
       entities?: {} | Promise<any>;
@@ -35,23 +52,43 @@ declare module "react-native-game-engine" {
     }
   
     export class GameEngine extends React.Component<GameEngineProperties> {}
+
+    export type TouchEventType = 'start' | 'end' | 'move' | 'press' | 'long-press';
   
-    interface GameLoopUpdateEventOptionType {
-      touches: any[];
-      screen: ScaledSize;
-      time: {
-        current: number;
-        previous: number;
-        delta: number;
-        previousDelta: number;
+    export interface TouchEvent {
+      event: {
+        changedTouches: Array<TouchEvent>;
+        identifier: number;
+        locationX: number;
+        locationY: number;
+        pageX: number;
+        pageY: number;
+        target: number;
+        timestamp: number;
+        touches: Array<TouchEvent>;
       };
+      id: number;
+      type: TouchEventType;
+      delta?: {
+        locationX: number;
+        locationY: number;
+        pageX: number;
+        pageY: number;
+        timestamp: number;
+      }
+    }
+
+    interface GameLoopUpdateEventOptionType {
+      touches: TouchEvent[];
+      screen: ScaledSize;
+      time: TimeUpdate;
     }
   
     export interface GameLoopProperties {
       touchProcessor?: any;
       timer?: any;
       running?: boolean;
-      onUpdate?: (args?: GameLoopUpdateEventOptionType) => void;
+      onUpdate?: (args: GameLoopUpdateEventOptionType) => void;
       style?: StyleProp<ViewStyle>;
       children?: React.ReactNode;
     }
