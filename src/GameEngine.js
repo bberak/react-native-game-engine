@@ -169,6 +169,7 @@ export default class GameEngine extends Component {
           onTouchStart={this.onTouchStartHandler}
           onTouchMove={this.onTouchMoveHandler}
           onTouchEnd={this.onTouchEndHandler}
+          onStartShouldSetResponderCapture={this.props.onStartShouldSetResponderCapture}
         >
           {this.props.renderer(this.state.entities, this.screen, this.layout)}
         </View>

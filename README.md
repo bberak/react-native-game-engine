@@ -196,6 +196,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 |**`onEvent`**|A callback for being notified when events are dispatched |`undefined`|
 |**`style`**|An object containing styles for the root container |`undefined`|
 |**`children`**|React components that will be rendered after the entities |`undefined`|
+|**`onStartShouldSetResponderCapture`**|A handler to indicate whether child entities can (or cannot) handle touch start events. See [React Native docs](https://reactnative.dev/docs/view#onstartshouldsetrespondercapture) for more details |`undefined`|
 
 ## GameEngine Methods
 

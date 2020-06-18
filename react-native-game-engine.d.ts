@@ -49,6 +49,7 @@ declare module "react-native-game-engine" {
       onEvent?: any;
       style?: StyleProp<ViewStyle>;
       children?: React.ReactNode;
+      onStartShouldSetResponderCapture?: any;
     }
   
     export class GameEngine extends React.Component<GameEngineProperties> {}
