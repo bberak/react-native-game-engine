@@ -34,10 +34,10 @@ Take a look at [Studious Bear](https://itunes.apple.com/us/app/studious-bear/id1
 
 <p align="center">
   <a href="https://itunes.apple.com/us/app/studious-bear/id1434377602">
-    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple118/v4/6e/90/40/6e9040e2-7a02-d011-c050-85326a76b243/pr_source.png/600x0w.jpg" height="450" />
-    <img src="https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/5c/bb/0d/5cbb0d5c-d678-8488-1a5e-a0bc2867e6c9/pr_source.png/600x0w.jpg" height="450" />
-    <img src="https://is2-ssl.mzstatic.com/image/thumb/Purple118/v4/e4/aa/0e/e4aa0ebf-c7fb-7b06-df8c-76c40905450f/pr_source.png/600x0w.jpg" height="450" />
-    <img src="https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/e0/05/40/e005407e-e6ef-339e-c4b7-b2b733cb66db/pr_source.png/600x0w.jpg" height="450" />
+    <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple118/v4/6e/90/40/6e9040e2-7a02-d011-c050-85326a76b243/pr_source.png/600x0w.jpg" height="440" />
+    <img src="https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/5c/bb/0d/5cbb0d5c-d678-8488-1a5e-a0bc2867e6c9/pr_source.png/600x0w.jpg" height="440" />
+    <img src="https://is2-ssl.mzstatic.com/image/thumb/Purple118/v4/e4/aa/0e/e4aa0ebf-c7fb-7b06-df8c-76c40905450f/pr_source.png/600x0w.jpg" height="440" />
+    <img src="https://is5-ssl.mzstatic.com/image/thumb/Purple118/v4/e0/05/40/e005407e-e6ef-339e-c4b7-b2b733cb66db/pr_source.png/600x0w.jpg" height="440" />
   </a>
 </p>
 
