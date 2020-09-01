@@ -199,7 +199,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 
 ## GameEngine Methods
 
-| Method | Description | Arg1, Arg2, ArgN |
+| Method | Description | Args |
 |---|---|---|
 |**`stop`**|Stop the game loop |`NA`|
 |**`start`**|Start the game loop. |`NA`|
