@@ -5,14 +5,15 @@ declare module "react-native-game-engine" {
     import * as React from "react";
     import { StyleProp, ViewStyle, ScaledSize } from "react-native";
   
-    interface DefaultRendererOptions {
-      state: any;
-      screen: ScaledSize;
+    export function DefaultRenderer(entities: any[], screen: ScaledSize, layout:LayoutRectangle): Component;
+  
+    export class DefaultTimer {
+      loop: (time:number) => void;
+      start: () => void;
+      stop: () => void;
+      subscribe: (callback: () => void) => void;
+      unsubscribe: (callback: () => void) => void;
     }
-  
-    export function DefaultRenderer(defaultRendererOptions: DefaultRendererOptions): any;
-  
-    export class DefaultTimer {}
   
     interface TouchProcessorOptions {
       triggerPressEventBefore: number;
@@ -44,14 +45,19 @@ declare module "react-native-game-engine" {
       entities?: {} | Promise<any>;
       renderer?: any;
       touchProcessor?: any;
-      timer?: any;
+      timer?: DefaultTimer | any;
       running?: boolean;
       onEvent?: any;
       style?: StyleProp<ViewStyle>;
       children?: React.ReactNode;
     }
   
-    export class GameEngine extends React.Component<GameEngineProperties> {}
+    export class GameEngine extends React.Component<GameEngineProperties> {
+      dispatch: (event:any) => void;
+      start: () => void;
+      stop: () => void;
+      swap: ({}:any | Promise) => void | Promise<void>
+    }
 
     export type TouchEventType = 'start' | 'end' | 'move' | 'press' | 'long-press';
   
@@ -86,13 +92,16 @@ declare module "react-native-game-engine" {
   
     export interface GameLoopProperties {
       touchProcessor?: any;
-      timer?: any;
+      timer?: DefaultTimer | any;
       running?: boolean;
       onUpdate?: (args: GameLoopUpdateEventOptionType) => void;
       style?: StyleProp<ViewStyle>;
       children?: React.ReactNode;
     }
   
-    export class GameLoop extends React.Component<GameLoopProperties> {}
+    export class GameLoop extends React.Component<GameLoopProperties> {
+      start: () => void;
+      stop: () => void;
+    }
   }
   
