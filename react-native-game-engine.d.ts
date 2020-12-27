@@ -39,7 +39,14 @@ declare module "react-native-game-engine" {
     }
   
     export type GameEngineSystem = (entities: any, update: GameEngineUpdateEventOptionType) => any;
+    
+    interface GameEngineEntity {
+      [key:string]: any;
+      renderer?: JSX.Element | React.ComponentClass<any. any>;
+    }
 
+    type GameEngineEntities = Record<string | number, GameEngineEntity>;
+    
     export interface GameEngineProperties {
       systems?: any[];
       entities?: {} | Promise<any>;
