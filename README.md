@@ -212,7 +212,11 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 
 > This depends on your definition of production quality. You're not going to make a AAA title with RNGE. You could however create some more basic games (doesn't mean they can't be fun games), or even jazz up your existing business applications with some interactive eye candy.
 
-### Do you know of any apps that currently utilize this library?
+> Simple turn-based games, side-scrollers and platformers with a handful of entites and simple physics would be feasible. Bullet-hell style games with many enemies, particles and effects on the screen at one time will struggle with performance - for these sorts of projects React Native is probably not the right choice of technology at the moment.
+
+> Lastly, for quick prototyping, self-education, and personal projects - React Native (and RNGE) should be suitable tools. For large projects that are commercial in nature, my recommendation would be to take a look at more established platforms like [Godot](https://godotengine.org) and [Unity](https://unity.com) first.
+
+### Do you know of any apps that currently utilize this lirary?
 
 > [Studious Bear](https://itunes.apple.com/us/app/studious-bear/id1434377602) and [React Native Donkey Kong](https://github.com/bberak/react-native-donkey-kong) both use this library. The [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) is a complimentary app that showcases some examples and ideas. If you're aware of any others or wouldn't mind a shameless plug here - please reach out.
 
