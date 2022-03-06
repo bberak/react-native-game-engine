@@ -216,7 +216,7 @@ If you're curious, our ```GameEngine``` component is a loose implementation of t
 
 > Lastly, for quick prototyping, self-education, and personal projects - React Native (and RNGE) should be suitable tools. For large projects that are commercial in nature, my recommendation would be to take a look at more established platforms like [Godot](https://godotengine.org) and [Unity](https://unity.com) first.
 
-### Do you know of any apps that currently utilize this lirary?
+### Do you know of any apps that currently utilize this library?
 
 > [Studious Bear](https://itunes.apple.com/us/app/studious-bear/id1434377602) and [React Native Donkey Kong](https://github.com/bberak/react-native-donkey-kong) both use this library. The [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) is a complimentary app that showcases some examples and ideas. If you're aware of any others or wouldn't mind a shameless plug here - please reach out.
 
