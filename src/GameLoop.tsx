@@ -1,10 +1,41 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import type { ScaledSize, ViewStyle } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import DefaultTimer from "./DefaultTimer";
-import DefaultTouchProcessor from "./DefaultTouchProcessor";
+import DefaultTouchProcessor, { type TouchProcessorOptions } from "./DefaultTouchProcessor";
 
-export default class GameLoop extends Component {
-  constructor(props) {
+export interface TimeUpdate {
+  current: number;
+  delta: number;
+  previous: number;
+  previousDelta: number;
+}
+
+export interface GameLoopUpdateEventOptionType {
+  touches: TouchEvent[];
+  screen: ScaledSize;
+  time: TimeUpdate;
+}
+
+export interface GameLoopProperties {
+  timer?: DefaultTimer;
+  touchProcessor?: TouchProcessorOptions;
+  running?: boolean;
+  style?: ViewStyle | ViewStyle[] | undefined;
+  onUpdate?: (args: GameLoopUpdateEventOptionType) => void;
+  children?: React.ReactNode | React.ReactNode[] | Element | Element[] | null;
+}
+
+export default class GameLoop extends Component<GameLoopProperties> {
+  timer: DefaultTimer;
+  touches: never[];
+  screen: ScaledSize;
+  previousTime: null | number;
+  previousDelta: null | number;
+  touchProcessor: TouchProcessorOptions;
+  layout: null;
+
+  constructor(props: GameLoopProperties) {
     super(props);
     this.timer = props.timer || new DefaultTimer();
     this.timer.subscribe(this.updateHandler);
@@ -12,7 +43,7 @@ export default class GameLoop extends Component {
     this.screen = Dimensions.get("window");
     this.previousTime = null;
     this.previousDelta = null;
-    this.touchProcessor = props.touchProcessor(this.touches);
+    this.touchProcessor = typeof props.touchProcessor === 'function' ? props.touchProcessor(this.touches) : props.touchProcessor;
     this.layout = null;
   }
 
@@ -26,7 +57,9 @@ export default class GameLoop extends Component {
     if (this.touchProcessor.end) this.touchProcessor.end();
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: {
+    running: boolean;
+  }) {
     if (nextProps.running !== this.props.running) {
       if (nextProps.running) this.start();
       else this.stop();
@@ -44,7 +77,7 @@ export default class GameLoop extends Component {
     this.timer.stop();
   };
 
-  updateHandler = currentTime => {
+  updateHandler = (currentTime: number) => {
     let args = {
       touches: this.touches,
       screen: this.screen,
@@ -71,15 +104,15 @@ export default class GameLoop extends Component {
   };
 
   onTouchStartHandler = e => {
-    this.touchProcessor.process("start", e.nativeEvent);
+    this.touchProcessor.process?.("start", e.nativeEvent);
   };
 
   onTouchMoveHandler = e => {
-    this.touchProcessor.process("move", e.nativeEvent);
+    this.touchProcessor.process?.("move", e.nativeEvent);
   };
 
   onTouchEndHandler = e => {
-    this.touchProcessor.process("end", e.nativeEvent);
+    this.touchProcessor.process?.("end", e.nativeEvent);
   };
 
   render() {
@@ -100,7 +133,8 @@ export default class GameLoop extends Component {
 GameLoop.defaultProps = {
   touchProcessor: DefaultTouchProcessor({
     triggerPressEventBefore: 200,
-    triggerLongPressEventAfter: 700
+    triggerLongPressEventAfter: 700,
+    moveThreshold: 10
   }),
   running: true
 };

@@ -1,6 +1,7 @@
 import React from "react";
+import type { ScaledSize } from 'react-native';
 
-export default (entities, screen, layout) => {
+export default function DefaultRenderer(entities: any, screen: any, layout: ScaledSize) {
 	if (!entities || !screen || !layout) return null;
 
 	return Object.keys(entities)
