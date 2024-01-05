@@ -1,10 +1,46 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
-import DefaultTimer from "./DefaultTimer";
+import type { StyleProp, ViewStyle } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import DefaultRenderer from "./DefaultRenderer";
+import DefaultTimer from "./DefaultTimer";
 import DefaultTouchProcessor from "./DefaultTouchProcessor";
+import type { ScaledSize } from 'react-native';
 
-const getEntitiesFromProps = props =>
+export interface TimeUpdate {
+  current: number;
+  delta: number;
+  previous: number;
+  previousDelta: number;
+}
+
+export interface GameEngineUpdateEventOptionType {
+  dispatch: (event: any) => void;
+  events: Array<any>;
+  screen: ScaledSize;
+  time: TimeUpdate;
+  touches: Array<TouchEvent>;
+}
+
+export interface GameEngineProperties {
+  systems?: any[];
+  entities?: {} | Promise<any>;
+  renderer?: any;
+  touchProcessor?: any;
+  timer?: any;
+  running?: boolean;
+  onEvent?: any;
+  style?: StyleProp<ViewStyle>;
+  children: React.ReactNode | React.ReactNode[] | Element | Element[] | null;
+}
+
+const getEntitiesFromProps = (props: {
+  initState?: any;
+  initialState?: any;
+  state?: any;
+  initEntities?: any;
+  initialEntities?: any;
+  entities?: any;
+}) =>
   props.initState ||
   props.initialState ||
   props.state ||
@@ -12,7 +48,12 @@ const getEntitiesFromProps = props =>
   props.initialEntities ||
   props.entities;
 
-const isPromise = obj => {
+const isPromise = (obj: {
+  then?: any;
+  constructor?: any;
+  call?: any;
+  apply?: any;
+}) => {
   return !!(
     obj &&
     obj.then &&
@@ -22,8 +63,8 @@ const isPromise = obj => {
   );
 };
 
-export default class GameEngine extends Component {
-  constructor(props) {
+export default class GameEngine extends Component<GameEngineProperties> {
+  constructor(props: GameEngineProperties) {
     super(props);
     this.state = {
       entities: null
@@ -190,9 +231,11 @@ GameEngine.defaultProps = {
   renderer: DefaultRenderer,
   touchProcessor: DefaultTouchProcessor({
     triggerPressEventBefore: 200,
-    triggerLongPressEventAfter: 700
+    triggerLongPressEventAfter: 700,
+    moveThreshold: 10,
   }),
-  running: true
+  running: true,
+  children: null
 };
 
 const css = StyleSheet.create({

@@ -1,22 +1,57 @@
-import { Observable, Subject, empty, of, merge } from "rxjs";
+import { Subject, empty, merge, of } from "rxjs";
 import {
-	mergeMap,
-	first,
-	timeoutWith,
 	delay,
-	takeUntil,
-	map,
-	groupBy,
 	filter,
-	pairwise
+	first,
+	groupBy,
+	map,
+	mergeMap,
+	pairwise,
+	takeUntil,
+	timeoutWith
 } from "rxjs/operators";
 
-export default ({
-	triggerPressEventBefore = 200,
-	triggerLongPressEventAfter = 700,
-	moveThreshold = 0
-}) => {
-	return touches => {
+export interface TouchProcessorOptions {
+	triggerPressEventBefore: number;
+	triggerLongPressEventAfter: number;
+	moveThreshold: number;
+	process?: (type: TouchEventType, event: TouchEvent) => void;
+	end?: () => void;
+}
+
+export type TouchEventType = 'start' | 'end' | 'move' | 'press' | 'long-press';
+
+export interface TouchEvent {
+	event: {
+		changedTouches: Array<TouchEvent>;
+		identifier: number;
+		locationX: number;
+		locationY: number;
+		pageX: number;
+		pageY: number;
+		target: number;
+		timestamp: number;
+		touches: Array<TouchEvent>;
+	};
+	id: number;
+	type: TouchEventType;
+	delta?: {
+		locationX: number;
+		locationY: number;
+		pageX: number;
+		pageY: number;
+		timestamp: number;
+	}
+}
+
+const TouchProcessor = (props: TouchProcessorOptions) => {
+	const {
+		triggerPressEventBefore = 250,
+		triggerLongPressEventAfter = 750,
+		moveThreshold = 5
+	} = props;
+
+	return (touches: TouchEvent) => {
 		let touchStart = new Subject().pipe(
 			map(e => ({ id: e.identifier, type: "start", event: e }))
 		);
@@ -111,3 +146,5 @@ export default ({
 		};
 	};
 };
+
+export default TouchProcessor;
