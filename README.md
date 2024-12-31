@@ -54,15 +54,6 @@ Take a look at [Studious Bear](https://itunes.apple.com/us/app/studious-bear/id1
 
 See the [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) for a complimentary app, examples and ideas.
 
-<p align="center">
-  <a href="https://github.com/bberak/react-native-game-engine-handbook">
-    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/cannon-ball-sea-1.png" height="200" />
-    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/cannon-ball-sea-2.png" height="200" />
-    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/cannon-ball-sea-3.png" height="200" />
-    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/cannon-ball-sea-4.png" height="200" />
-   </a>
-</p>
-
 ## Quick Start
 
 If you've used **react-native-game-engine** before and understand the core concepts, take a look at [react-native-game-engine-template](https://github.com/bberak/react-native-game-engine-template). It's a sort of game kickstarter project that allows you to prototype ideas quickly and comes preloaded with a bunch of stuff like:
