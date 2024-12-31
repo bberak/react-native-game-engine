@@ -30,6 +30,16 @@ If you are looking for the **React (Web)** version of this library, go to [react
 
 ## Examples
 
+See the [React Native Game Engine Handbook](https://github.com/bberak/react-native-game-engine-handbook) for a complimentary app, examples and ideas.
+
+<p align="center">
+  <a href="https://github.com/bberak/react-native-game-engine-handbook">
+    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/single-touch.gif" alt="Single Touch Preview" height="450" />
+    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/multi-touch.gif" alt="Multi Touch Preview" height="450" />
+    <img src="https://raw.githubusercontent.com/bberak/react-native-game-engine-handbook/master/assets/rigid-bodies.gif" alt="Rigid Bodies Preview" height="450" />
+   </a>
+</p>
+
 Check out [Cannon Ball Sea](https://apps.apple.com/us/app/cannon-ball-sea/id6736433554), an incredibly fun physics-based puzzle game with a vibrant aesthetic.
 
 <p align="center">
